@@ -1,10 +1,11 @@
 import express from "express";
 import { PrismaClient } from "@prisma/client";
-import { accountRouter } from "./routes/accountRoute.js";
+import { authRouter } from "./routes/authRouter.js";
 import { notFound } from "./utils/notFound.js";
 import { errorHandler } from "./utils/errorHandler.js";
 import passport from "passport";
 import { initializePassportWithJwtStrategy } from "./passport/jwtstrategy.js";
+import { profileRouter } from "./routes/profileRouter.js";
 const app = express();
 
 let PORT = process.env.PORT || 3000;
@@ -36,7 +37,8 @@ app.get("/check", async (req, res) => {
 	}
 });
 
-// app.use("/account", accountRouter);
+app.use("/auth", authRouter);
+app.use("profile", profileRouter);
 
 /** 404 route handling middleware */
 app.use((req, res, next) => {
