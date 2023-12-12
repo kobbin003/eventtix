@@ -57,7 +57,13 @@ export const register = async (
 			/** else, create account */
 			//* 1. create.org
 			const account = await prisma.org.create({
-				data: { name, email, password: hashedPassword },
+				data: {
+					name,
+					email,
+					password: hashedPassword,
+					personnels: null,
+					address: null,
+				},
 			});
 
 			//* 2. create.address && link it to account

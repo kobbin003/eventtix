@@ -36,7 +36,7 @@ export const login = async (
 			const passwordMatches = await bcrypt.compare(password, foundOrg.password);
 
 			if (!passwordMatches) {
-				res.status(400);
+				res.status(401);
 				next(new Error("Incorrect password"));
 			}
 
