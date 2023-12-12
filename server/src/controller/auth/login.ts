@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
-import { prisma } from "../../index.js";
+import { prisma } from "../../index";
 import bcrypt from "bcrypt";
-import generateJwtToken from "../../utils/generateJwtToken.js";
-import { AuthSchema } from "../../zodSchema/AuthSchema.js";
+import generateJwtToken from "../../utils/generateJwtToken";
+import { AuthSchema } from "../../zodSchema/AuthSchema";
 export const login = async (
 	req: Request,
 	res: Response,

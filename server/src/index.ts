@@ -1,11 +1,13 @@
 import express from "express";
 import { PrismaClient } from "@prisma/client";
-import { authRouter } from "./routes/authRouter.js";
-import { notFound } from "./utils/notFound.js";
-import { errorHandler } from "./utils/errorHandler.js";
+// import { notFound } from "./utils/notFound";
+// import { errorHandler } from "./utils/errorHandler.js";
 import passport from "passport";
 import { initializePassportWithJwtStrategy } from "./passport/jwtstrategy.js";
-import { profileRouter } from "./routes/profileRouter.js";
+import { errorHandler } from "./utils/errorHandler";
+import { profileRouter } from "./routes/profileRouter";
+import { notFound } from "./utils/notFound";
+import { authRouter } from "./routes/authRouter";
 const app = express();
 
 let PORT = process.env.PORT || 3000;

@@ -1,11 +1,11 @@
 import { NextFunction, Request, Response } from "express";
-import { prisma } from "../../index.js";
+import { prisma } from "../../index";
 import bcrypt from "bcrypt";
 import { z } from "zod";
-import { OrgSchema } from "../../zodSchema/orgSchema.js";
-import { AddressSchema } from "../../zodSchema/addressSchema.js";
-import { PersonnelSchema } from "../../zodSchema/personnelSchema.js";
-import generateJwtToken from "../../utils/generateJwtToken.js";
+import { OrgSchema } from "../../zodSchema/orgSchema";
+import { AddressSchema } from "../../zodSchema/addressSchema";
+import { PersonnelSchema } from "../../zodSchema/personnelSchema";
+import generateJwtToken from "../../utils/generateJwtToken";
 
 const RegisterSchema = z.object({
 	org: OrgSchema,
