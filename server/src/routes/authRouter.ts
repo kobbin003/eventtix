@@ -5,8 +5,11 @@ import { register } from "../controller/auth/register";
 
 const router = express.Router();
 
+// PUBLIC
+// register
 router.post("/register", register);
 
+// PRIVATE
 // login
 router.post("/login", login);
 

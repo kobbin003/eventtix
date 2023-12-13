@@ -5,6 +5,7 @@ import { errorHandler } from "./utils/errorHandler";
 // import { profileRouter } from "./routes/profileRouter";
 import { notFound } from "./utils/notFound";
 import { authRouter } from "./routes/authRouter";
+import { profileRouter } from "./routes/profileRouter";
 const app = express();
 
 let PORT = process.env.PORT || 3000;
@@ -37,7 +38,7 @@ app.get("/check", async (req, res) => {
 });
 
 app.use("/auth", authRouter);
-// app.use("profile", profileRouter);
+app.use("/profile", profileRouter);
 
 /** 404 route handling middleware */
 app.use((req, res, next) => {

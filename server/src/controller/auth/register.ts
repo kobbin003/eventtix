@@ -61,8 +61,8 @@ export const register = async (
 					name,
 					email,
 					password: hashedPassword,
-					personnels: null,
-					address: null,
+					personnelsId: null,
+					addressId: null,
 				},
 			});
 
