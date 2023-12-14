@@ -1,13 +1,14 @@
 import { NextFunction, Request, Response } from "express";
 import { prisma } from "../..";
-import { PersonnelSchema } from "../../zodSchema/personnelSchema";
-export const updatePersonnels = async (
+import { personnelUpdateSchema } from "../../zodSchema/personnelUpdateSchema";
+
+export const updatePersonnelsByField = async (
 	req: Request,
 	res: Response,
 	next: NextFunction
 ) => {
 	try {
-		const result = PersonnelSchema.safeParse(req.body);
+		const result = personnelUpdateSchema.safeParse(req.body);
 		/** if validation not success, send zod-error messages */
 		if (result.success !== true) {
 			const issues = result.error.issues;
@@ -22,16 +23,17 @@ export const updatePersonnels = async (
 			});
 		} else {
 			const personnelId = req.params.personnelId;
-			const { principal, vicePrincipal, staffs } = result.data;
+
+			const { field, value } = result.data;
 
 			//* update the address:
-			const updatedPersonnelOrg = await prisma.personnels.update({
+			const updatedPersonnel = await prisma.personnels.update({
 				where: { id: personnelId },
-				data: { principal, vicePrincipal, staffs },
+				data: { [field]: value },
 			});
 
-			if (updatedPersonnelOrg) {
-				res.status(200).json(updatedPersonnelOrg);
+			if (updatedPersonnel) {
+				res.status(200).json(updatedPersonnel);
 			}
 		}
 	} catch (error) {

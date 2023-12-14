@@ -6,6 +6,7 @@ import { errorHandler } from "./utils/errorHandler";
 import { notFound } from "./utils/notFound";
 import { authRouter } from "./routes/authRouter";
 import { profileRouter } from "./routes/profileRouter";
+import { eventRouter } from "./routes/eventRouter.js";
 const app = express();
 
 let PORT = process.env.PORT || 3000;
@@ -39,6 +40,7 @@ app.get("/check", async (req, res) => {
 
 app.use("/auth", authRouter);
 app.use("/profile", profileRouter);
+app.use("/event", eventRouter);
 
 /** 404 route handling middleware */
 app.use((req, res, next) => {

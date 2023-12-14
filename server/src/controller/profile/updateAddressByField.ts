@@ -1,13 +1,13 @@
 import { NextFunction, Request, Response } from "express";
-import { AddressSchema } from "../../zodSchema/addressSchema";
 import { prisma } from "../..";
-export const updateAddress = async (
+import { AddressUpdateSchema } from "../../zodSchema/addressUpdateSchema";
+export const updateAddressByField = async (
 	req: Request,
 	res: Response,
 	next: NextFunction
 ) => {
 	try {
-		const result = AddressSchema.safeParse(req.body);
+		const result = AddressUpdateSchema.safeParse(req.body);
 		/** if validation not success, send zod-error messages */
 		if (result.success !== true) {
 			const issues = result.error.issues;
@@ -22,25 +22,14 @@ export const updateAddress = async (
 			});
 		} else {
 			const addressId = req.params.addressId;
-			const { addressLine1, addressLine2, pin, state } = result.data;
-
-			//* find address with the addressId
-			// const orgFound = await prisma.org.findUnique({
-			// 	where: { id: addressId },
-			// });
-			// if (!orgFound) {
-			// 	res.status(404);
-			// 	next(new Error("User not Found"));
-			// }
-
+			const { field, value } = result.data;
 			/** 👆 not required since update will throw 'RecordNotFound' exception if record is not found */
+
 			//* update the address:
-			const updatedAddress = await prisma.org.update({
+			const updatedAddress = await prisma.address.update({
 				where: { id: addressId },
 				data: {
-					address: {
-						update: { addressLine1, addressLine2, pin, state },
-					},
+					[field]: value,
 				},
 			});
 
