@@ -1,11 +1,9 @@
 <script setup lang="ts"></script>
 
 <template>
-	<header>
-		<p>Logo</p>
-		<RouterLink to="/login">login</RouterLink>
-	</header>
-	<RouterView />
+	<div class="w-screen h-screen bg-base-100 text-primary-text">
+		<RouterView />
+	</div>
 </template>
 
 <style scoped></style>

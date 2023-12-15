@@ -9,6 +9,11 @@ declare module 'vue' {
   export interface GlobalComponents {
     AuthFormSection: typeof import('./src/components/AuthFormSection.vue')['default']
     AuthGraphicSection: typeof import('./src/components/AuthGraphicSection.vue')['default']
+    EventCard: typeof import('./src/components/EventCard.vue')['default']
+    EventChildren: typeof import('./src/components/EventChildren.vue')['default']
+    EventsList: typeof import('./src/components/EventsList.vue')['default']
+    ExposeChild: typeof import('./src/components/ExposeChild.vue')['default']
+    Header: typeof import('./src/components/Header.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     IconCommunity: typeof import('./src/components/icons/IconCommunity.vue')['default']
     IconDocumentation: typeof import('./src/components/icons/IconDocumentation.vue')['default']
@@ -18,8 +23,10 @@ declare module 'vue' {
     LoginForm: typeof import('./src/components/LoginForm.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SearchForm: typeof import('./src/components/SearchForm.vue')['default']
     Signup: typeof import('./src/components/Signup.vue')['default']
     SignupForm: typeof import('./src/components/SignupForm.vue')['default']
+    ThemeToggler: typeof import('./src/components/ThemeToggler.vue')['default']
     TheWelcome: typeof import('./src/components/TheWelcome.vue')['default']
     WelcomeItem: typeof import('./src/components/WelcomeItem.vue')['default']
   }
