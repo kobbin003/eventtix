@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { prisma } from "../..";
 import { personnelUpdateSchema } from "../../zodSchema/personnelUpdateSchema";
+import { Org } from "../../types/Org";
 
 export const updatePersonnelsByField = async (
 	req: Request,
@@ -22,14 +23,15 @@ export const updatePersonnelsByField = async (
 				},
 			});
 		} else {
-			const personnelId = req.params.personnelId;
+			const currentOrg = req.user as Org;
+			const orgId = currentOrg.id;
 
 			const { field, value } = result.data;
 
 			//* update the address:
-			const updatedPersonnel = await prisma.personnels.update({
-				where: { id: personnelId },
-				data: { [field]: value },
+			const updatedPersonnel = await prisma.org.update({
+				where: { id: orgId },
+				data: { personnels: { update: { [field]: value } } },
 			});
 
 			if (updatedPersonnel) {

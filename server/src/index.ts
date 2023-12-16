@@ -37,7 +37,7 @@ app.get("/check", async (req, res) => {
 		res.status(400).send("Error");
 	}
 });
-
+// console.log(new Date());
 app.use("/auth", authRouter);
 app.use("/profile", profileRouter);
 app.use("/event", eventRouter);

@@ -1,15 +1,20 @@
 import { NextFunction, Request, Response } from "express";
 import { EventSchema } from "../../zodSchema/eventschema";
 import { prisma } from "../..";
+import { Org } from "../../types/Org";
 
 export const createEvent = async (
 	req: Request,
 	res: Response,
 	next: NextFunction
 ) => {
-	const orgId = req.query.orgId as string;
+	const currentOrg = req.user as Org;
+	const orgId = currentOrg.id;
 	try {
-		const result = EventSchema.safeParse(req.body);
+		const result = EventSchema.safeParse({
+			...req.body,
+			time: new Date(req.body.time),
+		});
 
 		if (result.success !== true) {
 			const issues = result.error.issues;
@@ -37,6 +42,7 @@ export const createEvent = async (
 					ticketType,
 					orgId,
 				},
+				include: { Org: true },
 			});
 
 			if (!event) {

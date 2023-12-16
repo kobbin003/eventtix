@@ -10,7 +10,10 @@ export const updateEvent = async (
 	const eventId = req.params.eventId;
 
 	try {
-		const result = EventSchema.safeParse(req.body);
+		const result = EventSchema.safeParse({
+			...req.body,
+			time: new Date(req.body.time),
+		});
 
 		if (result.success !== true) {
 			const issues = result.error.issues;

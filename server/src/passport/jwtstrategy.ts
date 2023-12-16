@@ -32,7 +32,7 @@ export const initializePassportWithJwtStrategy = () => {
 
 			const { id, name, email, createdAt, updatedAt } = foundOrg;
 
-			const org: Org = { id, name, email, createdAt, updatedAt };
+			const org: Org = { id, name, email };
 
 			return done(null, org);
 		} catch (error) {

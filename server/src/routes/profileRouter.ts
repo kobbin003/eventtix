@@ -5,17 +5,44 @@ import passport from "passport";
 import { getOrgProfile } from "../controller/profile/getOrgProfile";
 import { updateAddressByField } from "../controller/profile/updateAddressByField";
 import { updatePersonnelsByField } from "../controller/profile/updatePersonnelByField";
+import { getCurrentOrgAddress } from "../controller/profile/getCurrentOrgAddress";
+import { getCurrentOrgPersonnels } from "../controller/profile/getCurrentOrgPersonnels";
+import { getCurrentOrgProfile } from "../controller/profile/getCurrentOrgProfile";
 const router = express.Router();
 
 // PUBLIC
-// get user profile
-router.get("/:orgId", getOrgProfile);
+// get profile by id
+router.get("/org/:orgId", getOrgProfile);
+
+// PRIVATE
+// get current org profile
+router.get(
+	"/",
+	passport.authenticate("jwt", { session: false }),
+	getCurrentOrgProfile
+);
+
+// PRIVATE
+// get current user address
+router.get(
+	"/address",
+	passport.authenticate("jwt", { session: false }),
+	getCurrentOrgAddress
+);
+
+// PRIVATE
+// get current user personnels
+router.get(
+	"/personnels",
+	passport.authenticate("jwt", { session: false }),
+	getCurrentOrgPersonnels
+);
 
 // PRIVATE
 // update address
 // query: orgId
 router.put(
-	"/address/:addressId",
+	"/address",
 	passport.authenticate("jwt", { session: false }),
 	updateAddress
 );
@@ -23,7 +50,7 @@ router.put(
 // PRIVATE
 // update address by field
 router.put(
-	"/addressField/:addressId",
+	"/addressField",
 	passport.authenticate("jwt", { session: false }),
 	updateAddressByField
 );
@@ -31,7 +58,7 @@ router.put(
 // PRIVATE
 // update personnels
 router.put(
-	"/personnel/:personnelId",
+	"/personnel",
 	passport.authenticate("jwt", { session: false }),
 	updatePersonnels
 );
@@ -39,7 +66,7 @@ router.put(
 // PRIVATE
 // update personnels by field
 router.put(
-	"/personnelField/:personnelId",
+	"/personnelField",
 	passport.authenticate("jwt", { session: false }),
 	updatePersonnelsByField
 );

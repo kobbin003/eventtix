@@ -20,7 +20,7 @@ router.post(
 
 // PRIVATE
 // update event
-router.post(
+router.put(
 	"/update/:eventId",
 	passport.authenticate("jwt", { session: false }),
 	updateEvent
@@ -37,7 +37,7 @@ router.delete(
 // PRIVATE
 // get users events
 // query: orgId
-router.get("/", getOrgEvents);
+router.get("/", passport.authenticate("jwt", { session: false }), getOrgEvents);
 
 // PUBLIC
 // get event by id

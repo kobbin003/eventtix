@@ -1,12 +1,14 @@
 import { NextFunction, Request, Response } from "express";
 import { prisma } from "../..";
+import { Org } from "../../types/Org";
 
 export const getOrgEvents = async (
 	req: Request,
 	res: Response,
 	next: NextFunction
 ) => {
-	const orgId = req.query.OrgId as string;
+	const currentOrg = req.user as Org;
+	const orgId = currentOrg.id;
 	try {
 		const events = await prisma.event.findMany({
 			where: {

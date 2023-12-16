@@ -1,6 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import { AddressSchema } from "../../zodSchema/addressSchema";
 import { prisma } from "../..";
+import { Org } from "../../types/Org";
+
 export const updateAddress = async (
 	req: Request,
 	res: Response,
@@ -21,7 +23,8 @@ export const updateAddress = async (
 				},
 			});
 		} else {
-			const addressId = req.params.addressId;
+			const currentOrg = req.user as Org;
+			const orgId = currentOrg.id;
 			const { addressLine1, addressLine2, pin, state } = result.data;
 
 			//* find address with the addressId
@@ -35,8 +38,8 @@ export const updateAddress = async (
 
 			/** 👆 not required since update will throw 'RecordNotFound' exception if record is not found */
 			//* update the address:
-			const updatedAddress = await prisma.org.update({
-				where: { id: addressId },
+			const updatedAddressOrg = await prisma.org.update({
+				where: { id: orgId },
 				data: {
 					address: {
 						update: { addressLine1, addressLine2, pin, state },
@@ -44,8 +47,8 @@ export const updateAddress = async (
 				},
 			});
 
-			if (updatedAddress) {
-				res.status(200).json(updatedAddress);
+			if (updatedAddressOrg) {
+				res.status(200).json(updatedAddressOrg);
 			}
 		}
 	} catch (error) {
