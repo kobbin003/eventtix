@@ -41,12 +41,12 @@ router.get("/", passport.authenticate("jwt", { session: false }), getOrgEvents);
 
 // PUBLIC
 // get event by id
-router.get("/:eventId", getEventById);
+router.get("/id/:eventId", getEventById);
 
-//!!!!!!!!!!!!!!!!!!
 // PUBLIC
-// get events by filter: 1. location, 2. time & 3. org name
+// get events by filter:
+// 1. location, 2. day & 3. org name
 // query: filter, offset, limit
-router.get("/:filter", getEventsFiltered);
+router.get("/filter", getEventsFiltered);
 
 export { router as eventRouter };

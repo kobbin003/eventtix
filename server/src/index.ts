@@ -7,6 +7,7 @@ import { notFound } from "./utils/notFound";
 import { authRouter } from "./routes/authRouter";
 import { profileRouter } from "./routes/profileRouter";
 import { eventRouter } from "./routes/eventRouter.js";
+import { timeAndDate } from "./timeAndDate.js";
 const app = express();
 
 let PORT = process.env.PORT || 3000;
@@ -18,6 +19,8 @@ export const prisma = new PrismaClient();
 app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
+
+// timeAndDate();
 
 app.get("/", (req, res) => {
 	res.json({ msg: "HOME" });

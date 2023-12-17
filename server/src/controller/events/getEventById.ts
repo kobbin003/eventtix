@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from "express";
-import { EventSchema } from "../../zodSchema/eventschema";
 import { prisma } from "../..";
 
 export const getEventById = async (

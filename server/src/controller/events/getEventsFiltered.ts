@@ -1,32 +1,56 @@
 import { NextFunction, Request, Response } from "express";
-import { prisma } from "../..";
+import { getEventsByLocation } from "../../service/event/getEventsByLocation";
+import { getEventsByOrgName } from "../../service/event/getEventsByOrgName";
+import { EventFilterQueriesSchema } from "../../zodSchema/EventFilterSchema";
+import { getEventsByDate } from "../../service/event/getEventsByDate";
 
 export const getEventsFiltered = async (
 	req: Request,
 	res: Response,
 	next: NextFunction
 ) => {
-	const queryKey = "location" || "time";
-	const queryValue = req.query.queryKey;
-
-	// validate query key value pair
-	const skip = req.query.offset as string;
-	const take = req.query.limit as string;
 	try {
-		const events = await prisma.event.findMany({
-			skip: Number(skip),
-			take: Number(take),
-			where: {
-				[queryKey]: queryValue,
-			},
-		});
+		// query key-value validation
+		const validatedResult = EventFilterQueriesSchema.safeParse(req.query);
+		if (validatedResult.success !== true) {
+			const issues = validatedResult.error.issues;
+			const zodErrorMessages = issues.map(
+				(issue) => `${issue.path[0]}: ${issue.message}`
+			);
+			res.status(400).json({
+				error: {
+					statusCode: "400",
+					zodErrorMessages,
+				},
+			});
+		} else {
+			const queries = validatedResult.data;
 
-		if (events.length == 0) {
-			res.status(404);
-			throw new Error("Events not found");
+			const location = queries.location;
+			const day = queries.day;
+			const orgName = queries.orgName;
+
+			const skip = queries.offset;
+			const take = queries.limit;
+
+			let events: any[] = [];
+			if (location) {
+				events = await getEventsByLocation(
+					location,
+					Number(skip),
+					Number(take)
+				);
+			} else if (orgName) {
+				events = await getEventsByOrgName(orgName, Number(skip), Number(take));
+			} else if (day) {
+				events = await getEventsByDate(day, Number(skip), Number(take));
+			} else {
+				res.status(400);
+				next(new Error("Bad request"));
+			}
+
+			res.status(200).json(events);
 		}
-
-		res.status(200).json(events);
 	} catch (error) {
 		res.status(500);
 		next(error);
