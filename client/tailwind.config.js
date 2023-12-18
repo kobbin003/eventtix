@@ -10,6 +10,9 @@ export default {
 			borderRadius: {
 				"my-sm": "8px",
 			},
+			fontSize: {
+				mybase: "18px",
+			},
 		},
 	},
 	plugins: [require("daisyui")],
@@ -18,45 +21,27 @@ export default {
 			{
 				"mytheme-dark": {
 					primary: "#2D63EC",
-
 					secondary: "#ff8d00",
-
 					accent: "#00d9ff",
-
 					neutral: "#261919",
-
 					"base-100": "#262626",
-
 					info: "#005ed0",
-
 					success: "#4ba50f",
-
 					warning: "#ab6300",
-
 					error: "#ff7c8c",
-
-					"primary-txt": "#CFCFCF",
+					txtColor: "#CFCFCF",
 				},
 				"mytheme-light": {
 					primary: "#2D63EC",
-
 					secondary: "#ff8d00",
-
 					accent: "#00d9ff",
-
 					neutral: "#261919",
-
 					"base-100": "#fcfcff",
-
 					info: "#005ed0",
-
 					success: "#4ba50f",
-
 					warning: "#ab6300",
-
 					error: "#ff7c8c",
-
-					"primary-txt": "#161616",
+					txtColor: "#161616",
 				},
 			},
 		],

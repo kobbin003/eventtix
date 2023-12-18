@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
 import PublicViewVue from "@/views/PublicView.vue";
-import HomeViewVue from "@/views/HomeView.vue";
 import RootViewVue from "@/views/RootView.vue";
 
 const router = createRouter({
@@ -10,43 +9,57 @@ const router = createRouter({
 			path: "/login",
 			name: "login",
 			component: () => import("../views/AuthView.vue"),
+			meta: { requiresAuth: false },
 		},
 		{
 			path: "/signup",
 			name: "signup",
 			component: () => import("../views/AuthView.vue"),
+			meta: { requiresAuth: false },
 		},
 		{
 			path: "/",
 			name: "root",
 			component: RootViewVue,
+			meta: { requiresAuth: false },
 			children: [
-				{ path: "", name: "public", component: PublicViewVue },
 				{
-					path: "/event/:eventId",
-					name: "event",
-					component: () => import("../views/EventView.vue"),
-				},
-
-				{
-					path: "/event/create",
-					name: "create-event",
-					component: () => import("../views/CreateEditEventView.vue"),
-				},
-				{
-					path: "/event/edit",
-					name: "edit-event",
-					component: () => import("../views/CreateEditEventView.vue"),
+					path: "",
+					name: "public",
+					component: PublicViewVue,
+					props: { someProp: "someProp-xx" },
+					meta: { requiresAuth: false },
 				},
 				{
 					path: "/user",
 					name: "user",
 					component: () => import("../views/HomeView.vue"),
+					meta: { requiresAuth: true },
+				},
+				{
+					path: "/event/:eventId",
+					name: "event",
+					component: () => import("../views/EventView.vue"),
+					meta: { requiresAuth: false },
+				},
+
+				{
+					path: "/user/event/create",
+					name: "create-event",
+					component: () => import("../views/CreateEditEventView.vue"),
+					meta: { requiresAuth: true },
+				},
+				{
+					path: "/user/event/edit/:eventId",
+					name: "edit-event",
+					component: () => import("../views/CreateEditEventView.vue"),
+					meta: { requiresAuth: true },
 				},
 				{
 					path: "/user/dashboard",
 					name: "dashboard",
 					component: () => import("../views/UserDashboardView.vue"),
+					meta: { requiresAuth: true },
 					children: [
 						{
 							path: "",
@@ -75,4 +88,28 @@ const router = createRouter({
 	],
 });
 
+// auth guard (globally)
+router.beforeEach((to, from, next) => {
+	// console.log("global guard- TO", to.path);
+	// console.log("global guard- FROM", from.path);
+	// to.matched.map((route) => console.log("matches", route.meta.requiresAuth));
+	// check if any of the matches has "requiresAuth" meta
+	const requiresAuth = to.matched.some((route) => route.meta.requiresAuth);
+
+	if (requiresAuth && !isAuthenticated()) {
+		alert("unauthenticated");
+		next("login");
+	} else {
+		next();
+	}
+});
+
+function isAuthenticated() {
+	/** is Auth code */
+	return true;
+}
+/**
+ * RouteLocationNormalized: GLOBAL
+ * RouteRecordNormalized: ROUTE
+ */
 export default router;

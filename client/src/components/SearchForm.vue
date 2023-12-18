@@ -1,5 +1,5 @@
 <template>
-	<div class="flex flex-col md:flex-row items-center gap-2">
+	<div class="flex flex-col md:flex-row items-start md:items-center gap-2 py-3">
 		<select
 			v-model="searchType"
 			class="select select-sm select-bordered rounded-sm"
@@ -16,7 +16,7 @@
 				name=""
 				id=""
 				placeholder="search event"
-				class="input input-sm input-bordered rounded-2xl"
+				class="input input-sm rounded-2xl"
 				:disabled="!searchType"
 			/>
 		</div>
@@ -26,8 +26,21 @@
 				name="date"
 				id="date"
 				class="input input-sm input-bordered rounded-md border-2"
+				v-model="date"
 			/>
-			<button class="btn btn-xs md:btn-sm btn-primary rounded-sm">
+			<div v-if="!date" class="tooltip" data-tip="select a date">
+				<button
+					class="btn btn-xs md:btn-sm btn-primary rounded-sm"
+					:disabled="!date"
+				>
+					search
+				</button>
+			</div>
+			<button
+				v-else
+				class="btn btn-xs md:btn-sm btn-primary rounded-sm"
+				:disabled="!date"
+			>
 				search
 			</button>
 		</div>
@@ -47,7 +60,9 @@
 				name="search"
 				id="search"
 				:placeholder="
-					searchType == 'location' ? 'enter location' : 'enter school name'
+					searchType == 'location'
+						? 'search by location'
+						: 'search by school name'
 				"
 				class="input input-sm focus:outline-none focus:border-none rounded-none"
 				:disabled="!searchType"
@@ -60,6 +75,7 @@
 import { ref } from "vue";
 // import blackSearchIcon from "@/assets/search_black.svg";
 const searchType = ref("");
+const date = ref("");
 </script>
 
 <style scoped></style>

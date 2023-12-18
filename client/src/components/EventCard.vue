@@ -47,7 +47,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="flex justify-end md:justify-between w-full md:w-4/6">
+	<div class="flex justify-end md:justify-between w-full md:w-4/6 mb-4">
 		<p
 			v-if="props.ticketType == 'free'"
 			name="free-card"

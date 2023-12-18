@@ -1,4 +1,5 @@
 <template>
+	<div>EventId: {{ $route.params.eventId }}</div>
 	<div class="w-2/4">
 		<form action="" class="flex flex-col">
 			<table class="table-auto border-separate border-spacing-2">

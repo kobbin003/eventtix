@@ -1,11 +1,11 @@
 <template>
 	<div>
 		<SearchForm />
-		<h3>Events</h3>
-		<!-- <ul>
-			<li v-for="item in [1, 2, 3]">{{ item }}</li>
-		</ul> -->
-		<EventCard />
+		<ul class="py-2 md:py-4">
+			<li v-for="item in [1, 2, 3]">
+				<EventCard />
+			</li>
+		</ul>
 	</div>
 </template>
 
