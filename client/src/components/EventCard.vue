@@ -47,19 +47,30 @@
 			</div>
 		</div>
 	</div>
-	<p
-		v-if="props.ticketType == 'free'"
-		name="free-card"
-		class="border px-4 py-1 bg-yellow-400 rounded-sm hidden md:block w-max"
-	>
-		<span class="text-base font-medium">Free</span>
-	</p>
-	<button v-else class="btn btn-sm btn-secondary rounded-sm hidden md:block">
-		Buy Ticket
-	</button>
+	<div class="flex justify-end md:justify-between w-full md:w-4/6">
+		<p
+			v-if="props.ticketType == 'free'"
+			name="free-card"
+			class="border px-4 py-1 bg-yellow-400 rounded-sm hidden md:block w-max"
+		>
+			<span class="text-base font-medium">Free</span>
+		</p>
+		<button v-else class="btn btn-sm btn-secondary rounded-sm hidden md:block">
+			Buy Ticket
+		</button>
+		<RouterLink
+			:to="`/user/event/edit/${eventId}`"
+			v-if="eventBelongsToUser"
+			class="btn btn-sm btn-primary rounded-sm"
+		>
+			Edit
+		</RouterLink>
+	</div>
 </template>
 
 <script setup lang="ts">
+import { ref } from "vue";
+
 const props = defineProps({
 	title: { type: String, required: true },
 	desc: { type: String, required: true },
@@ -73,6 +84,9 @@ const props = defineProps({
 	},
 	ticketPrice: { type: Number },
 });
+
+const eventBelongsToUser = ref(true);
+const eventId = ref(123);
 </script>
 
 <style scoped>
