@@ -42,9 +42,17 @@ export const login = async (
 
 			//* send the found user
 			const payload = { id: foundOrg.id };
-			const accessToken = await generateJwtToken(payload);
-
-			res.status(200).json({ ...foundOrg, accessToken });
+			const accessToken = await generateJwtToken("access", payload);
+			const refreshToken = await generateJwtToken("refresh", payload);
+			const secureCookieOptions = {
+				httpOnly: true,
+				secure: true, // Ensures the cookie is only sent over HTTPS
+				// Other options like 'maxAge', 'domain', 'path', etc., can be added here
+			};
+			res
+				.cookie("refreshToken", refreshToken, secureCookieOptions)
+				.status(200)
+				.json({ ...foundOrg, accessToken });
 		}
 	} catch (error) {
 		res.status(500);

@@ -7,6 +7,8 @@ import { notFound } from "./utils/notFound";
 import { authRouter } from "./routes/authRouter";
 import { profileRouter } from "./routes/profileRouter";
 import { eventRouter } from "./routes/eventRouter.js";
+import helmet from "helmet";
+import cookieParser from "cookie-parser";
 const app = express();
 
 let PORT = process.env.PORT || 3000;
@@ -15,6 +17,13 @@ initializePassportWithJwtStrategy();
 
 export const prisma = new PrismaClient();
 
+app.use(
+	helmet({
+		strictTransportSecurity: { maxAge: 31536000, includeSubDomains: true },
+	})
+);
+
+app.use(cookieParser());
 app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));

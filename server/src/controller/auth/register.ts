@@ -5,7 +5,6 @@ import { z } from "zod";
 import { OrgSchema } from "../../zodSchema/orgSchema";
 import { AddressSchema } from "../../zodSchema/addressSchema";
 import { PersonnelSchema } from "../../zodSchema/personnelSchema";
-import generateJwtToken from "../../utils/generateJwtToken";
 
 const RegisterSchema = z.object({
 	org: OrgSchema,
@@ -87,12 +86,7 @@ export const register = async (
 				},
 			});
 
-			//* generate token
-			const payload = { id: account.id };
-
-			const accessToken = await generateJwtToken(payload);
-
-			res.status(200).json({ account, address, personnels, accessToken });
+			res.status(200).json({ account, address, personnels });
 		}
 	} catch (error) {
 		res.status(500);
