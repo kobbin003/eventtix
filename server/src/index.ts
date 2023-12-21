@@ -9,6 +9,10 @@ import { profileRouter } from "./routes/profileRouter";
 import { eventRouter } from "./routes/eventRouter.js";
 import helmet from "helmet";
 import cookieParser from "cookie-parser";
+import { stripeRouter } from "./routes/stripeRouter.js";
+import { stripeWebhookController } from "./controller/stripe/stripeWebhookController.js";
+import Stripe from "stripe";
+
 const app = express();
 
 let PORT = process.env.PORT || 3000;
@@ -24,6 +28,16 @@ app.use(
 );
 
 app.use(cookieParser());
+
+const stripeSecret = process.env.STRIPE_SECRET_KEY;
+export const stripe = new Stripe(stripeSecret);
+
+/** place this before express.json() */
+app.post(
+	"/stripe/webhook",
+	express.raw({ type: "application/json" }),
+	stripeWebhookController
+);
 app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
@@ -52,6 +66,8 @@ app.get("/check", async (req, res) => {
 app.use("/auth", authRouter);
 app.use("/profile", profileRouter);
 app.use("/event", eventRouter);
+
+app.use("/stripe", stripeRouter);
 
 /** 404 route handling middleware */
 app.use((req, res, next) => {

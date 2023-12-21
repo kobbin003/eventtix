@@ -22,6 +22,7 @@ model Org {
   updatedAt    DateTime    @updatedAt
   address      Address?    @relation(fields: [addressId], references: [id])
   addressId    String?     @unique
+  Account      Account?
 }
 
 model Address {
@@ -77,6 +78,14 @@ model Buyer {
   updatedAt DateTime @updatedAt
   address   Address  @relation(fields: [addressId], references: [id])
   addressId String   @unique
+}
+
+model Account {
+  id          String  @id @default(uuid())
+  org         Org?    @relation(fields: [orgId], references: [id])
+  email       String
+  orgId       String? @unique
+  cardPayment Boolean
 }
 
 model Example {
