@@ -5,7 +5,7 @@
 		<div class="flex gap-2 flex-col md:flex-row w-full">
 			<RouterLink to="/event/1234">
 				<img
-					src="../assets/zfm.jpeg"
+					:src="$props.imgUrl"
 					alt="poster"
 					class="w-full md:h-full md:w-full min-w-[150px] bg-blue-600"
 				/>
@@ -18,13 +18,21 @@
 						</h6>
 					</RouterLink>
 				</div>
-				<p class="bg-blue-500">Description:{{ props.desc }}</p>
+				<p class="">Description:{{ props.desc }}</p>
 				<div>
 					<RouterLink to="/event/1234">
 						<p>Organiser:{{ props.organiser }}</p>
 					</RouterLink>
 				</div>
 				<p>Location:{{ props.location }}</p>
+				<div class="flex">
+					price:&nbsp;
+					<p v-if="$props.ticketType === 'free'">free</p>
+					<p v-else>
+						Rs <span class="text-green-400">{{ props.ticketPrice }}</span
+						>/-
+					</p>
+				</div>
 			</div>
 		</div>
 		<div
@@ -40,10 +48,10 @@
 			<button class="btn btn-md btn-secondary rounded-sm md:hidden">
 				Buy Ticket
 			</button>
-			<div class="flex flex-col gap-1 border p-2 rounded-sm bg-gray-400/20">
-				<p class="text-center">march</p>
-				<p class="text-4xl">30</p>
-				<p class="text-center">2024</p>
+			<div class="flex flex-col border py-1 px-4 rounded-sm bg-gray-400/20">
+				<p class="text-base text-center">{{ formattedDate.split("/")[0] }}</p>
+				<p class="text-4xl text-center">{{ formattedDate.split("/")[1] }}</p>
+				<p class="text-base text-center">{{ formattedDate.split("/")[2] }}</p>
 			</div>
 		</div>
 	</div>
@@ -70,7 +78,8 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-
+import { monthNames } from "@/data/monthsList";
+import { format } from "date-fns";
 const props = defineProps({
 	title: { type: String, required: true },
 	desc: { type: String, required: true },
@@ -87,6 +96,10 @@ const props = defineProps({
 
 const eventBelongsToUser = ref(true);
 const eventId = ref(123);
+
+/** date segmentation */
+const date = props.eventTime;
+const formattedDate = format(date, "MMM/dd/yyyy");
 </script>
 
 <style scoped>
