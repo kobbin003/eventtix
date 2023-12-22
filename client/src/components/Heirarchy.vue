@@ -79,12 +79,30 @@
 		</ul>
 	</div>
 	<div v-if="$route.path.includes('user/profile')">
-		<button class="btn btn-sm btn-primary rounded-sm">Edit Personnels</button>
+		<button class="btn btn-sm btn-primary rounded-sm" @click="showModal">
+			Edit Personnels
+		</button>
+		<dialog
+			id="personnel_edit_modal"
+			class="modal"
+			:class="{ 'modal-open': modalOpen }"
+		>
+			<div class="flex flex-col items-end">
+				<button
+					class="btn-xs btn-circle bg-white border-2 border-gray-400 shadow-lg relative top-3 left-1"
+					@click="closeModal"
+				>
+					x
+				</button>
+				<PersonnelEditForm />
+			</div>
+		</dialog>
 	</div>
 </template>
 
 <script setup lang="ts">
 import { ref, type PropType } from "vue";
+import PersonnelEditForm from "./PersonnelEditForm.vue";
 
 const props = defineProps({
 	principal: { type: String, required: true },
@@ -107,6 +125,17 @@ const findHeirarchyPath = (position: string, personnel: string) => {
 		default:
 			break;
 	}
+};
+
+// modal
+
+const modalOpen = ref(false);
+
+const showModal = () => {
+	modalOpen.value = true;
+};
+const closeModal = () => {
+	modalOpen.value = false;
 };
 </script>
 
