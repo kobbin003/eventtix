@@ -32,7 +32,7 @@ watch(darken, (newValue) => {
 </script>
 
 <template>
-	<div class="flex gap-1 justify-center items-center scale-75 md:scale-100">
+	<div class="flex gap-1 justify-end items-center scale-75 md:scale-90 flex-1">
 		<img
 			:src="darken ? lightIconUrlWhite : lightIconUrlBlack"
 			alt="light"

@@ -14,8 +14,10 @@ declare module 'vue' {
     DropDownMenu: typeof import('./src/components/DropDownMenu.vue')['default']
     EventCard: typeof import('./src/components/EventCard.vue')['default']
     EventChildren: typeof import('./src/components/EventChildren.vue')['default']
+    EventDetails: typeof import('./src/components/EventDetails.vue')['default']
     EventsList: typeof import('./src/components/EventsList.vue')['default']
     ExposeChild: typeof import('./src/components/ExposeChild.vue')['default']
+    GoBackButton: typeof import('./src/components/GoBackButton.vue')['default']
     Header: typeof import('./src/components/Header.vue')['default']
     Heirarchy: typeof import('./src/components/Heirarchy.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
@@ -37,6 +39,7 @@ declare module 'vue' {
     SignupFormPersonnel: typeof import('./src/components/SignupFormPersonnel.vue')['default']
     ThemeToggler: typeof import('./src/components/ThemeToggler.vue')['default']
     TheWelcome: typeof import('./src/components/TheWelcome.vue')['default']
+    UserEventCard: typeof import('./src/components/UserEventCard.vue')['default']
     WelcomeItem: typeof import('./src/components/WelcomeItem.vue')['default']
   }
 }

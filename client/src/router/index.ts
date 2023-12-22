@@ -31,16 +31,23 @@ const router = createRouter({
 					meta: { requiresAuth: false },
 				},
 				{
+					path: "/profile/:userId",
+					name: "profile-public",
+					component: () => import("../views/ProfileView.vue"),
+					meta: { requiresAuth: false },
+				},
+				{
+					path: "/event/:eventId",
+					name: "event-public",
+					component: () => import("../views/EventView.vue"),
+					meta: { requiresAuth: false },
+				},
+
+				{
 					path: "/user",
 					name: "user",
 					component: () => import("../views/HomeView.vue"),
 					meta: { requiresAuth: true },
-				},
-				{
-					path: "/event/:eventId",
-					name: "event",
-					component: () => import("../views/EventView.vue"),
-					meta: { requiresAuth: false },
 				},
 
 				{
@@ -56,14 +63,14 @@ const router = createRouter({
 					meta: { requiresAuth: true },
 				},
 				{
-					path: "/user/dashboard",
-					name: "dashboard",
+					path: "/user/profile",
+					name: "userprofile",
 					component: () => import("../views/UserDashboardView.vue"),
 					meta: { requiresAuth: true },
 					children: [
 						{
 							path: "",
-							name: "profile",
+							name: "userprofile-root",
 							component: () => import("../views/ProfileView.vue"),
 						},
 						{
@@ -98,18 +105,26 @@ router.beforeEach((to, from, next) => {
 
 	if (requiresAuth && !isAuthenticated()) {
 		alert("unauthenticated");
-		next("login");
+		next("/login");
 	} else {
 		next();
 	}
 });
 
-function isAuthenticated() {
+export function isAuthenticated() {
 	/** is Auth code */
-	return true;
+	const authenticatedUser = localStorage.getItem("user");
+
+	if (authenticatedUser == "kobin") {
+		return true;
+	} else {
+		return false;
+	}
 }
+
+export default router;
+
 /**
  * RouteLocationNormalized: GLOBAL
  * RouteRecordNormalized: ROUTE
  */
-export default router;

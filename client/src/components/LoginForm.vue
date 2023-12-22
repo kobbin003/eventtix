@@ -2,18 +2,29 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import logoLightUrl from "@/assets/logo_light.png";
+import { isAuthenticated } from "@/router";
 const router = useRouter();
 const email = ref("");
 const password = ref("");
+
 const submit = () => {
 	console.log("email", email.value);
-	router.push({ path: "/user" });
+
+	/** trial  */
+	if (isAuthenticated()) {
+		router.push({ path: "/user" });
+	} else {
+		localStorage.setItem("user", "kobin");
+		router.push({ path: "/user" });
+	}
 };
 </script>
 
 <template>
 	<div class="flex justify-center items-center">
-		<img :src="logoLightUrl" alt="" class="scale-75" />
+		<RouterLink to="/">
+			<img :src="logoLightUrl" alt="" class="scale-75" />
+		</RouterLink>
 	</div>
 	<div
 		class="flex flex-col gap-2 justify-center items-start bg-white border border-gray-100 shadow-lg py-7 px-9"

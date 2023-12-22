@@ -1,12 +1,16 @@
 <template>
-	<div class="flex flex-col items-center">
+	<div class="flex flex-col items-center bg-yellow-300">
 		<div>
-			<h4>{{ principal }}</h4>
+			<button @click="findHeirarchyPath('principal', principal)">
+				{{ principal }}
+			</button>
 			<p>(Principal)</p>
 		</div>
 		<div class="border-l-2 border-txtColor h-6"></div>
 		<div>
-			<h5>{{ vicePrincipal }}</h5>
+			<button @click="findHeirarchyPath('vicePrincipal', vicePrincipal)">
+				{{ vicePrincipal }}
+			</button>
 			<p>(Vice Principal)</p>
 		</div>
 		<div class="border-l-2 border-txtColor h-6"></div>
@@ -21,7 +25,9 @@
 					>
 						<div class="border-l-2 h-4"></div>
 						<div>
-							<p>{{ staff }}</p>
+							<button @click="findHeirarchyPath('staff', staff)">
+								{{ staff }}
+							</button>
 							<p>staff-{{ index + 1 }}</p>
 						</div>
 					</div>
@@ -31,29 +37,77 @@
 					>
 						<div class="border-l-2 h-4"></div>
 						<div>
-							<p>{{ staff }}</p>
+							<button @click="findHeirarchyPath('staff', staff)">
+								{{ staff }}
+							</button>
 							<p>staff-{{ index + 1 }}</p>
 						</div>
 					</div>
 					<div v-else class="flex flex-col items-center">
 						<div class="border-l-2 h-4"></div>
 						<div>
-							<p>{{ staff }}</p>
+							<button @click="findHeirarchyPath('staff', staff)">
+								{{ staff }}
+							</button>
 							<p>staff-{{ index + 1 }}</p>
 						</div>
 					</div>
 				</li>
 			</ul>
 		</div>
+		<div
+			v-if="$route.path.includes('event')"
+			class="flex text-sm breadcrumbs pl-2 md:mx-auto"
+		>
+			Heirarchy-path:
+			<ul>
+				<li v-for="item in heirarchyPath">
+					{{ item }}
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div
+		v-if="$route.path.includes('dashboard')"
+		class="flex text-sm breadcrumbs pl-2 md:mx-auto"
+	>
+		Heirarchy-path:
+		<ul>
+			<li v-for="item in heirarchyPath">
+				{{ item }}
+			</li>
+		</ul>
+	</div>
+	<div v-if="$route.path.includes('user/profile')">
+		<button class="btn btn-sm btn-primary rounded-sm">Edit Personnels</button>
 	</div>
 </template>
 
 <script setup lang="ts">
-defineProps({
+import { ref, type PropType } from "vue";
+
+const props = defineProps({
 	principal: { type: String, required: true },
 	vicePrincipal: { type: String, required: true },
-	staffs: { type: Array, required: true },
+	staffs: { type: Array as PropType<string[]>, required: true },
 });
+const heirarchyPath = ref([""]);
+const findHeirarchyPath = (position: string, personnel: string) => {
+	switch (position) {
+		case "principal":
+			heirarchyPath.value = [personnel];
+			break;
+		case "vicePrincipal":
+			heirarchyPath.value = [props.principal, personnel];
+			break;
+		case "staff":
+			heirarchyPath.value = [props.principal, props.vicePrincipal, personnel];
+			break;
+
+		default:
+			break;
+	}
+};
 </script>
 
 <style scoped></style>

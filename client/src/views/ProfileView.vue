@@ -1,8 +1,9 @@
 <template>
-	<div class="flex">
+	<GoBackButton />
+	<div class="flex flex-col bg-orange-400 w-screen md:w-9/12 lg:w-7/12">
 		<SchoolDetails />
-		<div class="flex flex-col items-center">
-			<h3>Institute Heirarchy</h3>
+		<div class="flex flex-col">
+			<h3 class="text-center">Institute Heirarchy</h3>
 			<Heirarchy
 				principal="Principal"
 				vicePrincipal="Vice Principal"

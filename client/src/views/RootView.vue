@@ -22,7 +22,9 @@ watch(child, (newValue) => {
 <template>
 	<main>
 		<Header />
-		<main class="px-2 sm:px-4 md:px-6 py-3"><RouterView /></main>
+		<main class="px-2 sm:px-4 md:px-6 py-3 relative top-14">
+			<RouterView />
+		</main>
 		<!-- <ExposeChild ref="child" /> -->
 	</main>
 </template>

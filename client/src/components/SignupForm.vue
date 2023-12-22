@@ -36,7 +36,9 @@ const formSubmit = () => {
 
 <template>
 	<div class="flex justify-center items-center">
-		<img :src="logoLightUrl" alt="" class="scale-75" />
+		<RouterLink to="/">
+			<img :src="logoLightUrl" alt="" class="scale-75" />
+		</RouterLink>
 	</div>
 	<div
 		class="flex flex-col gap-2 justify-center items-start bg-white border border-gray-100 shadow-lg py-7 px-9"

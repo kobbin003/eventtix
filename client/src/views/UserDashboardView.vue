@@ -1,5 +1,4 @@
 <template>
-	<div>User Dashboard</div>
 	<RouterView />
 </template>
 

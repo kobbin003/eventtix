@@ -4,6 +4,7 @@ import logoLightUrl from "@/assets/logo_light.png";
 import logoDarkUrl from "@/assets/logo_dark.png";
 import { ref, watchEffect } from "vue";
 import { useRoute } from "vue-router";
+import { isAuthenticated } from "@/router";
 
 const route = useRoute();
 
@@ -19,20 +20,20 @@ watchEffect(() => {
 </script>
 
 <template>
-	<header class="w-full flex items-center justify-between px-2 sm:px-4 md:px-6">
-		<RouterLink to="/user"
+	<header
+		class="fixed bg-white w-full flex items-center justify-between px-2 sm:px-4 md:px-6 py-2 z-10"
+	>
+		<RouterLink :to="isAuthenticated() ? '/user' : '/'"
 			><img
 				:src="darkenFromThemeToggler ? logoDarkUrl : logoLightUrl"
 				alt=""
 				srcset=""
 				width="50"
 		/></RouterLink>
+		<!-- <div class="flex gap-6"> -->
 		<ThemeToggler @trackDarken="themeEventHandler" />
 
-		<div
-			v-if="$route.path?.toString().includes('user')"
-			class="flex items-center"
-		>
+		<div v-if="isAuthenticated()" class="flex items-center">
 			<CreateEventButton
 				v-if="!$route.path?.toString().includes('event/create')"
 			/>
@@ -42,6 +43,7 @@ watchEffect(() => {
 		<RouterLink v-else to="/login" class="btn btn-sm btn-primary rounded-my-sm"
 			><span class="">Login</span></RouterLink
 		>
+		<!-- </div> -->
 	</header>
 </template>
 

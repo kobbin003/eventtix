@@ -14,23 +14,23 @@
 			>
 				<li>
 					<RouterLink
-						to="/user/dashboard/events"
+						to="/user/profile/events"
 						class="rounded-sm bg-transparent shadow-none border-none"
 						><span class="">your events</span></RouterLink
 					>
 				</li>
 				<li>
 					<RouterLink
-						to="/user/dashboard"
+						to="/user/profile"
 						class="rounded-sm bg-transparent shadow-none border-none"
 						><span class="">Profile</span></RouterLink
 					>
 				</li>
 				<li>
 					<RouterLink
-						to="/login"
+						to="/"
 						class="rounded-sm bg-transparent shadow-none border-none"
-						><span class="">Logout</span></RouterLink
+						><span class="" @click="removeAuth">Logout</span></RouterLink
 					>
 				</li>
 			</ul>
@@ -38,6 +38,11 @@
 	</div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const removeAuth = () => {
+	// trial
+	localStorage.removeItem("user");
+};
+</script>
 
 <style scoped></style>
