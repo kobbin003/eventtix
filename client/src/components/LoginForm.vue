@@ -37,6 +37,7 @@ const submit = () => {
 				type="email"
 				name="email"
 				id="email"
+				required
 				class="input input-sm input-bordered rounded-sm bg-#d8d8da"
 			/>
 			<label for="password">Password</label>
@@ -45,6 +46,7 @@ const submit = () => {
 				type="password"
 				name="password"
 				id="password"
+				required
 				class="input input-sm input-bordered rounded-sm bg-#d8d8da"
 			/>
 			<button type="submit" class="btn btn-md btn-info my-5 rounded-sm">

@@ -44,7 +44,8 @@ const formSubmit = () => {
 		class="flex flex-col gap-2 justify-center items-start bg-white border border-gray-100 shadow-lg py-7 px-9"
 	>
 		<b class="text-lg">Create your account</b>
-		<form class="flex flex-col gap-2" @submit.prevent="">
+		<div>
+			<!-- <form class="flex flex-col gap-2" @submit.prevent=""> -->
 			<SignupFormCredential
 				@credential-data="updateCredential"
 				@next-step="handleStepIncrement"
@@ -62,7 +63,8 @@ const formSubmit = () => {
 				@submit-form="formSubmit"
 				v-if="currentStep === 3"
 			/>
-		</form>
+		</div>
+		<!-- </form> -->
 
 		<div class="flex">
 			<p>Already have an account?</p>
