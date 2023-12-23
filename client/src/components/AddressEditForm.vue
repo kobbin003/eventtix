@@ -3,7 +3,11 @@
 		class="flex flex-col gap-2 justify-center items-start bg-white border border-gray-100 shadow-lg py-7 px-9 rounded-sm"
 	>
 		<b class="text-lg">Edit your address</b>
-		<form action="" class="form-control gap-2">
+		<form
+			action=""
+			class="form-control gap-2"
+			@submit.prevent="editAddressSubmit"
+		>
 			<label for="addressLine1">AddressLine1 </label>
 			<input
 				v-model="address.addressLine1"
@@ -11,6 +15,7 @@
 				name="addressLine1"
 				id="addressLine1"
 				placeholder="addressLine1"
+				required
 				class="input input-sm input-bordered rounded-sm bg-#d8d8da"
 			/>
 			<label for="addressLine2">AddressLine2 </label>
@@ -29,15 +34,18 @@
 				name="state"
 				id="state"
 				placeholder="State"
+				required
 				class="input input-sm input-bordered rounded-sm bg-#d8d8da"
 			/>
 			<label for="pin">Pin</label>
 			<input
-				v-model="address.pin"
 				type="text"
 				name="pin"
 				id="pin"
 				placeholder="Pin"
+				required
+				:value="address.pin"
+				@input="validatePinInput"
 				class="input input-sm input-bordered rounded-sm bg-#d8d8da"
 			/>
 			<input
@@ -50,7 +58,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, watchEffect } from "vue";
 
 export type Address = {
 	addressLine1: String;
@@ -67,6 +75,21 @@ const address = ref<Address>({
 	state: "",
 	pin: "",
 });
+
+const validatePinInput = (e: Event) => {
+	// !! move this to submit event instead of change event.
+	const input = e.target as HTMLInputElement;
+	const inputPattern = /^\d+$/;
+
+	const isValidInput = inputPattern.test(input.value);
+	if (!isValidInput) {
+		input.setCustomValidity("please enter digits only");
+	} else {
+		input.setCustomValidity("");
+	}
+};
+
+const editAddressSubmit = (e: Event) => {};
 </script>
 
 <style scoped></style>

@@ -16,7 +16,13 @@ const personnel = ref<Personnel>({
 const newStaff = ref("");
 const showStaffTooltip = ref(false);
 const addStaff = () => {
+	// update staff
 	if (newStaff.value) {
+		// remove staff required message if staff was empty
+		if (personnel.value.staffs.length == 0) {
+			staffRequiredMsg.value = false;
+		}
+
 		// push it in the personnel.staff
 		personnel.value.staffs.push(newStaff.value);
 		// clear the input
@@ -33,13 +39,28 @@ const removeTooltip = () => {
 const removeStaff = (index: number) => {
 	personnel.value.staffs.splice(index, 1);
 };
+
+const staffRequiredMsg = ref(false);
+const submitPersonnelEdit = () => {
+	if (personnel.value.staffs.length == 0) {
+		// return;
+		console.log("yooo");
+		staffRequiredMsg.value = true;
+	} else {
+		// atleastOneStaffRequiredMsg.value = true;
+	}
+};
 </script>
 <template>
 	<div
 		class="flex flex-col gap-2 justify-center items-start bg-white border border-gray-100 shadow-lg py-7 px-9 rounded-sm"
 	>
 		<b class="text-lg">Edit your personnels</b>
-		<form action="" class="form-control gap-2">
+		<form
+			action=""
+			class="form-control gap-2"
+			@submit.prevent="submitPersonnelEdit"
+		>
 			<label for="principal">Principal's name</label>
 			<input
 				v-model="personnel.principal"
@@ -62,6 +83,9 @@ const removeStaff = (index: number) => {
 			/>
 			<!-- <p>Staffs</p> -->
 			<label for="staffs">Staffs:</label>
+			<p v-if="staffRequiredMsg" class="text-xs text-red-600">
+				*atleast one staff required
+			</p>
 			<ul id="staffs">
 				<li
 					v-for="(staff, index) in personnel.staffs"
