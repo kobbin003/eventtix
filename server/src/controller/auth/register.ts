@@ -24,13 +24,14 @@ export const register = async (
 		/** if validation not success, send zod-error messages */
 		if (result.success !== true) {
 			const issues = result.error.issues;
+			// console.log(result.error);
 			const zodErrorMessages = issues.map(
 				(issue) => `${issue.path[0]}: ${issue.message}`
 			);
 			res.status(400).json({
 				error: {
 					statusCode: "400",
-					zodErrorMessages,
+					msg: zodErrorMessages,
 				},
 			});
 		} else {

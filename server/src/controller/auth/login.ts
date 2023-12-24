@@ -19,7 +19,7 @@ export const login = async (
 			res.status(400).json({
 				error: {
 					statusCode: "400",
-					zodErrorMessages,
+					msg: zodErrorMessages,
 				},
 			});
 		} else {

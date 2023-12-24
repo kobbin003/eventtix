@@ -11,6 +11,7 @@ import helmet from "helmet";
 import cookieParser from "cookie-parser";
 import { stripeRouter } from "./routes/stripeRouter.js";
 import { stripeWebhookController } from "./controller/stripe/stripeWebhookController.js";
+import cors from "cors";
 import Stripe from "stripe";
 
 const app = express();
@@ -26,8 +27,8 @@ app.use(
 		strictTransportSecurity: { maxAge: 31536000, includeSubDomains: true },
 	})
 );
-
 app.use(cookieParser());
+app.use(cors());
 
 const stripeSecret = process.env.STRIPE_SECRET_KEY;
 export const stripe = new Stripe(stripeSecret);
