@@ -1,24 +1,31 @@
 <script setup lang="ts">
+import { useAlertStore } from "@/stores/alert";
+import { storeToRefs } from "pinia";
 import { ref, watchEffect } from "vue";
 
-const emit = defineEmits(["personnelData", "prevStep", "submitForm"]);
+const emit = defineEmits(["personnelData", "prevStep"]);
 
 export type Personnel = {
 	principal: String;
-	viceprincipal: String;
+	vicePrincipal: String;
 	staffs: String[];
 };
 
 const personnel = ref<Personnel>({
 	principal: "",
-	viceprincipal: "",
+	vicePrincipal: "",
 	staffs: ["example"],
 });
-
+const staffRequiredMsg = ref(false);
 const newStaff = ref("");
 const showStaffTooltip = ref(false);
 const addStaff = () => {
 	if (newStaff.value) {
+		// remove staff required message if staff was empty
+		if (personnel.value.staffs.length == 0) {
+			staffRequiredMsg.value = false;
+		}
+
 		// push it in the personnel.staff
 		personnel.value.staffs.push(newStaff.value);
 		// clear the input
@@ -34,11 +41,18 @@ const removeTooltip = () => {
 const removeStaff = (index: number) => {
 	personnel.value.staffs.splice(index, 1);
 };
+const alertStore = useAlertStore();
+const { isLoading } = storeToRefs(alertStore);
 
 const next = () => {
 	// send the basic info to parent
-	emit("personnelData", personnel.value);
-	emit("submitForm");
+	if (personnel.value.staffs.length == 0) {
+		// return;
+		staffRequiredMsg.value = true;
+	} else {
+		// atleastOneStaffRequiredMsg.value = true;
+		emit("personnelData", personnel.value);
+	}
 };
 
 watchEffect(() => {});
@@ -57,7 +71,7 @@ watchEffect(() => {});
 		/>
 		<label for="principal">Vice-Principal's name</label>
 		<input
-			v-model="personnel.viceprincipal"
+			v-model="personnel.vicePrincipal"
 			type="text"
 			name="vicePrincipal"
 			id="vicePrincipal"
@@ -67,6 +81,9 @@ watchEffect(() => {});
 		/>
 		<!-- <p>Staffs</p> -->
 		<label for="staffs">Staffs:</label>
+		<p v-if="staffRequiredMsg" class="text-xs text-red-600">
+			*atleast one staff required
+		</p>
 		<ul id="staffs">
 			<li
 				v-for="(staff, index) in personnel.staffs"
@@ -113,11 +130,14 @@ watchEffect(() => {});
 			>
 				prev
 			</button>
-			<input
+
+			<button
 				type="submit"
-				value="submit"
 				class="btn btn-md rounded-sm btn-info my-4 self-end"
-			/>
+			>
+				<span v-if="isLoading" class="loading loading-spinner"></span>
+				<span v-else>submit</span>
+			</button>
 		</div>
 	</form>
 </template>

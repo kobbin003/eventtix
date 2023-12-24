@@ -100,11 +100,12 @@ router.beforeEach((to, from, next) => {
 	// console.log("global guard- TO", to.path);
 	// console.log("global guard- FROM", from.path);
 	// to.matched.map((route) => console.log("matches", route.meta.requiresAuth));
+
 	// check if any of the matches has "requiresAuth" meta
 	const requiresAuth = to.matched.some((route) => route.meta.requiresAuth);
 
 	if (requiresAuth && !isAuthenticated()) {
-		alert("unauthenticated");
+		// alert("unauthenticated");
 		next("/login");
 	} else {
 		next();
@@ -113,9 +114,13 @@ router.beforeEach((to, from, next) => {
 
 export function isAuthenticated() {
 	/** is Auth code */
-	const authenticatedUser = localStorage.getItem("user");
+	const accessTokenFound = localStorage.getItem("accessToken");
 
-	if (authenticatedUser == "kobin") {
+	if (
+		accessTokenFound &&
+		accessTokenFound !== "null" &&
+		accessTokenFound !== "undefined"
+	) {
 		return true;
 	} else {
 		return false;

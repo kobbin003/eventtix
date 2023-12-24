@@ -44,7 +44,6 @@ const staffRequiredMsg = ref(false);
 const submitPersonnelEdit = () => {
 	if (personnel.value.staffs.length == 0) {
 		// return;
-		console.log("yooo");
 		staffRequiredMsg.value = true;
 	} else {
 		// atleastOneStaffRequiredMsg.value = true;

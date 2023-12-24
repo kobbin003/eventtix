@@ -18,7 +18,18 @@ const address = ref<Address>({
 	state: "",
 	pin: "",
 });
+const validatePinInput = (e: Event) => {
+	// !! move this to submit event instead of change event.
+	const input = e.target as HTMLInputElement;
+	const inputPattern = /^\d+$/;
 
+	const isValidInput = inputPattern.test(input.value);
+	if (!isValidInput) {
+		input.setCustomValidity("please enter digits only");
+	} else {
+		input.setCustomValidity("");
+	}
+};
 const next = () => {
 	// send the basic info to parent
 	emit("addressData", address.value);
@@ -64,6 +75,7 @@ const next = () => {
 			id="pin"
 			placeholder="Pin"
 			required
+			@input="validatePinInput"
 			class="input input-sm input-bordered rounded-sm bg-#d8d8da"
 		/>
 		<div class="flex justify-between py-2">

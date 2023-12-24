@@ -13,6 +13,9 @@ export default {
 			fontSize: {
 				mybase: "18px",
 			},
+			backgroundImage: {
+				signup: "url('/src/assets/signup-bg.svg')",
+			},
 		},
 	},
 	plugins: [require("daisyui")],
@@ -25,11 +28,11 @@ export default {
 					accent: "#00d9ff",
 					neutral: "#261919",
 					"base-100": "#262626",
+					"base-content": "#CFCFCF",
 					info: "#005ed0",
 					success: "#4ba50f",
 					warning: "#ab6300",
 					error: "#ff7c8c",
-					txtColor: "#CFCFCF",
 				},
 				"mytheme-light": {
 					primary: "#2D63EC",
@@ -37,6 +40,7 @@ export default {
 					accent: "#00d9ff",
 					neutral: "#261919",
 					"base-100": "#fcfcff",
+					"base-content": "#161616",
 					info: "#005ed0",
 					success: "#4ba50f",
 					warning: "#ab6300",

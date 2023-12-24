@@ -7,6 +7,8 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    AddressEditForm: typeof import('./src/components/AddressEditForm.vue')['default']
+    Alert: typeof import('./src/components/Alert.vue')['default']
     AuthFormSection: typeof import('./src/components/AuthFormSection.vue')['default']
     AuthGraphicSection: typeof import('./src/components/AuthGraphicSection.vue')['default']
     CreateEvent: typeof import('./src/components/CreateEvent.vue')['default']
@@ -27,6 +29,7 @@ declare module 'vue' {
     IconSupport: typeof import('./src/components/icons/IconSupport.vue')['default']
     IconTooling: typeof import('./src/components/icons/IconTooling.vue')['default']
     LoginForm: typeof import('./src/components/LoginForm.vue')['default']
+    PersonnelEditForm: typeof import('./src/components/PersonnelEditForm.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SchoolDetails: typeof import('./src/components/SchoolDetails.vue')['default']

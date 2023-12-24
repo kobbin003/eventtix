@@ -10,27 +10,32 @@
 			<option value="date">date</option>
 		</select>
 
-		<div v-if="!searchType" class="tooltip" data-tip="select search type">
-			<input
-				type="search"
-				name=""
-				id=""
-				placeholder="search event"
-				class="input input-sm rounded-2xl"
-				:disabled="!searchType"
-			/>
+		<div v-if="!searchType" class="tooltip z-20" data-tip="select search type">
+			<div
+				class="w-full h-full border border-base-content/25 bg-base-100 rounded-2xl overflow-hidden"
+			>
+				<input
+					type="search"
+					name=""
+					id=""
+					placeholder="search event"
+					class="input input-sm"
+					autocomplete="off"
+					:disabled="!searchType"
+				/>
+			</div>
 		</div>
 		<div v-else-if="searchType == 'date'" class="flex items-center gap-2">
 			<input
 				type="date"
 				name="date"
 				id="date"
-				class="input input-sm input-bordered rounded-md border-2"
+				class="date-picker input input-sm input-bordered rounded-md border-2"
 				v-model="date"
 			/>
-			<div v-if="!date" class="tooltip" data-tip="select a date">
+			<div v-if="!date" class="tooltip z-20" data-tip="select a date">
 				<button
-					class="btn btn-xs md:btn-sm btn-primary rounded-sm"
+					class="btn btn-sm md:btn-sm btn-primary rounded-sm disabled:border-base-content/20"
 					:disabled="!date"
 				>
 					search
@@ -38,7 +43,7 @@
 			</div>
 			<button
 				v-else
-				class="btn btn-xs md:btn-sm btn-primary rounded-sm"
+				class="btn btn-sm md:btn-sm btn-primary rounded-sm"
 				:disabled="!date"
 			>
 				search
@@ -64,6 +69,7 @@
 						? 'search by location'
 						: 'search by school name'
 				"
+				autocomplete="off"
 				class="input input-sm focus:outline-none focus:border-none rounded-none"
 				:disabled="!searchType"
 			/>
@@ -78,4 +84,9 @@ const searchType = ref("");
 const date = ref("");
 </script>
 
-<style scoped></style>
+<style scoped>
+input[type="date"]::-webkit-calendar-picker-indicator {
+	filter: invert(40%); /* Adjust the color using invert() */
+	/* Other styling properties */
+}
+</style>

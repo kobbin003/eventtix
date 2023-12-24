@@ -21,7 +21,7 @@ watchEffect(() => {
 
 <template>
 	<header
-		class="fixed bg-white w-full flex items-center justify-between px-2 sm:px-4 md:px-6 py-2 z-10"
+		class="fixed bg-base-100 w-full flex items-center justify-between px-2 sm:px-4 md:px-6 py-2 z-10 shadow-md shadow-base-content/5"
 	>
 		<RouterLink :to="isAuthenticated() ? '/user' : '/'"
 			><img
@@ -40,7 +40,7 @@ watchEffect(() => {
 			<DropDownMenu />
 		</div>
 
-		<RouterLink v-else to="/login" class="btn btn-sm btn-primary rounded-my-sm"
+		<RouterLink v-else to="/login" class="btn btn-sm btn-primary rounded-sm"
 			><span class="">Login</span></RouterLink
 		>
 		<!-- </div> -->

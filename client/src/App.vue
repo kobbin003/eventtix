@@ -2,6 +2,7 @@
 
 <template>
 	<div class="w-screen h-screen bg-base-100">
+		<Alert />
 		<RouterView />
 	</div>
 </template>

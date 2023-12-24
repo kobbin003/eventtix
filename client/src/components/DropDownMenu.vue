@@ -41,7 +41,7 @@
 <script setup lang="ts">
 const removeAuth = () => {
 	// trial
-	localStorage.removeItem("user");
+	localStorage.removeItem("accessToken");
 };
 </script>
 
