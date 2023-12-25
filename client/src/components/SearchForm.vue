@@ -10,7 +10,11 @@
 			<option value="date">date</option>
 		</select>
 
-		<div v-if="!searchType" class="tooltip z-20" data-tip="select search type">
+		<div
+			v-if="!searchType"
+			class="tooltip tooltip-bottom"
+			data-tip="select search type"
+		>
 			<div
 				class="w-full h-full border border-base-content/25 bg-base-100 rounded-2xl overflow-hidden"
 			>

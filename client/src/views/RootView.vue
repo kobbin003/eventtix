@@ -20,11 +20,13 @@ watch(child, (newValue) => {
 </script>
 
 <template>
-	<main>
+	<div class="min-h-screen flex flex-col">
 		<Header />
-		<main class="px-2 sm:px-4 md:px-6 py-3 relative top-14">
+		<main
+			class="min-h-[calc(100vh-4rem)] px-2 sm:px-4 md:px-6 py-3 relative top-14"
+		>
 			<RouterView />
 		</main>
-		<!-- <ExposeChild ref="child" /> -->
-	</main>
+	</div>
+	<!-- <ExposeChild ref="child" /> -->
 </template>

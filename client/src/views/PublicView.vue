@@ -1,8 +1,5 @@
 <template>
-	<!-- eventslist for public -->
-	<div>
-		<EventsList />
-	</div>
+	<EventsList />
 </template>
 
 <script setup lang="ts">

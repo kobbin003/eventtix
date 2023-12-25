@@ -21,7 +21,7 @@ watchEffect(() => {
 
 <template>
 	<header
-		class="fixed bg-base-100 w-full flex items-center justify-between px-2 sm:px-4 md:px-6 py-2 z-10 shadow-md shadow-base-content/5"
+		class="h-16 fixed bg-base-100 w-full flex items-center justify-between px-2 sm:px-4 md:px-6 py-2 z-10 shadow-md shadow-base-content/5"
 	>
 		<RouterLink :to="isAuthenticated() ? '/user' : '/'"
 			><img

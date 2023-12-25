@@ -1,11 +1,16 @@
 <script setup lang="ts">
 import SearchForm from "@/components/SearchForm.vue";
 import image from "@/assets/zfm.jpeg";
+import { ref } from "vue";
+const events = ref([]);
 </script>
 <template>
-	<div>
+	<div class="relative flex flex-col">
 		<SearchForm />
-		<ul class="py-2 md:py-4">
+		<div v-if="events.length == 0" class="flex justify-center relative top-10">
+			<NoEventsFound />
+		</div>
+		<ul v-else class="py-2 md:py-4">
 			<li v-for="item in [1, 2, 3]">
 				<EventCard
 					title="demo title"

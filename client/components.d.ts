@@ -29,6 +29,7 @@ declare module 'vue' {
     IconSupport: typeof import('./src/components/icons/IconSupport.vue')['default']
     IconTooling: typeof import('./src/components/icons/IconTooling.vue')['default']
     LoginForm: typeof import('./src/components/LoginForm.vue')['default']
+    NoEventsFound: typeof import('./src/components/NoEventsFound.vue')['default']
     PersonnelEditForm: typeof import('./src/components/PersonnelEditForm.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

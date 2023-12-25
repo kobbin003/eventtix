@@ -1,6 +1,18 @@
+<script setup lang="ts">
+import image from "@/assets/zfm.jpeg";
+import { ref } from "vue";
+
+const userEvents = ref([]);
+</script>
 <template>
 	<GoBackButton />
-	<ul class="py-2 md:py-4">
+	<div
+		v-if="userEvents.length == 0"
+		class="flex justify-center relative top-10"
+	>
+		<NoEventsFound />
+	</div>
+	<ul v-else class="py-2 md:py-4">
 		<li v-for="item in [1, 2, 3]">
 			<UserEventCard
 				title="demo title"
@@ -28,9 +40,5 @@
 		</li>
 	</ul>
 </template>
-
-<script setup lang="ts">
-import image from "@/assets/zfm.jpeg";
-</script>
 
 <style scoped></style>
