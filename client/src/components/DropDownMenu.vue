@@ -42,6 +42,9 @@
 const removeAuth = () => {
 	// trial
 	localStorage.removeItem("accessToken");
+
+	// user store, gets stored on persist
+	localStorage.removeItem("user");
 };
 </script>
 

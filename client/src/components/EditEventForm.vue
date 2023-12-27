@@ -12,7 +12,7 @@ const baseUrl = import.meta.env.VITE_BASE_URL;
 const route = useRoute();
 const dateString = ref<string>();
 const timeString = ref<string>();
-
+const eventTitle = ref<string>();
 const alertStore = useAlertStore();
 const { successMsg, errorMsgs, isLoading } = storeToRefs(alertStore);
 const {
@@ -183,7 +183,7 @@ watch([dateString, timeString], () => {
 onMounted(async () => {
 	const url = `${baseUrl}/event/id/${route.params.eventId}`;
 	const opts = { method: "get" };
-	const { data, error } = await useFetch(url, fetch);
+	const { data, error } = await useFetch(url, opts);
 	console.log("data", data);
 	if (data) {
 		const fetchedData = data as TEvent;
@@ -197,11 +197,16 @@ onMounted(async () => {
 		eventData.value.ticketType = fetchedData.ticketType;
 		eventData.value.ticketPrice = fetchedData.ticketPrice;
 	}
+	eventTitle.value = eventData.value.title;
+});
+
+watch(eventData, () => {
+	eventTitle.value = eventData.value.title;
 });
 </script>
 <template>
 	<h2 class="text-xl py-4 text-info">
-		Edit your event with the title <b>{{ eventData.title }}</b>
+		Edit your event with the title <b>{{ eventTitle }}</b>
 	</h2>
 	<div class="w-2/4">
 		<form action="" class="flex flex-col gap-2" @submit.prevent="submitEvent">

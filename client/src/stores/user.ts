@@ -17,19 +17,31 @@ export const useUserStore = defineStore(
 			Object.assign(user.value, { ...user.value, ...arg });
 		}
 
-		function updateAddress(arg: Partial<TAddress>) {
+		function updateAddress(arg: TAddress) {
 			Object.assign(user, {
 				...user,
 				address: { ...user.value.address, ...arg },
 			});
 		}
+		// function updateAddress(arg: Partial<TAddress>) {
+		// 	Object.assign(user, {
+		// 		...user,
+		// 		address: { ...user.value.address, ...arg },
+		// 	});
+		// }
 
-		function updatePersonnels(arg: Partial<TPersonnels>) {
+		function updatePersonnels(arg: TPersonnels) {
 			Object.assign(user, {
 				...user,
 				personnels: { ...user.value.personnels, ...arg },
 			});
 		}
+		// function updatePersonnels(arg: Partial<TPersonnels>) {
+		// 	Object.assign(user, {
+		// 		...user,
+		// 		personnels: { ...user.value.personnels, ...arg },
+		// 	});
+		// }
 
 		return { user, setUser, updateUser, updateAddress, updatePersonnels };
 	},
@@ -50,8 +62,8 @@ export type User = Credentials & {
 	accessToken: string;
 	addressId?: string;
 	personnelsId?: string;
-	address?: TAddress;
-	personnels?: TPersonnels;
+	address?: TAddress | null;
+	personnels?: TPersonnels | null;
 };
 export type TAddress = {
 	addressLine1: string;

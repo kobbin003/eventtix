@@ -1,16 +1,21 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { useFetch } from "@/hooks/useFetch";
+import type { TPersonnels } from "@/stores/user";
+import {
+	baseUrl,
+	user,
+	accessToken,
+	updatePersonnels,
+	setSuccessMsg,
+	isLoading,
+} from "@/utils/constants";
+import { onMounted, ref } from "vue";
 
-export type Personnel = {
-	principal: String;
-	viceprincipal: String;
-	staffs: String[];
-};
-
-const personnel = ref<Personnel>({
+const props = defineProps({ closeModal: { type: Function, required: true } });
+const personnels = ref<TPersonnels>({
 	principal: "",
-	viceprincipal: "",
-	staffs: ["example"],
+	vicePrincipal: "",
+	staffs: [],
 });
 
 const newStaff = ref("");
@@ -18,13 +23,18 @@ const showStaffTooltip = ref(false);
 const addStaff = () => {
 	// update staff
 	if (newStaff.value) {
-		// remove staff required message if staff was empty
-		if (personnel.value.staffs.length == 0) {
+		// remove staff required message if message was already there
+		if (personnels.value.staffs.length == 0) {
 			staffRequiredMsg.value = false;
 		}
-
-		// push it in the personnel.staff
-		personnel.value.staffs.push(newStaff.value);
+		// dont push if already 5 stuff added
+		if (personnels.value.staffs.length == 5) {
+			// return;
+			staffRequiredMsg.value = true;
+			return;
+		}
+		// push it in the Personnels.staff
+		personnels.value.staffs.push(newStaff.value);
 		// clear the input
 		newStaff.value = "";
 	} else {
@@ -37,18 +47,49 @@ const removeTooltip = () => {
 };
 
 const removeStaff = (index: number) => {
-	personnel.value.staffs.splice(index, 1);
+	personnels.value.staffs.splice(index, 1);
 };
 
 const staffRequiredMsg = ref(false);
-const submitPersonnelEdit = () => {
-	if (personnel.value.staffs.length == 0) {
+const submitPersonnelEdit = async () => {
+	if (
+		personnels.value.staffs.length == 0 ||
+		personnels.value.staffs.length > 5
+	) {
 		// return;
 		staffRequiredMsg.value = true;
 	} else {
 		// atleastOneStaffRequiredMsg.value = true;
+		const url = `${baseUrl}/profile/personnels`;
+		const opts = {
+			method: "PUT",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${accessToken}`,
+			},
+			body: JSON.stringify(personnels.value),
+		};
+		console.log("personnels-data", personnels);
+		const { data, error } = await useFetch(url, opts);
+		if (data) {
+			updatePersonnels({
+				principal: data.personnels.principal,
+				vicePrincipal: data.personnels.vicePrincipal,
+				staffs: data.personnels.staffs,
+			});
+
+			//close the modal
+
+			props.closeModal();
+			setSuccessMsg("personnels updated!");
+		}
 	}
 };
+onMounted(() => {
+	if (user.value.personnels) {
+		personnels.value = user.value.personnels;
+	}
+});
 </script>
 <template>
 	<div
@@ -62,7 +103,7 @@ const submitPersonnelEdit = () => {
 		>
 			<label for="principal">Principal's name</label>
 			<input
-				v-model="personnel.principal"
+				v-model="personnels.principal"
 				type="text"
 				name="principal"
 				id="principal"
@@ -72,7 +113,7 @@ const submitPersonnelEdit = () => {
 			/>
 			<label for="principal">Vice-Principal's name</label>
 			<input
-				v-model="personnel.viceprincipal"
+				v-model="personnels.vicePrincipal"
 				type="text"
 				name="vicePrincipal"
 				id="vicePrincipal"
@@ -83,11 +124,11 @@ const submitPersonnelEdit = () => {
 			<!-- <p>Staffs</p> -->
 			<label for="staffs">Staffs:</label>
 			<p v-if="staffRequiredMsg" class="text-xs text-red-600">
-				*atleast one staff required
+				*min 1 and max 5 staff allowed
 			</p>
 			<ul id="staffs">
 				<li
-					v-for="(staff, index) in personnel.staffs"
+					v-for="(staff, index) in personnels.staffs"
 					class="flex justify-between items-center gap-2 bg-base-100 border"
 				>
 					<p class="p-2 rounded-sm">{{ staff }}</p>
@@ -123,11 +164,13 @@ const submitPersonnelEdit = () => {
 					<span class="hover:scale-110">+</span>
 				</button>
 			</div>
-			<input
-				type="submit"
-				value="Done"
-				class="btn btn-sm btn-primary rounded-sm mt-2"
-			/>
+			<button type="submit" class="btn btn-md btn-primary rounded-sm mt-2">
+				<span
+					v-if="isLoading"
+					class="loading loading-spinner loading-sm"
+				></span>
+				<span v-else>submit</span>
+			</button>
 		</form>
 	</div>
 </template>

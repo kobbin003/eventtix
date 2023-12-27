@@ -13,7 +13,7 @@ export const useFetch = async (url: string, opts: any) => {
 	try {
 		const res = await fetch(url, opts);
 		if (!res.ok) {
-			throw new ErrorEvent("error: could not fetch");
+			throw new Error("error: could not fetch");
 		}
 		const val = await res.json();
 		data = val;
@@ -22,6 +22,7 @@ export const useFetch = async (url: string, opts: any) => {
 	} catch (err: any) {
 		error = err.message;
 		setErrorMsg(err.message);
+		console.log("useFetch error", err.message);
 	} finally {
 		setIsLoading(false);
 	}

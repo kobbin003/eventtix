@@ -76,14 +76,17 @@ const closeModal = () => {
 			<div class="flex flex-col items-center">
 				<h6>Staffs</h6>
 				<div class="border-l-2 border-txtColor h-4"></div>
-				<ul class="flex gap-3 border-t-2 border-txtColor">
+				<ul
+					v-if="props.staffs.length > 1"
+					class="flex gap-3 border-t-2 border-txtColor"
+				>
 					<li v-for="(staff, index) in props.staffs">
 						<div
 							v-if="index == 0"
 							class="flex flex-col items-center -translate-x-1/2"
 						>
 							<div class="border-l-2 h-4"></div>
-							<div>
+							<div class="flex flex-col items-center">
 								<button
 									@click="findHeirarchyPath('staff', staff)"
 									class="text-sm font-medium"
@@ -100,7 +103,7 @@ const closeModal = () => {
 							class="flex flex-col items-center translate-x-1/2"
 						>
 							<div class="border-l-2 h-4"></div>
-							<div>
+							<div class="flex flex-col items-center">
 								<button
 									@click="findHeirarchyPath('staff', staff)"
 									class="text-sm font-medium"
@@ -114,7 +117,25 @@ const closeModal = () => {
 						</div>
 						<div v-else class="flex flex-col items-center">
 							<div class="border-l-2 h-4"></div>
-							<div>
+							<div class="flex flex-col items-center">
+								<button
+									@click="findHeirarchyPath('staff', staff)"
+									class="text-sm font-medium"
+								>
+									{{ staff }}
+								</button>
+								<p class="text-xs italic">
+									[&nbsp;staff-{{ index + 1 }}&nbsp;]
+								</p>
+							</div>
+						</div>
+					</li>
+				</ul>
+				<ul v-else class="flex gap-3 border-txtColor">
+					<li v-for="(staff, index) in props.staffs">
+						<div class="flex flex-col items-center">
+							<div class="border-l-2 h-4"></div>
+							<div class="flex flex-col items-center">
 								<button
 									@click="findHeirarchyPath('staff', staff)"
 									class="text-sm font-medium"
@@ -165,7 +186,7 @@ const closeModal = () => {
 					>
 						x
 					</button>
-					<PersonnelEditForm />
+					<PersonnelEditForm :close-modal="closeModal" />
 				</div>
 			</dialog>
 		</div>

@@ -9,27 +9,27 @@ import SignupFormCredential from "@/components/SignupFormCredential.vue";
 import { useAlertStore } from "@/stores/alert";
 import { storeToRefs } from "pinia";
 import { useRouter } from "vue-router";
-import type { Address, Personnels } from "@/stores/user";
+import type { TAddress, TPersonnels } from "@/stores/user";
 // const currentStep = ref("
 const currentStep = ref(1);
 const router = useRouter();
 
 const formData = ref<{
 	org: CredentialType | null;
-	address: Address | null;
-	personnels: Personnels | null;
+	address: TAddress | null;
+	personnels: TPersonnels | null;
 }>({ org: null, address: null, personnels: null });
 
 const updateCredential = (val: CredentialType) => {
 	console.log("update credential");
 	formData.value.org = val;
 };
-const updateAddress = (val: Address) => {
+const updateAddress = (val: TAddress) => {
 	console.log("update address");
 	// transform pin string to number before request
 	formData.value.address = { ...val, pin: Number(val.pin) };
 };
-const updatePersonnels = (val: Personnels) => {
+const updatePersonnels = (val: TPersonnels) => {
 	console.log("update personnel");
 	formData.value.personnels = val;
 	formSubmit();

@@ -30,10 +30,9 @@ watchEffect(() => {
 				srcset=""
 				width="50"
 		/></RouterLink>
-		<!-- <div class="flex gap-6"> -->
 		<ThemeToggler @trackDarken="themeEventHandler" />
 
-		<div v-if="isAuthenticated()" class="flex items-center">
+		<div v-if="isAuthenticated()" class="flex items-center gap-2">
 			<CreateEventButton
 				v-if="!$route.path?.toString().includes('event/create')"
 			/>
@@ -43,7 +42,6 @@ watchEffect(() => {
 		<RouterLink v-else to="/login" class="btn btn-sm btn-primary rounded-sm"
 			><span class="">Login</span></RouterLink
 		>
-		<!-- </div> -->
 	</header>
 </template>
 

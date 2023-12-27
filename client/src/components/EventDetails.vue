@@ -22,14 +22,14 @@ const props = defineProps({
 });
 </script>
 <template>
-	<div v-if="isLoading">
-		<span class="loading loading-spinner loading-lg"></span>
+	<div v-if="isLoading" class="w-full flex justify-center">
+		<span class="loading loading-spinner loading-md"></span>
 	</div>
 	<div
 		v-else
 		class="w-full h-max border border-primary-content/5 shadow-lg p-4 flex flex-col gap-1"
 	>
-		<img :src="props.imgUrl" alt="" class="w-full" />
+		<img :src="props.imgUrl" alt="" class="w-full object-cover mb-4" />
 		<div>
 			<h2 class="text-lg">{{ props.title }}</h2>
 		</div>
