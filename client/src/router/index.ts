@@ -30,12 +30,12 @@ const router = createRouter({
 					props: { someProp: "someProp-xx" },
 					meta: { requiresAuth: false },
 				},
-				{
-					path: "/profile/:userId",
-					name: "profile-public",
-					component: () => import("../views/ProfileView.vue"),
-					meta: { requiresAuth: false },
-				},
+				// {
+				// 	path: "/profile/:userId",
+				// 	name: "profile-public",
+				// 	component: () => import("../views/ProfileView.vue"),
+				// 	meta: { requiresAuth: false },
+				// },
 				{
 					path: "/event/:eventId",
 					name: "event-public",

@@ -26,7 +26,7 @@ const {
 const { isLoading } = storeToRefs(alertStore);
 
 const submit = async () => {
-	console.log("loggin");
+	// console.log("loggin");
 	setSuccessMsg("");
 	resetErrorMsg();
 	const url = `${baseUrl}/auth/login`;
@@ -66,6 +66,7 @@ const submit = async () => {
 			router.push({ path: "/user" });
 		}
 	} catch (error) {
+		setErrorMsg("could not login. retry!");
 	} finally {
 		setIsLoading(false);
 	}

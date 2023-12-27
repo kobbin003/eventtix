@@ -6,7 +6,7 @@ const alertStore = useAlertStore();
 const { successMsg, errorMsgs } = storeToRefs(alertStore);
 </script>
 <template>
-	<div class="w-full fixed z-50 flex justify-center top-6">
+	<div class="fixed left-1/2 -translate-x-2/4 z-50 flex justify-center top-6">
 		<div v-if="successMsg">
 			<div
 				role="alert"
