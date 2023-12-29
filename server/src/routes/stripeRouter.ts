@@ -9,6 +9,9 @@ import { createPrice } from "../controller/stripe/createPrice";
 import { createCheckoutSession } from "../controller/stripe/createCheckoutSession";
 import { getConnectedAccount } from "../controller/stripe/getConnectedAccount";
 import { agreement } from "../controller/stripe/agreement";
+import { getPaymentDetails } from "../controller/stripe/getPaymentDetails";
+import passport from "passport";
+import { redirectAccountLink } from "../controller/stripe/redirectAccountLink";
 
 // create connected account
 router.post("/account/create", createConnectedAccount);
@@ -27,7 +30,16 @@ router.put("/account/agreement", agreement);
  * after onboarding on stripe:
  * the "details_submitted filed of the connected account will be true"
  */
-router.post("/account/link", createAccountLink);
+router.post(
+	"/account/link",
+	passport.authenticate("jwt", { session: false }),
+	createAccountLink
+);
+// router.get(
+// 	"/account/link/redirect",
+// 	passport.authenticate("jwt", { session: false }),
+// 	redirectAccountLink
+// );
 
 // create product
 router.post("/product", createProduct);
@@ -38,7 +50,7 @@ router.post("/price", createPrice);
 //create checkout session
 router.post("/checkout", createCheckoutSession);
 
-// retrieve a session
+// retrieve a session(checkout)
 router.get("/session/retrieve", async (req, res) => {
 	const sessionId = req.query.sessionId as string;
 	try {
@@ -49,5 +61,14 @@ router.get("/session/retrieve", async (req, res) => {
 	}
 });
 // This is your Stripe CLI webhook secret for testing your endpoint locally.
+
+/* ------------------------ payment model ------------------------ */
+
+// get current user's payment model data
+router.get(
+	"/payment",
+	passport.authenticate("jwt", { session: false }),
+	getPaymentDetails
+);
 
 export { router as stripeRouter };

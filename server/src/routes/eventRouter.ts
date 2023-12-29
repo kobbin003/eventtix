@@ -11,7 +11,7 @@ const router = express.Router();
 
 // PRIVATE
 // create event
-// query: orgId
+// query: ,
 router.post(
 	"/create",
 	passport.authenticate("jwt", { session: false }),
@@ -36,7 +36,7 @@ router.delete(
 
 // PRIVATE
 // get users events
-// query: orgId
+// query:
 router.get("/", passport.authenticate("jwt", { session: false }), getOrgEvents);
 
 // PUBLIC

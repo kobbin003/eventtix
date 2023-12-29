@@ -9,6 +9,8 @@ export const EventSchema = z
 		time: z.date(),
 		ticketType: z.enum(["paid", "free"]),
 		ticketPrice: z.number().optional(),
+		priceId: z.string().optional(),
+		productId: z.string().optional(),
 	})
 	.refine(
 		(data) => {

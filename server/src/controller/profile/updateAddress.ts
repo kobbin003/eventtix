@@ -45,6 +45,9 @@ export const updateAddress = async (
 						update: { addressLine1, addressLine2, pin, state },
 					},
 				},
+				select: {
+					address: true,
+				},
 			});
 
 			if (updatedAddressOrg) {

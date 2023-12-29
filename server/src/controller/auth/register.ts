@@ -73,7 +73,7 @@ export const register = async (
 					addressLine2,
 					state,
 					pin,
-					Org: { connect: { id: account.id } },
+					org: { connect: { id: account.id } },
 				},
 			});
 
@@ -83,7 +83,7 @@ export const register = async (
 					principal,
 					vicePrincipal,
 					staffs,
-					Org: { connect: { id: account.id } },
+					org: { connect: { id: account.id } },
 				},
 			});
 

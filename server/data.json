@@ -1,0 +1,120 @@
+{
+	"id": "acct_1OPKAHSDFijRGVln",
+	"object": "account",
+	"business_profile": {
+		"mcc": null,
+		"name": "my company",
+		"support_address": null,
+		"support_email": null,
+		"support_phone": null,
+		"support_url": null,
+		"url": null
+	},
+	"capabilities": {},
+	"charges_enabled": false,
+	"controller": {
+		"is_controller": true,
+		"type": "application"
+	},
+	"country": "IN",
+	"created": 1703057165,
+	"default_currency": "inr",
+	"details_submitted": false,
+	"email": "trial@k.co",
+	"external_accounts": {
+		"object": "list",
+		"data": [],
+		"has_more": false,
+		"total_count": 0,
+		"url": "/v1/accounts/acct_1OPKAHSDFijRGVln/external_accounts"
+	},
+	"future_requirements": {
+		"alternatives": [],
+		"current_deadline": null,
+		"currently_due": [],
+		"disabled_reason": null,
+		"errors": [],
+		"eventually_due": [],
+		"past_due": [],
+		"pending_verification": []
+	},
+	"metadata": {},
+	"payouts_enabled": false,
+	"requirements": {
+		"alternatives": [],
+		"current_deadline": null,
+		"currently_due": [
+			"business_profile.product_description",
+			"business_profile.support_phone",
+			"business_profile.url",
+			"external_account",
+			"tos_acceptance.date",
+			"tos_acceptance.ip"
+		],
+		"disabled_reason": "requirements.past_due",
+		"errors": [],
+		"eventually_due": [
+			"business_profile.product_description",
+			"business_profile.support_phone",
+			"business_profile.url",
+			"external_account",
+			"tos_acceptance.date",
+			"tos_acceptance.ip"
+		],
+		"past_due": [
+			"external_account",
+			"tos_acceptance.date",
+			"tos_acceptance.ip"
+		],
+		"pending_verification": []
+	},
+	"settings": {
+		"bacs_debit_payments": {
+			"display_name": null,
+			"service_user_number": null
+		},
+		"branding": {
+			"icon": null,
+			"logo": null,
+			"primary_color": null,
+			"secondary_color": null
+		},
+		"card_issuing": {
+			"tos_acceptance": {
+				"date": null,
+				"ip": null
+			}
+		},
+		"card_payments": {
+			"decline_on": {
+				"avs_failure": false,
+				"cvc_failure": false
+			},
+			"statement_descriptor_prefix": null,
+			"statement_descriptor_prefix_kana": null,
+			"statement_descriptor_prefix_kanji": null
+		},
+		"dashboard": {
+			"display_name": null,
+			"timezone": "Etc/UTC"
+		},
+		"payments": {
+			"statement_descriptor": null,
+			"statement_descriptor_kana": null,
+			"statement_descriptor_kanji": null
+		},
+		"payouts": {
+			"debit_negative_balances": true,
+			"schedule": {
+				"delay_days": 5,
+				"interval": "daily"
+			},
+			"statement_descriptor": null
+		},
+		"sepa_debit_payments": {}
+	},
+	"tos_acceptance": {
+		"date": null
+	},
+	"type": "standard"
+}

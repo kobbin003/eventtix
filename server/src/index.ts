@@ -13,6 +13,7 @@ import { stripeRouter } from "./routes/stripeRouter.js";
 import { stripeWebhookController } from "./controller/stripe/stripeWebhookController.js";
 import cors from "cors";
 import Stripe from "stripe";
+import { cloudinaryRouter } from "./routes/cloudinaryRouter.js";
 
 const app = express();
 
@@ -69,6 +70,8 @@ app.use("/profile", profileRouter);
 app.use("/event", eventRouter);
 
 app.use("/stripe", stripeRouter);
+
+app.use("/cloudinary", cloudinaryRouter);
 
 /** 404 route handling middleware */
 app.use((req, res, next) => {

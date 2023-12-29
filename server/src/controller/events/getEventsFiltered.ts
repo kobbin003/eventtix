@@ -3,6 +3,7 @@ import { getEventsByLocation } from "../../service/event/getEventsByLocation";
 import { getEventsByOrgName } from "../../service/event/getEventsByOrgName";
 import { EventFilterQueriesSchema } from "../../zodSchema/EventFilterSchema";
 import { getEventsByDate } from "../../service/event/getEventsByDate";
+import { getEvents } from "./getEvents";
 
 export const getEventsFiltered = async (
 	req: Request,
@@ -45,8 +46,9 @@ export const getEventsFiltered = async (
 			} else if (day) {
 				events = await getEventsByDate(day, Number(skip), Number(take));
 			} else {
-				res.status(400);
-				next(new Error("Bad request"));
+				// res.status(400);
+				// next(new Error("Bad request"));
+				events = await getEvents(Number(skip), Number(take));
 			}
 
 			res.status(200).json(events);

@@ -8,11 +8,16 @@ import { updatePersonnelsByField } from "../controller/profile/updatePersonnelBy
 import { getCurrentOrgAddress } from "../controller/profile/getCurrentOrgAddress";
 import { getCurrentOrgPersonnels } from "../controller/profile/getCurrentOrgPersonnels";
 import { getCurrentOrgProfile } from "../controller/profile/getCurrentOrgProfile";
+import { getPersonnelsAddressByOrgId } from "../controller/profile/getPersonnelsAddressByOrgId";
 const router = express.Router();
 
 // PUBLIC
 // get profile by id
 router.get("/org/:orgId", getOrgProfile);
+
+// PUBLIC
+// get personnels by orgId
+router.get("/org/:orgId/addNpers", getPersonnelsAddressByOrgId);
 
 // PRIVATE
 // get current org profile
@@ -58,7 +63,7 @@ router.put(
 // PRIVATE
 // update personnels
 router.put(
-	"/personnel",
+	"/personnels",
 	passport.authenticate("jwt", { session: false }),
 	updatePersonnels
 );

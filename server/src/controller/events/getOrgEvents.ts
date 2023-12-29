@@ -14,6 +14,9 @@ export const getOrgEvents = async (
 			where: {
 				orgId,
 			},
+			orderBy: {
+				time: "desc",
+			},
 		});
 
 		if (events.length == 0) {

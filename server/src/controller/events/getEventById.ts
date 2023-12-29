@@ -13,6 +13,16 @@ export const getEventById = async (
 			where: {
 				id: eventId,
 			},
+			include: {
+				org: {
+					// select: { id: true, name: true },
+					include: {
+						payment: {
+							select: { connectedAccId: true, detailsSubmitted: true },
+						},
+					},
+				},
+			},
 		});
 
 		if (!event) {

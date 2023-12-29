@@ -16,6 +16,16 @@ export const getEventsByOrgName = async (
 			skip: offset,
 			take: limit,
 			where: { orgId: { in: orgIds } },
+			include: {
+				org: {
+					// select: { id: true, name: true },
+					include: {
+						payment: {
+							select: { connectedAccId: true, detailsSubmitted: true },
+						},
+					},
+				},
+			},
 		});
 
 		if (events.length == 0) {

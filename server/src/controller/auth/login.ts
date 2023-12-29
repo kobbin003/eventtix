@@ -26,7 +26,10 @@ export const login = async (
 			const { email, password } = result.data;
 
 			//* find user with the email
-			const foundOrg = await prisma.org.findUnique({ where: { email } });
+			const foundOrg = await prisma.org.findUnique({
+				where: { email },
+				include: { payment: true, address: true, personnels: true },
+			});
 			if (!foundOrg) {
 				res.status(404);
 				next(new Error("user with this email does not exist"));

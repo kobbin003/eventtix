@@ -31,6 +31,7 @@ export const updatePersonnels = async (
 			const updatedPersonnelOrg = await prisma.org.update({
 				where: { id: orgId },
 				data: { personnels: { update: { principal, vicePrincipal, staffs } } },
+				select: { personnels: true },
 			});
 
 			if (updatedPersonnelOrg) {

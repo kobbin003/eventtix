@@ -10,5 +10,4 @@ export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
 			stack: isProduction ? null : err.stack,
 		},
 	});
-	next();
 };

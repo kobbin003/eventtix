@@ -1,22 +1,27 @@
 import { NextFunction, Request, Response } from "express";
-import { Org } from "../../types/Org";
 import { prisma } from "../..";
 
-export const getCurrentOrgProfile = async (
+export const getPersonnelsAddressByOrgId = async (
 	req: Request,
 	res: Response,
 	next: NextFunction
 ) => {
 	try {
-		const currentOrg = req.user as Org;
-		const id = currentOrg.id;
+		const orgId = req.params.orgId;
+
 		const org = await prisma.org.findUnique({
-			where: { id },
-			include: { payment: true },
+			where: { id: orgId },
+			select: {
+				name: true,
+				email: true,
+				address: true,
+				personnels: true,
+			},
 		});
+
 		if (!org) {
 			res.status(404);
-			next(new Error("org not found"));
+			throw new Error("Not found!");
 		}
 		res.status(200).json(org);
 	} catch (error) {

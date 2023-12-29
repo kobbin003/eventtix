@@ -1,17 +1,12 @@
 import { prisma } from "../..";
 
-export const getEventsByLocation = async (
-	location: string,
-	offset: number,
-	limit: number
-) => {
+export const getEvents = async (offset: number, limit: number) => {
 	try {
 		const events = await prisma.event.findMany({
 			skip: offset,
 			take: limit,
-			where: {
-				location: { contains: location },
-			},
+			orderBy: { time: "desc" },
+			/** cannot use id and name at the same time */
 			include: {
 				org: {
 					// select: { id: true, name: true },

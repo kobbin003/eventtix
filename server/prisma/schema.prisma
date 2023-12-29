@@ -22,7 +22,15 @@ model Org {
   updatedAt    DateTime    @updatedAt
   address      Address?    @relation(fields: [addressId], references: [id])
   addressId    String?     @unique
-  Account      Account?
+  payment      Payment?
+}
+
+model Payment {
+  id               String  @id @default(uuid())
+  org              Org?    @relation(fields: [orgId], references: [id])
+  orgId            String? @unique
+  connectedAccId   String  @unique
+  detailsSubmitted Boolean @default(false)
 }
 
 model Address {
@@ -34,7 +42,7 @@ model Address {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
   buyer        Buyer?
-  Org          Org?
+  org          Org?
 }
 
 model Personnels {
@@ -44,7 +52,7 @@ model Personnels {
   staffs        String[]
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
-  Org           Org?
+  org           Org?
 }
 
 model Event {
@@ -56,12 +64,16 @@ model Event {
   time        DateTime
   ticketType  TicketType
   ticketPrice Int
-  Org         Org        @relation(fields: [orgId], references: [id])
+  org         Org        @relation(fields: [orgId], references: [id])
   orgId       String
   buyers      Buyer[]
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
+  productId   String?
+  priceId     String?
 }
+
+// productId and priceId: for stripe
 
 enum TicketType {
   free
@@ -70,7 +82,7 @@ enum TicketType {
 
 model Buyer {
   id        String   @id @default(uuid())
-  Event     Event    @relation(fields: [eventId], references: [id])
+  event     Event    @relation(fields: [eventId], references: [id])
   eventId   String
   name      String
   email     String
@@ -78,14 +90,6 @@ model Buyer {
   updatedAt DateTime @updatedAt
   address   Address  @relation(fields: [addressId], references: [id])
   addressId String   @unique
-}
-
-model Account {
-  id          String  @id @default(uuid())
-  org         Org?    @relation(fields: [orgId], references: [id])
-  email       String
-  orgId       String? @unique
-  cardPayment Boolean
 }
 
 model Example {
