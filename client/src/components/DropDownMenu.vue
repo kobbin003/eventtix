@@ -28,6 +28,13 @@
 				</li>
 				<li>
 					<RouterLink
+						to="/user/profile/payment"
+						class="rounded-sm bg-transparent shadow-none border-none"
+						><span class="">Payment</span></RouterLink
+					>
+				</li>
+				<li>
+					<RouterLink
 						to="/"
 						class="rounded-sm bg-transparent shadow-none border-none"
 						><span class="" @click="removeAuth">Logout</span></RouterLink

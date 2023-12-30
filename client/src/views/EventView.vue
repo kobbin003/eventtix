@@ -1,11 +1,14 @@
 <script setup lang="ts">
-import type { TEvent } from "@/components/CreateEventForm.vue";
+import type { TEvent, TFetchEvent } from "@/components/CreateEventForm.vue";
+import TicketCheckout from "@/components/TicketCheckout.vue";
 import { useFetch } from "@/hooks/useFetch";
 import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 const baseUrl = import.meta.env.VITE_BASE_URL;
 const route = useRoute();
-const eventData = ref<TEvent & { id: string; orgId: string }>({
+const eventData = ref<
+	TEvent & { id: string; orgId: string; connectedAccId?: string }
+>({
 	id: "",
 	title: "",
 	desc: "",
@@ -21,7 +24,8 @@ onMounted(async () => {
 	const { data, error } = await useFetch(url, fetch);
 	// console.log("data", data);
 	if (data) {
-		const fetchedData = data as TEvent & { orgId: string; id: string };
+		const fetchedData = data as TFetchEvent;
+		// console.log("fetchedData", fetchedData);
 		eventData.value.id = fetchedData.id;
 		eventData.value.title = fetchedData.title;
 		eventData.value.desc = fetchedData.desc;
@@ -31,7 +35,14 @@ onMounted(async () => {
 		eventData.value.orgId = fetchedData.orgId;
 		eventData.value.ticketType = fetchedData.ticketType;
 		eventData.value.ticketPrice = fetchedData.ticketPrice;
+		//
+		eventData.value.priceId = fetchedData.priceId;
+		eventData.value.connectedAccId = fetchedData.org.payment.connectedAccId;
+		// if (fetchedData.payment) {
+		// 	console.log("payment is there", fetchedData.payment);
+		// }
 	}
+	// console.log("eventData", eventData.value);
 });
 </script>
 <template>
@@ -50,11 +61,23 @@ onMounted(async () => {
 				:organiser="eventData.orgId"
 			/>
 		</div>
-		<div
-			class="flex flex-col w-screen md:w-1/2 p-2 border border-primary-content/5 shadow-lg"
-		>
-			<h2 class="p-2 text-xl text-info">Organiser details</h2>
-			<SchoolDetails v-if="eventData.orgId" :orgId="eventData.orgId" />
+		<div class="flex flex-col gap-2 w-screen md:w-1/2">
+			<!-- <TicketCheckout /> -->
+			<TicketCheckout
+				v-if="
+					eventData.connectedAccId && eventData.priceId && eventData.ticketPrice
+				"
+				:connected-acc-id="eventData.connectedAccId"
+				:price-id="eventData.priceId"
+				:ticket-price="eventData.ticketPrice"
+			/>
+			<div v-else>
+				<p class="bg-red-400 p-3 rounded-sm">Cannot buy this event's ticket</p>
+			</div>
+			<div class="flex flex-col p-2 border border-primary-content/5 shadow-lg">
+				<h2 class="p-2 text-xl text-info">Organiser details</h2>
+				<SchoolDetails v-if="eventData.orgId" :orgId="eventData.orgId" />
+			</div>
 		</div>
 	</div>
 </template>

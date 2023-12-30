@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { format, isBefore } from "date-fns";
+import { baseUrl } from "@/utils/constants";
+import { useFetch } from "@/hooks/useFetch";
+import router from "@/router";
 const props = defineProps({
 	id: { type: String, required: true },
 	title: { type: String, required: true },
@@ -14,10 +17,9 @@ const props = defineProps({
 		validator: (val) => val == "free" || val == "paid",
 	},
 	ticketPrice: { type: Number },
+	priceId: { type: String },
+	// connectedAccId: { type: String, required: true },
 });
-
-const eventBelongsToUser = ref(true);
-const eventId = ref(123);
 
 /** date segmentation */
 const date = props.eventTime;
@@ -28,6 +30,10 @@ if (isBefore(props.eventTime, new Date())) {
 	console.log(`oudated:${props.title}`);
 	eventDone.value = true;
 }
+
+const buyTicket = async () => {
+	router.push({ path: `/event/${props.id}` });
+};
 </script>
 <template>
 	<div
@@ -53,8 +59,6 @@ if (isBefore(props.eventTime, new Date())) {
 				class="border-2 rounded-sm h-[60vh] md:h-[30vh] w-full md:w-1/3 min-h-[200px] min-w-[200px]"
 			>
 				<RouterLink :to="`/event/${props.id}`">
-					<!-- class="w-full md:h-full md:w-full min-w-[150px] bg-blue-600" -->
-					<!-- class="w-full h-full md:w-full md:h-full border-2 border-blue-600" -->
 					<img
 						:src="$props.imgUrl"
 						alt="poster"
@@ -64,7 +68,7 @@ if (isBefore(props.eventTime, new Date())) {
 			</div>
 			<div
 				v-else
-				class="border-2 h-[60vh] md:h-[35vh] w-full md:w-1/3 min-h-[200px] min-w-[200px]"
+				class="border-2 rounded-sm h-[60vh] md:h-[30vh] w-full md:w-1/3 min-h-[200px] min-w-[200px]"
 			>
 				<img
 					:src="$props.imgUrl"
@@ -72,33 +76,36 @@ if (isBefore(props.eventTime, new Date())) {
 					class="h-full w-full object-cover"
 				/>
 			</div>
-			<div class="flex flex-col gap-3">
-				<div>
-					<RouterLink v-if="!eventDone" :to="`/event/${props.id}`">
-						<h6>
-							<b>Title&nbsp;:&nbsp;{{ props.title }}</b>
-						</h6>
-					</RouterLink>
-					<div v-else>
-						<h6>
-							<b>Title&nbsp;:&nbsp;{{ props.title }}</b>
-						</h6>
-					</div>
-				</div>
-				<p class="">Description&nbsp;:&nbsp;{{ props.desc }}</p>
-				<div>
+			<div class="flex flex-col justify-between gap-2 md:pb-2">
+				<div class="flex flex-col gap-2 pb-2 md:pb-0">
 					<div>
-						<p>Organiser&nbsp;:&nbsp;self</p>
+						<RouterLink v-if="!eventDone" :to="`/event/${props.id}`">
+							<p class="text-xl">{{ props.title }}</p>
+						</RouterLink>
+						<div v-else>
+							<p class="text-xl">{{ props.title }}</p>
+						</div>
 					</div>
+					<p class="text-sm">{{ props.desc }}</p>
 				</div>
-				<p>Location&nbsp;:&nbsp;{{ props.location }}</p>
-				<div class="flex">
-					price&nbsp;:&nbsp;
-					<p v-if="$props.ticketType === 'free'">free</p>
-					<p v-else>
-						Rs <span class="text-green-400">{{ props.ticketPrice }}</span
-						>/-
-					</p>
+				<div class="flex flex-col gap-1 md:gap-2">
+					<div class="flex items-center gap-2">
+						<IconSchool />
+						<p>{{ props.organiser }}</p>
+					</div>
+					<div class="flex items-center gap-2">
+						<IconLocation />
+						<p>{{ props.location }}</p>
+					</div>
+					<div class="flex items-center gap-2">
+						<IconFee />
+
+						<p v-if="$props.ticketType === 'free'">free</p>
+						<p v-else>
+							Rs <span class="text-green-400">{{ props.ticketPrice }}</span
+							>/-
+						</p>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -117,11 +124,15 @@ if (isBefore(props.eventTime, new Date())) {
 				<p
 					v-if="props.ticketType == 'free'"
 					name="free-card"
-					class="border px-3 py-3 bg-yellow-400 rounded-sm md:hidden w-max"
+					class="border px-3 py-3 bg-[#29BA53] rounded-sm md:hidden w-max"
 				>
-					<span class="text-base font-medium text-black">Free</span>
+					<span class="text-base font-normal text-white">Free</span>
 				</p>
-				<button v-else class="btn btn-md btn-secondary rounded-sm md:hidden">
+				<button
+					@click="buyTicket"
+					v-else
+					class="btn btn-md btn-accent rounded-sm md:hidden font-normal"
+				>
 					Buy Ticket
 				</button>
 			</div>
@@ -135,13 +146,14 @@ if (isBefore(props.eventTime, new Date())) {
 			<p
 				v-if="props.ticketType == 'free'"
 				name="free-card"
-				class="border px-4 py-1 bg-yellow-400 rounded-sm hidden md:block w-max"
+				class="border px-4 py-1 bg-[#29BA53] rounded-sm hidden md:block w-max"
 			>
-				<span class="text-base font-medium text-black">Free</span>
+				<span class="text-base font-normal text-white">Free</span>
 			</p>
 			<button
 				v-else
-				class="btn btn-sm btn-secondary rounded-sm hidden md:block"
+				class="btn btn-sm btn-accent rounded-sm hidden md:block font-normal"
+				@click="buyTicket"
 			>
 				Buy Ticket
 			</button>

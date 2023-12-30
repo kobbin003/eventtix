@@ -1,7 +1,13 @@
 <script setup lang="ts">
 import { useFetch } from "@/hooks/useFetch";
 import { useUserStore, type TAddress, type TPersonnels } from "@/stores/user";
-import { baseUrl, isLoading, updateUser, user } from "@/utils/constants";
+import {
+	baseUrl,
+	isLoading,
+	updateAddress,
+	updatePersonnels,
+	user,
+} from "@/utils/constants";
 import { storeToRefs } from "pinia";
 import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
@@ -54,10 +60,12 @@ onMounted(async () => {
 
 					// then update user-store's address and personnels
 
-					updateUser({
-						address: fetchedData.address,
-						personnels: fetchedData.personnels,
-					});
+					// updateUser({
+					// 	address: fetchedData.address,
+					// 	personnels: fetchedData.personnels,
+					// });
+					updateAddress(data.address);
+					updatePersonnels(data.personnels);
 				}
 			}
 		}
@@ -76,10 +84,12 @@ onMounted(async () => {
 
 				// then update user-store's address and personnels
 
-				updateUser({
-					address: fetchedData.address,
-					personnels: fetchedData.personnels,
-				});
+				// updateUser({
+				// 	address: fetchedData.address,
+				// 	personnels: fetchedData.personnels,
+				// });
+				updateAddress(data.address);
+				updatePersonnels(data.personnels);
 			}
 		}
 	}

@@ -23,7 +23,7 @@ const {
 	resetErrorMsg,
 } = alertStore;
 
-const eventData = ref<TEvent>({
+const eventData = ref<Partial<TEvent>>({
 	title: "",
 	desc: "",
 	imageUrl: "",
@@ -196,6 +196,9 @@ onMounted(async () => {
 		timeString.value = format(fetchedData.time, "HH:mm");
 		eventData.value.ticketType = fetchedData.ticketType;
 		eventData.value.ticketPrice = fetchedData.ticketPrice;
+
+		eventData.value.priceId = fetchedData.priceId;
+		eventData.value.productId = fetchedData.productId;
 	}
 	eventTitle.value = eventData.value.title;
 });

@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import SearchForm from "@/components/SearchForm.vue";
-import image from "@/assets/zfm.jpeg";
 import { onBeforeMount, ref } from "vue";
 import type { TEvent } from "./CreateEventForm.vue";
 import { useFetch } from "@/hooks/useFetch";
@@ -11,7 +10,14 @@ const { isLoading } = storeToRefs(useAlertStore());
 const steps = 1;
 const offset = ref(0);
 const limit = ref(steps);
-type TFetchedEvent = { id: string; orgId: string } & TEvent;
+type TFetchedEvent = {
+	id: string;
+	orgId: string;
+	org: {
+		name: string;
+		payment: { connectedAccId: string; detailsSubmitted: boolean };
+	};
+} & TEvent;
 const allEvents = ref<Array<TFetchedEvent>>([]);
 const baseUrl = import.meta.env.VITE_BASE_URL;
 const accessToken = localStorage.getItem("accessToken");
@@ -61,7 +67,7 @@ onBeforeMount(async () => {
 						:title="event.title"
 						:desc="event.desc"
 						:imgUrl="event.imageUrl"
-						:organiser="event.orgId"
+						:organiser="event.org.name"
 						:location="event.location"
 						:eventTime="event.time"
 						:ticketType="event.ticketType"

@@ -14,9 +14,9 @@ const themeEventHandler = (arg: boolean) => {
 	darkenFromThemeToggler.value = arg;
 };
 
-watchEffect(() => {
-	console.log(route.path);
-});
+// watchEffect(() => {
+// 	console.log(route.path);
+// });
 </script>
 
 <template>

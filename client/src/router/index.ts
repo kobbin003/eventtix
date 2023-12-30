@@ -74,6 +74,11 @@ const router = createRouter({
 							component: () => import("../views/ProfileView.vue"),
 						},
 						{
+							path: "payment",
+							name: "payment",
+							component: () => import("../views/PaymentView.vue"),
+						},
+						{
 							path: "events",
 							name: "userEvents",
 							// the event li should have edit button
@@ -83,7 +88,18 @@ const router = createRouter({
 				},
 			],
 		},
-
+		{
+			path: "/payment/success",
+			name: "paymentSuccess",
+			component: () => import("../views/PaymentSuccess.vue"),
+			meta: { requiresAuth: true },
+		},
+		{
+			path: "/payment/failure/:eventId",
+			name: "paymentFailure",
+			component: () => import("../views/PaymentFailure.vue"),
+			meta: { requiresAuth: true },
+		},
 		{
 			path: "/:catchAll(.*)",
 			name: "notfound",

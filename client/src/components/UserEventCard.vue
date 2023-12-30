@@ -26,7 +26,7 @@ const formattedDate = format(date, "MMM/dd/yyyy");
 /** instead of getting eventDone props check if the event's time is less than the current time */
 const eventDone = ref(false);
 if (isBefore(props.eventTime, new Date())) {
-	console.log(`oudated:${props.title}`);
+	// console.log(`oudated:${props.title}`);
 	eventDone.value = true;
 }
 </script>
@@ -65,7 +65,7 @@ if (isBefore(props.eventTime, new Date())) {
 			</div>
 			<div
 				v-else
-				class="border-2 h-[60vh] md:h-[35vh] w-full md:w-1/3 min-h-[200px] min-w-[200px]"
+				class="border-2 rounded-sm h-[60vh] md:h-[30vh] w-full md:w-1/3 min-h-[200px] min-w-[200px]"
 			>
 				<img
 					:src="$props.imgUrl"
@@ -73,7 +73,39 @@ if (isBefore(props.eventTime, new Date())) {
 					class="h-full w-full object-cover"
 				/>
 			</div>
-			<div class="flex flex-col gap-2">
+			<div class="flex flex-col justify-between gap-2 md:pb-2">
+				<div class="flex flex-col gap-2">
+					<div>
+						<RouterLink v-if="!eventDone" :to="`/event/${props.id}`">
+							<p class="text-xl">{{ props.title }}</p>
+						</RouterLink>
+						<div v-else>
+							<p class="text-xl">{{ props.title }}</p>
+						</div>
+					</div>
+					<p class="">{{ props.desc }}</p>
+				</div>
+				<div class="flex flex-col gap-2">
+					<div class="flex items-center gap-2">
+						<IconSchool />
+						<p>{{ props.organiser }}</p>
+					</div>
+					<div class="flex items-center gap-2">
+						<IconLocation />
+						<p>{{ props.location }}</p>
+					</div>
+					<div class="flex items-center gap-2">
+						<IconFee />
+
+						<p v-if="$props.ticketType === 'free'">free</p>
+						<p v-else>
+							Rs <span class="text-green-400">{{ props.ticketPrice }}</span
+							>/-
+						</p>
+					</div>
+				</div>
+			</div>
+			<!-- <div class="flex flex-col gap-2">
 				<div>
 					<RouterLink v-if="!eventDone" :to="`/event/${props.id}`">
 						<h6>
@@ -101,7 +133,7 @@ if (isBefore(props.eventTime, new Date())) {
 						>/-
 					</p>
 				</div>
-			</div>
+			</div> -->
 		</div>
 		<div
 			class="flex justify-between items-end md:justify-center md:items-start"

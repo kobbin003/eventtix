@@ -26,8 +26,18 @@ export type TEvent = {
 	imageUrl: string;
 	location: string;
 	time: string; //"2023-12-14T10:34:37.712Z"
-	ticketPrice?: string;
+	ticketPrice?: number;
 	ticketType: "paid" | "free";
+	priceId?: string; // new
+	productId?: string; // new
+};
+export type TFetchEvent = TEvent & {
+	id: string;
+	orgId: string;
+	org: {
+		name: string;
+		payment: { connectedAccId: string; detailsSubmitted: boolean };
+	};
 };
 const eventData = ref<TEvent>({
 	title: "",
@@ -87,7 +97,7 @@ async function submitEvent(e: Event) {
 				};
 				const res = await fetch(url, opts);
 				if (!res.ok) {
-					`"could not create event. Please retry!"`;
+					setErrorMsg("could not create event. Please retry!");
 				}
 				const data = await res.json();
 				// console.log("data", data);

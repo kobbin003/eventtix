@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { ref, watch, watchEffect } from "vue";
+import { ref } from "vue";
 import { useRouter } from "vue-router";
 import logoLightUrl from "@/assets/logo_light.png";
 import { isAuthenticated } from "@/router";
-import type { LoginUser } from "@/stores/user";
+import type { User } from "@/stores/user";
 import { useAlertStore } from "@/stores/alert";
 import { storeToRefs } from "pinia";
-
+import { updatePayment, setUser } from "@/utils/constants";
 const router = useRouter();
 
 const email = ref("");
@@ -56,10 +56,24 @@ const submit = async () => {
 			}
 		}
 		const data = await res.json();
-		const { accessToken } = data as LoginUser;
+		// console.log("login-data", data);
+		const { accessToken, id, name, email, payment } = data as User;
+		// console.log("login", accessToken, payment);
 		if (accessToken) {
 			localStorage.setItem("accessToken", accessToken);
 			setSuccessMsg("logged in!");
+			setUser({
+				accessToken,
+				id,
+				name,
+				email,
+			});
+		}
+		if (payment) {
+			updatePayment({
+				connectedAccId: payment.connectedAccId,
+				detailsSubmitted: payment.detailsSubmitted,
+			});
 		}
 		setIsLoading(false);
 		if (isAuthenticated()) {

@@ -29,23 +29,29 @@ const props = defineProps({
 		v-else
 		class="w-full h-max border border-primary-content/5 shadow-lg p-4 flex flex-col gap-1"
 	>
-		<img :src="props.imgUrl" alt="" class="w-full object-cover mb-4" />
 		<div>
-			<h2 class="text-lg">{{ props.title }}</h2>
-		</div>
-		<div>
-			<p class="text-sm">{{ props.desc }}</p>
-		</div>
-		<div class="flex flex-col gap-1">
-			<p class="flex">
-				<img :src="locationIcon" alt="" height="25" width="25" />
-				<span>{{ props.location }}</span>
-			</p>
-			<div class="flex">
-				<img :src="feeIcon" alt="" height="25" width="25" />
+			<img
+				:src="props.imgUrl"
+				alt=""
+				class="w-full object-fill mb-4 min-h-[500px] max-h-[60vh]"
+			/>
+			<div>
+				<h2 class="text-lg">{{ props.title }}</h2>
+			</div>
+			<div>
+				<p class="text-sm">{{ props.desc }}</p>
+			</div>
+			<div class="flex flex-col gap-1 mt-2">
+				<p class="flex items-center">
+					<IconLocation />
+					<span>{{ props.location }}</span>
+				</p>
+				<div class="flex items-center">
+					<IconFee />
 
-				<p v-if="props.ticketType == 'paid'">{{ props.ticketPrice }}</p>
-				<p v-else>free</p>
+					<p v-if="props.ticketType == 'paid'">{{ props.ticketPrice }}</p>
+					<p v-else>free</p>
+				</div>
 			</div>
 		</div>
 	</div>

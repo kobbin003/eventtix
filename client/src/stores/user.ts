@@ -11,17 +11,16 @@ export const useUserStore = defineStore(
 
 		function setUser(arg: User) {
 			Object.assign(user.value, arg);
+			user.value = arg;
 		}
 
-		function updateUser(arg: Partial<User>) {
-			Object.assign(user.value, { ...user.value, ...arg });
-		}
+		// function updateUser(arg: Partial<User>) {
+		// 	// Object.assign(user.value, { ...user.value, ...arg });
+		// 	user.value = {...user,...arg}
+		// }
 
 		function updateAddress(arg: TAddress) {
-			Object.assign(user, {
-				...user,
-				address: { ...user.value.address, ...arg },
-			});
+			user.value.address = arg;
 		}
 		// function updateAddress(arg: Partial<TAddress>) {
 		// 	Object.assign(user, {
@@ -31,10 +30,10 @@ export const useUserStore = defineStore(
 		// }
 
 		function updatePersonnels(arg: TPersonnels) {
-			Object.assign(user, {
-				...user,
-				personnels: { ...user.value.personnels, ...arg },
-			});
+			user.value.personnels = arg;
+		}
+		function updatePayment(arg: TPayment) {
+			user.value.payment = arg;
 		}
 		// function updatePersonnels(arg: Partial<TPersonnels>) {
 		// 	Object.assign(user, {
@@ -43,7 +42,14 @@ export const useUserStore = defineStore(
 		// 	});
 		// }
 
-		return { user, setUser, updateUser, updateAddress, updatePersonnels };
+		return {
+			user,
+			setUser,
+			// updateUser,
+			updateAddress,
+			updatePersonnels,
+			updatePayment,
+		};
 	},
 	{ persist: true }
 );
@@ -53,18 +59,16 @@ export type Credentials = {
 	name: string;
 	email: string;
 };
-export type LoginUser = Credentials & {
-	accessToken: string;
-	addressId?: string;
-	personnelsId?: string;
-};
+
 export type User = Credentials & {
 	accessToken: string;
 	addressId?: string;
 	personnelsId?: string;
 	address?: TAddress | null;
 	personnels?: TPersonnels | null;
+	payment?: TPayment | null;
 };
+
 export type TAddress = {
 	addressLine1: string;
 	addressLine2: string;
@@ -78,12 +82,13 @@ export type TPersonnels = {
 	staffs: string[];
 };
 
-// const storedUserState = localStorage.getItem('userStore');
-// if (storedUserState) {
-//   useUserStore.$restore(JSON.parse(storedUserState));
-// }
+export type TPayment = {
+	connectedAccId: string;
+	detailsSubmitted: boolean;
+};
 
-// // Watch for changes in the store and update localStorage
-// useUserStore.$subscribe((store) => {
-//   localStorage.setItem('userStore', JSON.stringify(store));
-// });
+// export type LoginUser = Credentials & {
+// 	accessToken: string;
+// 	addressId?: string;
+// 	personnelsId?: string;
+// };
