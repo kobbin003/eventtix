@@ -1,7 +1,4 @@
-<script setup lang="ts">
-// !!fetch on mount current user profile and save it in pinia-store;
-// moved it to login
-</script>
+<script setup lang="ts"></script>
 
 <template>
 	<EventsList />

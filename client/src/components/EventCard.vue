@@ -102,8 +102,8 @@ const buyTicket = async () => {
 
 						<p v-if="$props.ticketType === 'free'">free</p>
 						<p v-else>
-							Rs <span class="text-green-400">{{ props.ticketPrice }}</span
-							>/-
+							<span class="text-xl">{{ props.ticketPrice }}&nbsp;</span>
+							<span>&#x20B9;</span>
 						</p>
 					</div>
 				</div>

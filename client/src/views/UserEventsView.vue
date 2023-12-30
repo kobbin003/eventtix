@@ -41,46 +41,24 @@ onBeforeMount(async () => {
 		>
 			<NoEventsFound />
 		</div>
-		<ul v-else class="py-2 md:py-4">
-			<li v-for="event in userEvents">
-				<UserEventCard
-					:id="event.id"
-					:title="event.title"
-					:desc="event.desc"
-					:imgUrl="event.imageUrl"
-					organiser="demo organise"
-					:location="event.location"
-					:eventTime="event.time"
-					:ticketType="event.ticketType"
-					:ticketPrice="event.ticketPrice"
-				/>
-			</li>
-			<!-- <li v-for="item in [1, 2, 3]">
-			<UserEventCard
-				title="demo title"
-				desc="demo description"
-				:imgUrl="image"
-				organiser="demo organise"
-				location="demo location"
-				:eventTime="new Date()"
-				ticketType="free"
-				:ticketPrice="20"
-			/>
-		</li>
-		<li v-for="item in [1, 2, 3]">
-			<UserEventCard
-				title="demo title"
-				desc="demo description"
-				:imgUrl="image"
-				organiser="demo organise"
-				location="demo location"
-				:eventTime="new Date()"
-				ticketType="free"
-				:ticketPrice="20"
-				eventDone="false"
-			/>
-		</li> -->
-		</ul>
+		<div v-else>
+			<h1 class="text-xl text-primary py-2">Your Events</h1>
+			<ul class="py-2">
+				<li v-for="event in userEvents" :key="event.id">
+					<UserEventCard
+						:id="event.id"
+						:title="event.title"
+						:desc="event.desc"
+						:imgUrl="event.imageUrl"
+						organiser="demo organise"
+						:location="event.location"
+						:eventTime="event.time"
+						:ticketType="event.ticketType"
+						:ticketPrice="event.ticketPrice"
+					/>
+				</li>
+			</ul>
+		</div>
 	</div>
 </template>
 

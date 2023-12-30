@@ -2,7 +2,7 @@
 	<div>
 		<table>
 			<tbody>
-				<tr v-for="items in paymentAccountDetailsArray">
+				<tr v-for="items in paymentAccountDetailsArray" :key="items[0]">
 					<td>{{ items[0] }}</td>
 					<td>{{ items[1] }}</td>
 				</tr>

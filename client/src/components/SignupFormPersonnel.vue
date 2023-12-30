@@ -87,6 +87,7 @@ watchEffect(() => {});
 		<ul id="staffs">
 			<li
 				v-for="(staff, index) in personnel.staffs"
+				:key="index"
 				class="flex justify-between items-center gap-2 bg-base-100 border"
 			>
 				<p class="p-2 rounded-sm">{{ staff }}</p>

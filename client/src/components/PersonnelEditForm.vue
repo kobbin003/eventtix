@@ -129,6 +129,7 @@ onMounted(() => {
 			<ul id="staffs">
 				<li
 					v-for="(staff, index) in personnels.staffs"
+					:key="staff"
 					class="flex justify-between items-center gap-2 bg-base-100 border"
 				>
 					<p class="p-2 rounded-sm">{{ staff }}</p>

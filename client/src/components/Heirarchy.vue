@@ -80,7 +80,7 @@ const closeModal = () => {
 					v-if="props.staffs.length > 1"
 					class="flex gap-3 border-t-2 border-txtColor"
 				>
-					<li v-for="(staff, index) in props.staffs">
+					<li v-for="(staff, index) in props.staffs" :key="staff">
 						<div
 							v-if="index == 0"
 							class="flex flex-col items-center -translate-x-1/2"
@@ -132,7 +132,7 @@ const closeModal = () => {
 					</li>
 				</ul>
 				<ul v-else class="flex gap-3 border-txtColor">
-					<li v-for="(staff, index) in props.staffs">
+					<li v-for="(staff, index) in props.staffs" :key="staff">
 						<div class="flex flex-col items-center">
 							<div class="border-l-2 h-4"></div>
 							<div class="flex flex-col items-center">
@@ -156,7 +156,7 @@ const closeModal = () => {
 			>
 				<span class="text-xs">Heirarchy-path :</span>
 				<ul>
-					<li v-for="item in heirarchyPath">
+					<li v-for="item in heirarchyPath" :key="item">
 						<span class="text-xs">{{ item }}</span>
 					</li>
 				</ul>
@@ -165,7 +165,7 @@ const closeModal = () => {
 		<div class="flex text-sm breadcrumbs pl-2 justify-center">
 			Heirarchy-path&nbsp;:&nbsp;
 			<ul>
-				<li v-for="item in heirarchyPath">
+				<li v-for="item in heirarchyPath" :key="item">
 					{{ item }}
 				</li>
 			</ul>

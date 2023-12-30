@@ -60,30 +60,33 @@ onBeforeMount(async () => {
 			>
 				<NoEventsFound />
 			</div>
-			<ul v-else class="py-2 md:py-4">
-				<li v-for="event in allEvents">
-					<EventCard
-						:id="event.id"
-						:title="event.title"
-						:desc="event.desc"
-						:imgUrl="event.imageUrl"
-						:organiser="event.org.name"
-						:location="event.location"
-						:eventTime="event.time"
-						:ticketType="event.ticketType"
-						:ticketPrice="event.ticketPrice"
-					/>
-				</li>
-				<div class="w-full flex justify-center">
-					<button
-						@click="paginate"
-						class="text-primary hover:scale-105 flex flex-col items-center"
-					>
-						<span>show more</span>
-						<img :src="showMoreUrl" alt="" height="30" width="30" />
-					</button>
-				</div>
-			</ul>
+			<div v-else>
+				<h1 class="text-xl text-primary py-2">Upcoming Events</h1>
+				<ul class="py-2">
+					<li v-for="event in allEvents" :key="event.id">
+						<EventCard
+							:id="event.id"
+							:title="event.title"
+							:desc="event.desc"
+							:imgUrl="event.imageUrl"
+							:organiser="event.org.name"
+							:location="event.location"
+							:eventTime="event.time"
+							:ticketType="event.ticketType"
+							:ticketPrice="event.ticketPrice"
+						/>
+					</li>
+					<div class="w-full flex justify-center">
+						<button
+							@click="paginate"
+							class="text-primary hover:scale-105 flex flex-col items-center"
+						>
+							<span>show more</span>
+							<img :src="showMoreUrl" alt="" height="30" width="30" />
+						</button>
+					</div>
+				</ul>
+			</div>
 		</div>
 	</div>
 </template>

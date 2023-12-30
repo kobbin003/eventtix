@@ -99,41 +99,12 @@ if (isBefore(props.eventTime, new Date())) {
 
 						<p v-if="$props.ticketType === 'free'">free</p>
 						<p v-else>
-							Rs <span class="text-green-400">{{ props.ticketPrice }}</span
-							>/-
+							<span class="text-xl">{{ props.ticketPrice }}&nbsp;</span>
+							<span>&#x20B9;</span>
 						</p>
 					</div>
 				</div>
 			</div>
-			<!-- <div class="flex flex-col gap-2">
-				<div>
-					<RouterLink v-if="!eventDone" :to="`/event/${props.id}`">
-						<h6>
-							<b>Title&nbsp;:&nbsp;{{ props.title }}</b>
-						</h6>
-					</RouterLink>
-					<div v-else>
-						<h6>
-							<b>Title&nbsp;:&nbsp;{{ props.title }}</b>
-						</h6>
-					</div>
-				</div>
-				<p class="">Description&nbsp;:&nbsp;{{ props.desc }}</p>
-				<div>
-					<div>
-						<p>Organiser&nbsp;:&nbsp;self</p>
-					</div>
-				</div>
-				<p>Location&nbsp;:&nbsp;{{ props.location }}</p>
-				<div class="flex">
-					price&nbsp;:&nbsp;
-					<p v-if="$props.ticketType === 'free'">free</p>
-					<p v-else>
-						Rs <span class="text-green-400">{{ props.ticketPrice }}</span
-						>/-
-					</p>
-				</div>
-			</div> -->
 		</div>
 		<div
 			class="flex justify-between items-end md:justify-center md:items-start"

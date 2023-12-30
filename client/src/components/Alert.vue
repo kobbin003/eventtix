@@ -29,7 +29,7 @@ const { successMsg, errorMsgs } = storeToRefs(alertStore);
 			</div>
 		</div>
 		<ul v-else-if="errorMsgs.length > 0">
-			<li v-for="errMsg in errorMsgs" class="">
+			<li v-for="errMsg in errorMsgs" class="" :key="errMsg">
 				<div
 					role="alert"
 					class="alert p-2 bg-[#FFBE00] text-black rounded-sm mb-2"
