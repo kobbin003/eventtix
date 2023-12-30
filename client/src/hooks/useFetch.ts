@@ -2,12 +2,11 @@ import { useAlertStore } from "@/stores/alert";
 import { ref, watchEffect, type Ref, toValue, onMounted } from "vue";
 
 export const useFetch = async (url: string, opts: any) => {
-	console.log("yseFetch");
+	// console.log("useFetch");
 	let data = null;
 	let error = null;
 	const alertStore = useAlertStore();
-	const { setSuccessMsg, setErrorMsg, resetErrorMsg, setIsLoading } =
-		alertStore;
+	const { setErrorMsg, resetErrorMsg, setIsLoading } = alertStore;
 	resetErrorMsg();
 	setIsLoading(true);
 	try {

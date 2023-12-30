@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useFetch } from "@/hooks/useFetch";
+import { useFetchNoLoading } from "@/hooks/useFetchNoLoading";
 import { baseUrl, isLoading } from "@/utils/constants";
 import { ref, watchEffect } from "vue";
 import { useRoute } from "vue-router";
@@ -15,6 +15,9 @@ const increment = () => {
 	ticketQuantity.value += 1;
 };
 const decrement = () => {
+	if (ticketQuantity.value == 1) {
+		return;
+	}
 	ticketQuantity.value -= 1;
 };
 const route = useRoute();
@@ -26,10 +29,11 @@ const buyTicket = async () => {
 	// query: priceId,quantity, connectedAccId,eventId
 	const url = `${baseUrl}/stripe/checkout?connectedAccId=${props.connectedAccId}&priceId=${props.priceId}&quantity=${ticketQuantity.value}&eventId=${eventId}`;
 	const opts = { method: "POST" };
-	const { data } = await useFetch(url, opts);
+	const { data } = await useFetchNoLoading(url, opts);
 	if (data) {
 		const checkoutUrl = data.url;
 		window.location.href = checkoutUrl;
+		localStorage.setItem("checkoutsession-data", JSON.stringify(data));
 	}
 	console.log("checkout-url", url);
 	console.log("checkout-data", data);
@@ -49,10 +53,11 @@ watchEffect(() => {
 			class="flex items-center justify-between border-b-2 pb-2 border-b-base-100"
 		>
 			<div class="flex items-center gap-2">
-				<p>tickets quantity</p>
+				<p class="text-sm mr-2">Ticket Quantity</p>
 				<button
 					@click="decrement"
-					class="btn btn-xs btn-square border-2 border-base-content/20 p-0 bg-base-100 font-normal"
+					class="btn btn-xs btn-square border-2 border-base-content/20 p-0 bg-base-100 font-normal disabled:bg-base-100"
+					:disabled="ticketQuantity == 1"
 				>
 					-
 				</button>

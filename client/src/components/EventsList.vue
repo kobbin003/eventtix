@@ -7,7 +7,7 @@ import { storeToRefs } from "pinia";
 import { useAlertStore } from "@/stores/alert";
 import showMoreUrl from "@/assets/showMore.svg";
 const { isLoading } = storeToRefs(useAlertStore());
-const steps = 1;
+const steps = 3;
 const offset = ref(0);
 const limit = ref(steps);
 type TFetchedEvent = {
@@ -32,7 +32,7 @@ async function paginate() {
 	offset.value = offset.value + steps;
 	const url = `${baseUrl}/event/filter?offset=${offset.value}&limit=${limit.value}`;
 	const { data, error } = await useFetch(url, opts);
-	console.log("data-hook-page", data);
+	// console.log("data-hook-page", data);
 	if (data) {
 		allEvents.value = [...allEvents.value, ...data];
 	}
@@ -40,11 +40,11 @@ async function paginate() {
 onBeforeMount(async () => {
 	const url = `${baseUrl}/event/filter?offset=${offset.value}&limit=${limit.value}`;
 	const { data, error } = await useFetch(url, opts);
-	console.log("data-hook-mount", data);
+	// console.log("data-hook-mount", data);
 	if (data) {
 		allEvents.value = data;
 	}
-	console.log("error-hook", error);
+	// console.log("error-hook", error);
 });
 </script>
 <template>
