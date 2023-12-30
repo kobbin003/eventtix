@@ -16,11 +16,11 @@ model Org {
   email        String      @unique
   password     String
   events       Event[]
-  personnels   Personnels? @relation(fields: [personnelsId], references: [id])
+  personnels   Personnels? @relation(fields: [personnelsId], references: [id], onDelete: Cascade)
   personnelsId String?     @unique
   createdAt    DateTime    @default(now())
   updatedAt    DateTime    @updatedAt
-  address      Address?    @relation(fields: [addressId], references: [id])
+  address      Address?    @relation(fields: [addressId], references: [id], onDelete: Cascade)
   addressId    String?     @unique
   payment      Payment?
 }
@@ -41,7 +41,6 @@ model Address {
   pin          Int
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
-  buyer        Buyer?
   org          Org?
 }
 
@@ -64,9 +63,9 @@ model Event {
   time        DateTime
   ticketType  TicketType
   ticketPrice Int
-  org         Org        @relation(fields: [orgId], references: [id])
+  org         Org        @relation(fields: [orgId], references: [id], onDelete: Cascade)
   orgId       String
-  buyers      Buyer[]
+  purchases   Purchase[]
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
   productId   String?
@@ -80,17 +79,25 @@ enum TicketType {
   paid
 }
 
-model Buyer {
-  id        String   @id @default(uuid())
-  event     Event    @relation(fields: [eventId], references: [id])
-  eventId   String
-  name      String
-  email     String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  address   Address  @relation(fields: [addressId], references: [id])
-  addressId String   @unique
+model Purchase {
+  id                String  @id @default(uuid())
+  checkoutSessionId String  @unique
+  amount            Int
+  Event             Event?  @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  eventId           String?
 }
+
+// model Buyer {
+//   id        String   @id @default(uuid())
+//   event     Event    @relation(fields: [eventId], references: [id])
+//   eventId   String
+//   name      String
+//   email     String
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+//   address   Address  @relation(fields: [addressId], references: [id])
+//   addressId String   @unique
+// }
 
 model Example {
   id   String @id @default(uuid())

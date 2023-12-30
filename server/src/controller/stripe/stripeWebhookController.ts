@@ -1,5 +1,6 @@
-import { Request, Response } from "express";
-import { stripe } from "../..";
+import { NextFunction, Request, Response } from "express";
+import { prisma, stripe } from "../..";
+import { createPurchase } from "../../service/purchase/createPurchase";
 
 export const stripeWebhookController = (req: Request, res: Response) => {
 	const endpointSecret =
@@ -72,8 +73,24 @@ export const stripeWebhookController = (req: Request, res: Response) => {
 	} else if (event.type === "setup_intent.succeeded") {
 		console.log("setup created");
 	} else if (event.type === "checkout.session.completed") {
-		const checkout = event.data.object;
-		console.log(`checkout completed: ${checkout.id}`);
+		const checkoutSession = event.data.object;
+		// res.status(200).json(checkout);
+		console.log(checkoutSession);
+		console.log(`checkout completed: ${checkoutSession.id}`);
+		// create purchase record
+
+		try {
+			createPurchase(
+				checkoutSession.metadata.eventId,
+				checkoutSession.id,
+				checkoutSession.amount_total / 100
+			).then((purchase) =>
+				console.log(`purchase record created. purchaseId: ${purchase.id}`)
+			);
+		} catch (error) {
+			// next(error.message);
+			console.log(error.message);
+		}
 	}
 
 	console.log(
@@ -81,5 +98,11 @@ export const stripeWebhookController = (req: Request, res: Response) => {
 	);
 
 	// Return a 200 response to acknowledge receipt of the event
-	res.send().end();
+	// res.send().end();
 };
+
+// async function createPurchase(){
+// 	await prisma.purchase.create({data:{
+// 		checkoutSessionId:
+// 	}})
+// }

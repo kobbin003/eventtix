@@ -1,9 +1,13 @@
 import { Request, Response } from "express";
-import { stripe } from "../..";
-
+import { prisma, stripe } from "../..";
+import "dotenv/config";
+const clientUrl = process.env.CLIENT_URL;
 export const createCheckoutSession = async (req: Request, res: Response) => {
 	const priceId = req.query.priceId as string;
+	const eventId = req.query.eventId as string;
+	const quantity = req.query.quantity as string;
 	const connectedAccId = req.query.connectedAccId as string;
+	console.log("clientUrl", clientUrl);
 	try {
 		const session = await stripe.checkout.sessions.create(
 			{
@@ -11,19 +15,22 @@ export const createCheckoutSession = async (req: Request, res: Response) => {
 				line_items: [
 					{
 						price: priceId,
-						quantity: 1,
+						quantity: Number(quantity),
 					},
 				],
+				metadata: { eventId },
 				billing_address_collection: "required",
-				invoice_creation: { enabled: true },
+				// invoice_creation: { enabled: true },
 				customer_creation: "if_required",
-				success_url: "http://localhost:3000/success",
-				cancel_url: "http://localhost:3000/cancel",
+				success_url: `${clientUrl}/payment/success`,
+				cancel_url: `${clientUrl}/payment/failure/${eventId}`,
+				// return_url: `${clientUrl}/event/${eventId}`,
 			},
 			{ stripeAccount: connectedAccId }
 		);
-		// console.log(session);
 		res.status(200).json(session);
+
+		// // console.log(session);
 	} catch (error) {
 		res.json({ msg: `error: ${error.message}` });
 	}
