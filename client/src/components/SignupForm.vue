@@ -1,24 +1,43 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, watch, watchEffect } from "vue";
+import { ref } from "vue";
 import logoLightUrl from "@/assets/logo_light.png";
 
 import SignupFormAddress from "./SignupFormAddress.vue";
 import SignupFormPersonnel from "./SignupFormPersonnel.vue";
 import type { CredentialType } from "@/components/SignupFormCredential.vue";
 import SignupFormCredential from "@/components/SignupFormCredential.vue";
-import { useAlertStore } from "@/stores/alert";
-import { storeToRefs } from "pinia";
 import { useRouter } from "vue-router";
-import type { TAddress, TPersonnels } from "@/stores/user";
+import { type TAddress, type TPersonnels } from "@/stores/user";
+import { useAlertStore } from "@/stores/alert";
+
+const { setSuccessMsg, setErrorMsgArray, setErrorMsg, setIsLoading } =
+	useAlertStore();
 // const currentStep = ref("
 const currentStep = ref(1);
 const router = useRouter();
 
 const formData = ref<{
-	org: CredentialType | null;
-	address: TAddress | null;
-	personnels: TPersonnels | null;
-}>({ org: null, address: null, personnels: null });
+	org: CredentialType;
+	address: TAddress;
+	personnels: TPersonnels;
+}>({
+	org: {
+		name: "",
+		email: "",
+		password: "",
+	},
+	address: {
+		addressLine1: "",
+		addressLine2: "",
+		state: "",
+		pin: 0,
+	},
+	personnels: {
+		principal: "",
+		vicePrincipal: "",
+		staffs: ["example"],
+	},
+});
 
 const updateCredential = (val: CredentialType) => {
 	console.log("update credential");
@@ -35,26 +54,12 @@ const updatePersonnels = (val: TPersonnels) => {
 	formSubmit();
 };
 
-// const triggerFormSubmit = computed(() => formData.value.personnels !== null);
-// watch(triggerFormSubmit, () => {
-// 	if (triggerFormSubmit.value) {
-// 		formSubmit();
-// 	}
-// });
 const handleStepIncrement = () => {
 	currentStep.value += 1;
 };
 const handleStepDecrement = () => {
 	currentStep.value -= 1;
 };
-const alertStore = useAlertStore();
-const {
-	setSuccessMsg,
-	setErrorMsg,
-	setErrorMsgArray,
-	resetErrorMsg,
-	setIsLoading,
-} = alertStore;
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
 

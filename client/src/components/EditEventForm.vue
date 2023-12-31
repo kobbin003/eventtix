@@ -1,27 +1,21 @@
 <script setup lang="ts">
 import { format, isBefore, isSameDay } from "date-fns";
 import { onMounted, ref, watch } from "vue";
-import { useAlertStore } from "@/stores/alert";
-import { storeToRefs } from "pinia";
 import { useRoute, useRouter } from "vue-router";
 import { useFetch } from "@/hooks/useFetch";
 import type { TEvent } from "./CreateEventForm.vue";
+import { storeToRefs } from "pinia";
+import { useAlertStore } from "@/stores/alert";
 
+const { setSuccessMsg, setErrorMsg, setIsLoading, resetErrorMsg } =
+	useAlertStore();
+const { isLoading } = storeToRefs(useAlertStore());
 const router = useRouter();
 const baseUrl = import.meta.env.VITE_BASE_URL;
 const route = useRoute();
 const dateString = ref<string>();
 const timeString = ref<string>();
 const eventTitle = ref<string>();
-const alertStore = useAlertStore();
-const { successMsg, errorMsgs, isLoading } = storeToRefs(alertStore);
-const {
-	setSuccessMsg,
-	setErrorMsgArray,
-	setErrorMsg,
-	setIsLoading,
-	resetErrorMsg,
-} = alertStore;
 
 const eventData = ref<Partial<TEvent>>({
 	title: "",

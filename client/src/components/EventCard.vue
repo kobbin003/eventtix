@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { format, isBefore } from "date-fns";
-import { baseUrl } from "@/utils/constants";
-import { useFetch } from "@/hooks/useFetch";
 import router from "@/router";
 const props = defineProps({
 	id: { type: String, required: true },

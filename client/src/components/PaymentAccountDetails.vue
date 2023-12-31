@@ -1,16 +1,3 @@
-<template>
-	<div>
-		<table>
-			<tbody>
-				<tr v-for="items in paymentAccountDetailsArray" :key="items[0]">
-					<td>{{ items[0] }}</td>
-					<td>{{ items[1] }}</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-</template>
-
 <script setup lang="ts">
 import { useFetch } from "@/hooks/useFetch";
 import { baseUrl } from "@/utils/constants";
@@ -71,5 +58,17 @@ onMounted(async () => {
 	}
 });
 </script>
+<template>
+	<div>
+		<table>
+			<tbody>
+				<tr v-for="items in paymentAccountDetailsArray" :key="items[0]">
+					<td>{{ items[0] }}</td>
+					<td>{{ items[1] }}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</template>
 
 <style scoped></style>

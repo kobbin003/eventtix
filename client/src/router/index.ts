@@ -27,15 +27,9 @@ const router = createRouter({
 					path: "",
 					name: "public",
 					component: PublicViewVue,
-					props: { someProp: "someProp-xx" },
 					meta: { requiresAuth: false },
 				},
-				// {
-				// 	path: "/profile/:userId",
-				// 	name: "profile-public",
-				// 	component: () => import("../views/ProfileView.vue"),
-				// 	meta: { requiresAuth: false },
-				// },
+
 				{
 					path: "/event/:eventId",
 					name: "event-public",
@@ -91,13 +85,13 @@ const router = createRouter({
 		{
 			path: "/payment/success",
 			name: "paymentSuccess",
-			component: () => import("../views/PaymentSuccess.vue"),
+			component: () => import("../views/PaymentSuccessView.vue"),
 			meta: { requiresAuth: true },
 		},
 		{
 			path: "/payment/failure/:eventId",
 			name: "paymentFailure",
-			component: () => import("../views/PaymentFailure.vue"),
+			component: () => import("../views/PaymentFailureView.vue"),
 			meta: { requiresAuth: true },
 		},
 		{

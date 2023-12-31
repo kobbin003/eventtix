@@ -22,7 +22,7 @@ const eventData = ref<
 onMounted(async () => {
 	const url = `${baseUrl}/event/id/${route.params.eventId}`;
 	const opts = { method: "get" };
-	const { data, error } = await useFetch(url, fetch);
+	const { data, error } = await useFetch(url, opts);
 	// console.log("data", data);
 	if (data) {
 		const fetchedData = data as TFetchEvent;
@@ -52,6 +52,7 @@ onMounted(async () => {
 	<div class="flex flex-col md:flex-row gap-2">
 		<div class="w-screen md:w-1/2">
 			<EventDetails
+				v-if="eventData.id"
 				:id="eventData.id"
 				:title="eventData.title"
 				:desc="eventData.desc"

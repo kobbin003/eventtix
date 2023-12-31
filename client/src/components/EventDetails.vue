@@ -1,10 +1,6 @@
 <script setup lang="ts">
-import feeIcon from "@/assets/feeIcon.svg";
-import locationIcon from "@/assets/location.svg";
 import { useAlertStore } from "@/stores/alert";
 import { storeToRefs } from "pinia";
-import { useRoute } from "vue-router";
-const route = useRoute();
 const { isLoading } = storeToRefs(useAlertStore());
 const props = defineProps({
 	id: { type: String, required: true },

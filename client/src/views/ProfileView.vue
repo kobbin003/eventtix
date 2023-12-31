@@ -1,11 +1,8 @@
 <script setup lang="ts">
 import { useUserStore } from "@/stores/user";
 import { storeToRefs } from "pinia";
-import { ref } from "vue";
-
-const { user } = storeToRefs(useUserStore());
-// console.log("getting user", user.value);
-// console.log("orgId user", user.value.id);
+const userStore = useUserStore();
+const { user } = storeToRefs(userStore);
 </script>
 <template>
 	<GoBackButton />

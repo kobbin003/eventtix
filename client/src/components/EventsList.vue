@@ -10,7 +10,8 @@ const { isLoading } = storeToRefs(useAlertStore());
 const steps = 3;
 const offset = ref(0);
 const limit = ref(steps);
-type TFetchedEvent = {
+
+export type TFetchedEvent = {
 	id: string;
 	orgId: string;
 	org: {
@@ -18,7 +19,8 @@ type TFetchedEvent = {
 		payment: { connectedAccId: string; detailsSubmitted: boolean };
 	};
 } & TEvent;
-const allEvents = ref<Array<TFetchedEvent>>([]);
+
+const allEvents = ref<Array<TFetchedEvent>>();
 const baseUrl = import.meta.env.VITE_BASE_URL;
 const accessToken = localStorage.getItem("accessToken");
 const opts = {
@@ -34,7 +36,7 @@ async function paginate() {
 	const { data, error } = await useFetch(url, opts);
 	// console.log("data-hook-page", data);
 	if (data) {
-		allEvents.value = [...allEvents.value, ...data];
+		allEvents.value = data;
 	}
 }
 onBeforeMount(async () => {
@@ -42,7 +44,8 @@ onBeforeMount(async () => {
 	const { data, error } = await useFetch(url, opts);
 	// console.log("data-hook-mount", data);
 	if (data) {
-		allEvents.value = data;
+		const fetchedData = data as TFetchedEvent[];
+		allEvents.value = fetchedData;
 	}
 	// console.log("error-hook", error);
 });
@@ -60,7 +63,7 @@ onBeforeMount(async () => {
 			>
 				<NoEventsFound />
 			</div>
-			<div v-else>
+			<div v-else-if="allEvents && allEvents?.length > 1">
 				<h1 class="text-xl text-primary py-2">Upcoming Events</h1>
 				<ul class="py-2">
 					<li v-for="event in allEvents" :key="event.id">

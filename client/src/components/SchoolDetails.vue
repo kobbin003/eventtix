@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import { useFetch } from "@/hooks/useFetch";
-import { useUserStore, type TAddress, type TPersonnels } from "@/stores/user";
-import {
-	baseUrl,
-	isLoading,
-	updateAddress,
-	updatePersonnels,
-	user,
-} from "@/utils/constants";
-import { storeToRefs } from "pinia";
+import { type TAddress, type TPersonnels } from "@/stores/user";
 import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
+import { useUserStore } from "@/stores/user";
+import { storeToRefs } from "pinia";
+import { useAlertStore } from "@/stores/alert";
+import { baseUrl } from "@/utils/constants";
+const { updateAddress, updatePersonnels } = useUserStore();
+const { user } = storeToRefs(useUserStore());
+
+const { isLoading } = storeToRefs(useAlertStore());
 
 const route = useRoute();
 const modalOpen = ref(false);
@@ -26,15 +26,24 @@ const props = defineProps({ orgId: { type: String, required: true } });
 type TSchoolDetails = {
 	name: string;
 	email: string;
-	address: TAddress | null;
-	personnels: TPersonnels | null;
+	address: TAddress;
+	personnels: TPersonnels;
 };
 
 const schoolDetails = ref<TSchoolDetails>({
 	name: "",
 	email: "",
-	address: null,
-	personnels: null,
+	address: {
+		addressLine1: "",
+		addressLine2: "",
+		state: "",
+		pin: 0,
+	},
+	personnels: {
+		principal: "",
+		vicePrincipal: "",
+		staffs: [],
+	},
 });
 onMounted(async () => {
 	// if own profile, set the ref-values from the user-store else fetch
@@ -64,8 +73,23 @@ onMounted(async () => {
 					// 	address: fetchedData.address,
 					// 	personnels: fetchedData.personnels,
 					// });
-					updateAddress(data.address);
-					updatePersonnels(data.personnels);
+					if (fetchedData.address) {
+						updateAddress({
+							addressLine1: fetchedData.address?.addressLine1,
+							addressLine2: fetchedData.address?.addressLine2,
+							state: fetchedData.address?.state,
+							pin: fetchedData.address?.pin,
+						});
+					}
+					if (fetchedData.personnels) {
+						updatePersonnels({
+							principal: fetchedData.personnels.principal,
+							vicePrincipal: fetchedData.personnels.vicePrincipal,
+							staffs: fetchedData.personnels.staffs,
+						});
+					}
+					// updateAddress(data.address);
+					// updatePersonnels(data.personnels);
 				}
 			}
 		}
@@ -88,8 +112,21 @@ onMounted(async () => {
 				// 	address: fetchedData.address,
 				// 	personnels: fetchedData.personnels,
 				// });
-				updateAddress(data.address);
-				updatePersonnels(data.personnels);
+				if (fetchedData.address) {
+					updateAddress({
+						addressLine1: fetchedData.address?.addressLine1,
+						addressLine2: fetchedData.address?.addressLine2,
+						state: fetchedData.address?.state,
+						pin: fetchedData.address?.pin,
+					});
+				}
+				if (fetchedData.personnels) {
+					updatePersonnels({
+						principal: fetchedData.personnels.principal,
+						vicePrincipal: fetchedData.personnels.vicePrincipal,
+						staffs: fetchedData.personnels.staffs,
+					});
+				}
 			}
 		}
 	}
@@ -101,6 +138,7 @@ onMounted(async () => {
 	</div>
 	<div v-else>
 		<div
+			v-if="schoolDetails.name"
 			class="w-full p-2 flex flex-col gap-2 border-2 border-primary-content/50 rounded-sm"
 		>
 			<p>
@@ -111,10 +149,10 @@ onMounted(async () => {
 			</p>
 			<fieldset class="border border-primary-content/50 p-2">
 				<legend>Address</legend>
-				<p>{{ schoolDetails.address?.addressLine1 }}</p>
-				<p>{{ schoolDetails.address?.addressLine2 }}</p>
-				<p>{{ schoolDetails.address?.state }}</p>
-				<p>{{ schoolDetails.address?.pin }}</p>
+				<p>{{ schoolDetails.address.addressLine1 }}</p>
+				<p>{{ schoolDetails.address.addressLine2 }}</p>
+				<p>{{ schoolDetails.address.state }}</p>
+				<p>{{ schoolDetails.address.pin }}</p>
 			</fieldset>
 			<div v-if="$route.path.includes('user/profile')">
 				<button class="btn btn-sm btn-primary rounded-sm" @click="showModal">
@@ -139,9 +177,9 @@ onMounted(async () => {
 		</div>
 		<Heirarchy
 			v-if="schoolDetails.personnels"
-			:principal="schoolDetails.personnels?.principal"
-			:vicePrincipal="schoolDetails.personnels?.vicePrincipal"
-			:staffs="schoolDetails.personnels?.staffs"
+			:principal="schoolDetails.personnels.principal"
+			:vicePrincipal="schoolDetails.personnels.vicePrincipal"
+			:staffs="schoolDetails.personnels.staffs"
 		/>
 	</div>
 </template>

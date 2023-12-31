@@ -1,11 +1,9 @@
 <script setup lang="ts">
-import { ref, type PropType, onMounted } from "vue";
+import { ref, type PropType } from "vue";
 import PersonnelEditForm from "./PersonnelEditForm.vue";
-import { useFetch } from "@/hooks/useFetch";
 import { storeToRefs } from "pinia";
 import { useAlertStore } from "@/stores/alert";
-import type { TPersonnels } from "@/stores/user";
-import { baseUrl } from "@/utils/constants";
+
 const { isLoading } = storeToRefs(useAlertStore());
 
 const props = defineProps({

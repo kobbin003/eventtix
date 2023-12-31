@@ -2,21 +2,14 @@
 import ThemeToggler from "./ThemeToggler.vue";
 import logoLightUrl from "@/assets/logo_light.png";
 import logoDarkUrl from "@/assets/logo_dark.png";
-import { ref, watchEffect } from "vue";
-import { useRoute } from "vue-router";
+import { ref } from "vue";
 import { isAuthenticated } from "@/router";
-
-const route = useRoute();
 
 const darkenFromThemeToggler = ref();
 
 const themeEventHandler = (arg: boolean) => {
 	darkenFromThemeToggler.value = arg;
 };
-
-// watchEffect(() => {
-// 	console.log(route.path);
-// });
 </script>
 
 <template>

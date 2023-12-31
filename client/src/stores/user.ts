@@ -10,7 +10,7 @@ export const useUserStore = defineStore(
 		// const getUser = user.value;
 
 		function setUser(arg: User) {
-			Object.assign(user.value, arg);
+			// Object.assign(user.value, arg);
 			user.value = arg;
 		}
 
@@ -22,12 +22,6 @@ export const useUserStore = defineStore(
 		function updateAddress(arg: TAddress) {
 			user.value.address = arg;
 		}
-		// function updateAddress(arg: Partial<TAddress>) {
-		// 	Object.assign(user, {
-		// 		...user,
-		// 		address: { ...user.value.address, ...arg },
-		// 	});
-		// }
 
 		function updatePersonnels(arg: TPersonnels) {
 			user.value.personnels = arg;
@@ -35,17 +29,10 @@ export const useUserStore = defineStore(
 		function updatePayment(arg: TPayment) {
 			user.value.payment = arg;
 		}
-		// function updatePersonnels(arg: Partial<TPersonnels>) {
-		// 	Object.assign(user, {
-		// 		...user,
-		// 		personnels: { ...user.value.personnels, ...arg },
-		// 	});
-		// }
 
 		return {
 			user,
 			setUser,
-			// updateUser,
 			updateAddress,
 			updatePersonnels,
 			updatePayment,
@@ -64,9 +51,9 @@ export type User = Credentials & {
 	accessToken: string;
 	addressId?: string;
 	personnelsId?: string;
-	address?: TAddress | null;
-	personnels?: TPersonnels | null;
-	payment?: TPayment | null;
+	address?: TAddress;
+	personnels?: TPersonnels;
+	payment?: TPayment;
 };
 
 export type TAddress = {
@@ -86,9 +73,3 @@ export type TPayment = {
 	connectedAccId: string;
 	detailsSubmitted: boolean;
 };
-
-// export type LoginUser = Credentials & {
-// 	accessToken: string;
-// 	addressId?: string;
-// 	personnelsId?: string;
-// };

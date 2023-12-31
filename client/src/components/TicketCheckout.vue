@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { useFetchNoLoading } from "@/hooks/useFetchNoLoading";
-import { baseUrl, isLoading } from "@/utils/constants";
+import { baseUrl } from "@/utils/constants";
 import { ref, watchEffect } from "vue";
 import { useRoute } from "vue-router";
+
 const props = defineProps({
 	connectedAccId: { type: String, required: true },
 	priceId: { type: String, required: true },

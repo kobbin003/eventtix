@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import { useFetch } from "@/hooks/useFetch";
 import type { TPersonnels } from "@/stores/user";
-import {
-	baseUrl,
-	user,
-	accessToken,
-	updatePersonnels,
-	setSuccessMsg,
-	isLoading,
-} from "@/utils/constants";
+import { accessToken, baseUrl } from "@/utils/constants";
 import { onMounted, ref } from "vue";
+import { useAlertStore } from "@/stores/alert";
+import { useUserStore } from "@/stores/user";
+import { storeToRefs } from "pinia";
+
+const { updatePersonnels } = useUserStore();
+const { user } = storeToRefs(useUserStore());
+const { setSuccessMsg } = useAlertStore();
+const { isLoading } = storeToRefs(useAlertStore());
 
 const props = defineProps({ closeModal: { type: Function, required: true } });
 const personnels = ref<TPersonnels>({

@@ -1,19 +1,18 @@
 <script setup lang="ts">
 import { useFetch } from "@/hooks/useFetch";
+import { type TAddress } from "@/stores/user";
+import { onMounted, ref } from "vue";
+
 import { useAlertStore } from "@/stores/alert";
-import { useUserStore, type TAddress } from "@/stores/user";
-import {
-	baseUrl,
-	updateAddress,
-	setSuccessMsg,
-	isLoading,
-	user,
-} from "@/utils/constants";
+import { useUserStore } from "@/stores/user";
 import { storeToRefs } from "pinia";
-import { onMounted, ref, watchEffect } from "vue";
-// const { updateAddress } = useUserStore();
-// const { setSuccessMsg } = useAlertStore();
-// const { isLoading } = storeToRefs(useAlertStore());
+import { baseUrl } from "@/utils/constants";
+
+const { updateAddress } = useUserStore();
+const { user } = storeToRefs(useUserStore());
+const { setSuccessMsg } = useAlertStore();
+const { isLoading } = storeToRefs(useAlertStore());
+
 const address = ref<TAddress>({
 	addressLine1: "",
 	addressLine2: "",
@@ -86,6 +85,7 @@ onMounted(() => {
 	>
 		<b class="text-lg">Edit your address</b>
 		<form
+			v-if="address.addressLine1"
 			action=""
 			class="form-control gap-2"
 			@submit.prevent="editAddressSubmit"

@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import image from "@/assets/zfm.jpeg";
 import type { TEvent } from "@/components/CreateEventForm.vue";
+import type { TFetchedEvent } from "@/components/EventsList.vue";
 import { useFetch } from "@/hooks/useFetch";
 import { useAlertStore } from "@/stores/alert";
 import { storeToRefs } from "pinia";
-import { onBeforeMount, onMounted, ref } from "vue";
+import { onBeforeMount, ref } from "vue";
 
 const { isLoading } = storeToRefs(useAlertStore());
-type TFetchedEvent = { id: string; orgId: string } & TEvent;
+// type TFetchedEvent = { id: string; orgId: string } & TEvent;
 const userEvents = ref<Array<TFetchedEvent>>();
 const baseUrl = import.meta.env.VITE_BASE_URL;
 const accessToken = localStorage.getItem("accessToken");
@@ -24,7 +24,8 @@ onBeforeMount(async () => {
 	const { data, error } = await useFetch(url, opts);
 	console.log("data-hook", data);
 	if (data) {
-		userEvents.value = data;
+		const fetchedData = data as TFetchedEvent[];
+		userEvents.value = fetchedData;
 	}
 	console.log("error-hook", error);
 });
@@ -41,7 +42,7 @@ onBeforeMount(async () => {
 		>
 			<NoEventsFound />
 		</div>
-		<div v-else>
+		<div v-else-if="userEvents && userEvents?.length >= 1">
 			<h1 class="text-xl text-primary py-2">Your Events</h1>
 			<ul class="py-2">
 				<li v-for="event in userEvents" :key="event.id">

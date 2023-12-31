@@ -1,9 +1,14 @@
 <script setup lang="ts">
 import { isBefore, isSameDay } from "date-fns";
 import { ref, watch } from "vue";
-import { useAlertStore } from "@/stores/alert";
-import { storeToRefs } from "pinia";
 import { useRouter } from "vue-router";
+import { storeToRefs } from "pinia";
+import { useAlertStore } from "@/stores/alert";
+
+const { setSuccessMsg, setErrorMsg, setIsLoading, resetErrorMsg } =
+	useAlertStore();
+
+const { isLoading } = storeToRefs(useAlertStore());
 
 const router = useRouter();
 const baseUrl = import.meta.env.VITE_BASE_URL;
@@ -11,15 +16,6 @@ const baseUrl = import.meta.env.VITE_BASE_URL;
 const dateString = ref<string>();
 const timeString = ref<string>();
 
-const alertStore = useAlertStore();
-const { successMsg, errorMsgs, isLoading } = storeToRefs(alertStore);
-const {
-	setSuccessMsg,
-	setErrorMsgArray,
-	setErrorMsg,
-	setIsLoading,
-	resetErrorMsg,
-} = alertStore;
 export type TEvent = {
 	title: string;
 	desc: string;
@@ -158,11 +154,6 @@ async function uploadImage(file: FileList) {
 watch([dateString, timeString], () => {
 	eventData.value.time = `${dateString.value}T${timeString.value}`;
 });
-// watch(eventData,()=>{
-// if(eventData.value.ticketType="paid"){
-// 	eventData.value.ticketPrice=
-// }
-// })
 </script>
 <template>
 	<h2 class="text-xl py-4 text-info">Create a new event</h2>

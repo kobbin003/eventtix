@@ -3,27 +3,26 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import logoLightUrl from "@/assets/logo_light.png";
 import { isAuthenticated } from "@/router";
-import type { User } from "@/stores/user";
-import { useAlertStore } from "@/stores/alert";
+import { useUserStore, type User } from "@/stores/user";
 import { storeToRefs } from "pinia";
-import { updatePayment, setUser } from "@/utils/constants";
+import { useAlertStore } from "@/stores/alert";
+
+const { setUser, updatePayment } = useUserStore();
+
+const {
+	setSuccessMsg,
+	setErrorMsgArray,
+	setErrorMsg,
+	setIsLoading,
+	resetErrorMsg,
+} = useAlertStore();
+const { isLoading } = storeToRefs(useAlertStore());
 const router = useRouter();
 
 const email = ref("");
 const password = ref("");
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
-
-const alertStore = useAlertStore();
-const {
-	setSuccessMsg,
-	setErrorMsg,
-	setErrorMsgArray,
-	resetErrorMsg,
-	setIsLoading,
-} = alertStore;
-
-const { isLoading } = storeToRefs(alertStore);
 
 const submit = async () => {
 	// console.log("loggin");
