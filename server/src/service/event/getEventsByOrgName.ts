@@ -6,16 +6,18 @@ export const getEventsByOrgName = async (
 	limit: number
 ) => {
 	try {
-		const orgs = await prisma.org.findMany({
-			where: { name: { contains: orgName } },
-			select: { id: true },
-		});
-		const orgIds = orgs.map((org) => org.id);
+		// const orgs = await prisma.org.findMany({
+		// 	where: { name: { contains: orgName } },
+		// 	select: { id: true },
+		// });
+		// const orgIds = orgs.map((org) => org.id);
 
 		const events = await prisma.event.findMany({
 			skip: offset,
 			take: limit,
-			where: { orgId: { in: orgIds } },
+			where: { org: { name: { contains: orgName } } },
+			// where: { orgId: { in: orgIds } },
+			orderBy: { time: "desc" },
 			include: {
 				org: {
 					// select: { id: true, name: true },

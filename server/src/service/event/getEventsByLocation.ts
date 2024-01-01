@@ -9,6 +9,7 @@ export const getEventsByLocation = async (
 		const events = await prisma.event.findMany({
 			skip: offset,
 			take: limit,
+			orderBy: { time: "desc" },
 			where: {
 				location: { contains: location },
 			},
