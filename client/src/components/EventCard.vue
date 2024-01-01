@@ -25,7 +25,7 @@ const formattedDate = format(date, "MMM/dd/yyyy");
 
 const eventDone = ref(false);
 if (isBefore(props.eventTime, new Date())) {
-	console.log(`oudated:${props.title}`);
+	// console.log(`oudated:${props.title}`);
 	eventDone.value = true;
 }
 
@@ -34,9 +34,9 @@ const buyTicket = async () => {
 };
 </script>
 <template>
-	<RouterLink :to="`/event/${props.id}`"
-		><div
-			class="border border-gray-300/5 flex flex-col md:flex-row md:gap-2 justify-between w-full md:w-4/6 p-2 md:p-4 event-box rounded-sm"
+	<RouterLink :to="`/event/${props.id}`">
+		<div
+			class="border border-gray-300/5 flex flex-col md:flex-row md:gap-2 justify-between p-2 md:p-4 event-box rounded-sm"
 			:class="{ ['bg-[#cccccca6] text-gray-600/70']: eventDone }"
 		>
 			<div class="relative flex gap-2 flex-col md:flex-row w-full">
@@ -120,31 +120,28 @@ const buyTicket = async () => {
 				</div>
 			</div>
 		</div>
-		<div class="flex justify-end w-full md:w-4/6 mb-4">
-			<div
-				v-if="eventDone"
-				class="hidden md:block bg-red-600 p-2 text-gray-200"
+	</RouterLink>
+	<div class="flex justify-end mb-4">
+		<div v-if="eventDone" class="hidden md:block bg-red-600 p-2 text-gray-200">
+			<b>Outdated</b>
+		</div>
+		<div v-else>
+			<p
+				v-if="props.ticketType == 'free'"
+				name="free-card"
+				class="border px-4 py-1 bg-[#29BA53] rounded-sm hidden md:block w-max"
 			>
-				<b>Outdated</b>
-			</div>
-			<div v-else>
-				<p
-					v-if="props.ticketType == 'free'"
-					name="free-card"
-					class="border px-4 py-1 bg-[#29BA53] rounded-sm hidden md:block w-max"
-				>
-					<span class="text-base font-normal text-white">Free</span>
-				</p>
-				<button
-					v-else
-					class="btn btn-sm btn-accent rounded-sm hidden md:block font-normal"
-					@click="buyTicket"
-				>
-					Buy Ticket
-				</button>
-			</div>
-		</div></RouterLink
-	>
+				<span class="text-base font-normal text-white">Free</span>
+			</p>
+			<button
+				v-else
+				class="btn btn-sm btn-accent rounded-sm hidden md:block font-normal"
+				@click="buyTicket"
+			>
+				Buy Ticket
+			</button>
+		</div>
+	</div>
 </template>
 
 <style scoped>

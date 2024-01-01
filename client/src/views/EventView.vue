@@ -2,7 +2,8 @@
 import type { TEvent, TFetchEvent } from "@/components/CreateEventForm.vue";
 import TicketCheckout from "@/components/TicketCheckout.vue";
 import { useFetch } from "@/hooks/useFetch";
-import { onMounted, ref } from "vue";
+import { isBefore } from "date-fns";
+import { onMounted, ref, watchEffect } from "vue";
 import { useRoute } from "vue-router";
 const baseUrl = import.meta.env.VITE_BASE_URL;
 const route = useRoute();
@@ -18,6 +19,14 @@ const eventData = ref<
 	time: "",
 	ticketType: "paid",
 	orgId: "",
+});
+
+const eventDone = ref(false);
+watchEffect(() => {
+	if (isBefore(eventData.value.time, new Date())) {
+		// console.log(`oudated:${eventData.value.title}`);
+		eventDone.value = true;
+	}
 });
 onMounted(async () => {
 	const url = `${baseUrl}/event/id/${route.params.eventId}`;
@@ -65,33 +74,58 @@ onMounted(async () => {
 			/>
 		</div>
 		<div v-if="dataFetched" class="flex flex-col gap-2 w-screen md:w-1/2">
-			<TicketCheckout
-				v-if="
-					eventData.connectedAccId && eventData.priceId && eventData.ticketPrice
-				"
-				:connected-acc-id="eventData.connectedAccId"
-				:price-id="eventData.priceId"
-				:ticket-price="eventData.ticketPrice"
-			/>
-			<div
-				v-else-if="eventData.ticketType == 'free'"
-				role="alert"
-				class="alert rounded-sm"
-			>
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					fill="none"
-					viewBox="0 0 24 24"
-					class="stroke-info shrink-0 w-6 h-6"
+			<div v-if="eventDone">
+				<div role="alert" class="alert rounded-sm">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						fill="none"
+						viewBox="0 0 24 24"
+						class="stroke-info shrink-0 w-6 h-6"
+					>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+						></path>
+					</svg>
+					<span class="text-sm font-normal"
+						>This event has ended. Tickets no longer available</span
+					>
+				</div>
+			</div>
+			<div v-else-if="!eventDone">
+				<TicketCheckout
+					v-if="
+						eventData.connectedAccId &&
+						eventData.priceId &&
+						eventData.ticketPrice
+					"
+					:connected-acc-id="eventData.connectedAccId"
+					:price-id="eventData.priceId"
+					:ticket-price="eventData.ticketPrice"
+				/>
+
+				<div
+					v-else-if="eventData.ticketType == 'free'"
+					role="alert"
+					class="alert rounded-sm"
 				>
-					<path
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						stroke-width="2"
-						d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-					></path>
-				</svg>
-				<span class="text-sm font-normal">It is a free ticket</span>
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						fill="none"
+						viewBox="0 0 24 24"
+						class="stroke-info shrink-0 w-6 h-6"
+					>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+						></path>
+					</svg>
+					<span class="text-sm font-normal">It is a free ticket</span>
+				</div>
 			</div>
 			<div v-else>
 				<div

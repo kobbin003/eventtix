@@ -33,7 +33,7 @@ if (isBefore(props.eventTime, new Date())) {
 <template>
 	<RouterLink :to="`/event/${props.id}`"
 		><div
-			class="border border-gray-300/5 flex flex-col md:flex-row gap-4 justify-between w-full md:w-4/6 p-2 md:p-4 event-box rounded-sm"
+			class="border border-gray-300/5 flex flex-col md:flex-row gap-4 justify-between p-2 md:p-4 event-box rounded-sm"
 			:class="{ ['bg-[#cccccca6] text-gray-600/70']: eventDone }"
 		>
 			<div class="relative flex gap-4 flex-col md:flex-row w-full">
@@ -103,7 +103,7 @@ if (isBefore(props.eventTime, new Date())) {
 			</div>
 		</div></RouterLink
 	>
-	<div class="flex justify-end w-full md:w-4/6 mb-4">
+	<div class="flex justify-end mb-4">
 		<div v-if="eventDone" class="bg-red-600 p-2 text-gray-200">
 			<b>Outdated</b>
 		</div>

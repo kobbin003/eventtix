@@ -66,7 +66,11 @@ onBeforeMount(async () => {
 			<div v-else-if="allEvents && allEvents?.length > 1">
 				<h1 class="text-xl text-primary py-2">Upcoming Events</h1>
 				<ul class="py-2">
-					<li v-for="event in allEvents" :key="event.id">
+					<li
+						v-for="event in allEvents"
+						:key="event.id"
+						class="relative w-full md:w-4/6"
+					>
 						<EventCard
 							:id="event.id"
 							:title="event.title"
