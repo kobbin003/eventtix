@@ -75,11 +75,11 @@ const editAddressSubmit = async (e: Event) => {
 onMounted(() => {
 	if (user.value.address) {
 		// Object.assign(address.value, user.address);
-		// address.value = user.value.address;
-		address.value.addressLine1 = user.value.address.addressLine1;
-		address.value.addressLine2 = user.value.address.addressLine2;
-		address.value.state = user.value.address.state;
-		address.value.pin = user.value.address.pin;
+		address.value = user.value.address;
+		// address.value.addressLine1 = user.value.address.addressLine1;
+		// address.value.addressLine2 = user.value.address.addressLine2;
+		// address.value.state = user.value.address.state;
+		// address.value.pin = user.value.address.pin;
 	}
 	console.log("address", address.value);
 });
