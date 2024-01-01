@@ -46,88 +46,17 @@ const schoolDetails = ref<TSchoolDetails>({
 	},
 });
 onMounted(async () => {
-	// if own profile, set the ref-values from the user-store else fetch
-	if (route.path.includes("/user/profile")) {
-		schoolDetails.value.name = user.value.name;
-		schoolDetails.value.email = user.value.email;
-		// if address and personnels found, set the ref-values from the user-store else fetch
-		if (user.value.address && user.value.personnels) {
-			schoolDetails.value.address = user.value.address;
-			schoolDetails.value.personnels = user.value.personnels;
-		} else {
-			if (props.orgId) {
-				const url = `${baseUrl}/profile/org/${props.orgId}/addNpers`;
-				const opts = { method: "get" };
-				const { data, error } = await useFetch(url, opts);
-				// console.log("data-school details", data);
-				if (data) {
-					const fetchedData = data as TSchoolDetails;
-					schoolDetails.value.name = fetchedData.name;
-					schoolDetails.value.email = fetchedData.email;
-					schoolDetails.value.address = fetchedData.address;
-					schoolDetails.value.personnels = fetchedData.personnels;
-
-					// then update user-store's address and personnels
-
-					// updateUser({
-					// 	address: fetchedData.address,
-					// 	personnels: fetchedData.personnels,
-					// });
-					if (fetchedData.address) {
-						updateAddress({
-							addressLine1: fetchedData.address?.addressLine1,
-							addressLine2: fetchedData.address?.addressLine2,
-							state: fetchedData.address?.state,
-							pin: fetchedData.address?.pin,
-						});
-					}
-					if (fetchedData.personnels) {
-						updatePersonnels({
-							principal: fetchedData.personnels.principal,
-							vicePrincipal: fetchedData.personnels.vicePrincipal,
-							staffs: fetchedData.personnels.staffs,
-						});
-					}
-					// updateAddress(data.address);
-					// updatePersonnels(data.personnels);
-				}
-			}
-		}
-	} else {
-		if (props.orgId) {
-			const url = `${baseUrl}/profile/org/${props.orgId}/addNpers`;
-			const opts = { method: "get" };
-			const { data, error } = await useFetch(url, opts);
-			// console.log("data-school details", data);
-			if (data) {
-				const fetchedData = data as TSchoolDetails;
-				schoolDetails.value.name = fetchedData.name;
-				schoolDetails.value.email = fetchedData.email;
-				schoolDetails.value.address = fetchedData.address;
-				schoolDetails.value.personnels = fetchedData.personnels;
-
-				// then update user-store's address and personnels
-
-				// updateUser({
-				// 	address: fetchedData.address,
-				// 	personnels: fetchedData.personnels,
-				// });
-				if (fetchedData.address) {
-					updateAddress({
-						addressLine1: fetchedData.address?.addressLine1,
-						addressLine2: fetchedData.address?.addressLine2,
-						state: fetchedData.address?.state,
-						pin: fetchedData.address?.pin,
-					});
-				}
-				if (fetchedData.personnels) {
-					updatePersonnels({
-						principal: fetchedData.personnels.principal,
-						vicePrincipal: fetchedData.personnels.vicePrincipal,
-						staffs: fetchedData.personnels.staffs,
-					});
-				}
-			}
+	if (props.orgId) {
+		const url = `${baseUrl}/profile/org/${props.orgId}/addNpers`;
+		const opts = { method: "get" };
+		const { data, error } = await useFetch(url, opts);
+		// console.log("data-school details", data);
+		if (data) {
+			const fetchedData = data as TSchoolDetails;
+			schoolDetails.value.name = fetchedData.name;
+			schoolDetails.value.email = fetchedData.email;
+			schoolDetails.value.address = fetchedData.address;
+			schoolDetails.value.personnels = fetchedData.personnels;
 		}
 	}
 });

@@ -8,7 +8,7 @@ const { user } = storeToRefs(userStore);
 	<GoBackButton />
 	<div class="flex flex-col w-screen md:w-9/12 lg:w-7/12">
 		<h2 class="p-2 text-xl text-info">Your Profile</h2>
-		<SchoolDetails :orgId="user.id" />
+		<SchoolDetails :orgId="user.id" key="profile" />
 	</div>
 </template>
 

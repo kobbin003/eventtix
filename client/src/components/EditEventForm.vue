@@ -6,6 +6,8 @@ import { useFetch } from "@/hooks/useFetch";
 import type { TEvent } from "./CreateEventForm.vue";
 import { storeToRefs } from "pinia";
 import { useAlertStore } from "@/stores/alert";
+import type { TFetchedEvent } from "./EventsList.vue";
+import { accessToken } from "@/utils/constants";
 
 const { setSuccessMsg, setErrorMsg, setIsLoading, resetErrorMsg } =
 	useAlertStore();
@@ -17,7 +19,8 @@ const dateString = ref<string>();
 const timeString = ref<string>();
 const eventTitle = ref<string>();
 
-const eventData = ref<Partial<TEvent>>({
+const eventData = ref<TEvent & { id: string }>({
+	id: "",
 	title: "",
 	desc: "",
 	imageUrl: "",
@@ -38,6 +41,7 @@ const validateTicketPriceInput = (e: Event) => {
 		input.setCustomValidity("");
 	}
 };
+
 // console.log("date", new Date("2023-12-14T10:34"));
 async function submitEvent(e: Event) {
 	resetErrorMsg();
@@ -170,6 +174,21 @@ async function uploadImage(file: FileList) {
 	 * data:{api_key:}
 	 */
 }
+
+// TODO
+const deleteEvent = async () => {
+	console.log(eventData.value.id);
+	const url = `${baseUrl}/event/delete/${eventData.value.id}`;
+	const opts = { method: "DELETE", authorization: `Bearer ${accessToken}` };
+
+	const { data } = await useFetch(url, opts);
+
+	if (data) {
+		setSuccessMsg("event deleted!");
+	}
+	//go to user events view
+	router.push({ path: "/user/profile/events" });
+};
 watch([dateString, timeString], () => {
 	eventData.value.time = `${dateString.value}T${timeString.value}`;
 });
@@ -180,7 +199,7 @@ onMounted(async () => {
 	const { data, error } = await useFetch(url, opts);
 	console.log("data", data);
 	if (data) {
-		const fetchedData = data as TEvent;
+		const fetchedData = data as TFetchedEvent;
 		eventData.value.title = fetchedData.title;
 		eventData.value.desc = fetchedData.desc;
 		eventData.value.location = fetchedData.location;
@@ -190,7 +209,7 @@ onMounted(async () => {
 		timeString.value = format(fetchedData.time, "HH:mm");
 		eventData.value.ticketType = fetchedData.ticketType;
 		eventData.value.ticketPrice = fetchedData.ticketPrice;
-
+		eventData.value.id = fetchedData.id;
 		eventData.value.priceId = fetchedData.priceId;
 		eventData.value.productId = fetchedData.productId;
 	}
@@ -205,7 +224,7 @@ watch(eventData, () => {
 	<h2 class="text-xl py-4 text-info">
 		Edit your event with the title <b>{{ eventTitle }}</b>
 	</h2>
-	<div class="w-2/4">
+	<div class="w-2/4 flex flex-col gap-2">
 		<form action="" class="flex flex-col gap-2" @submit.prevent="submitEvent">
 			<table class="table-auto border-separate border-spacing-2">
 				<tbody>
@@ -350,9 +369,17 @@ watch(eventData, () => {
 					v-if="isLoading"
 					class="loading loading-spinner loading-xs"
 				></span>
-				<span v-else>edit</span>
+				<span v-else>Edit this event</span>
 			</button>
 		</form>
+		<button
+			@click="deleteEvent"
+			type="button"
+			class="btn btn-sm btn-error rounded-sm w-full"
+		>
+			<span v-if="isLoading" class="loading loading-spinner loading-xs"></span>
+			<span v-else>Delete This Event</span>
+		</button>
 	</div>
 </template>
 

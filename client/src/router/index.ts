@@ -86,13 +86,13 @@ const router = createRouter({
 			path: "/payment/success",
 			name: "paymentSuccess",
 			component: () => import("../views/PaymentSuccessView.vue"),
-			meta: { requiresAuth: true },
+			meta: { requiresAuth: false },
 		},
 		{
 			path: "/payment/failure/:eventId",
 			name: "paymentFailure",
 			component: () => import("../views/PaymentFailureView.vue"),
-			meta: { requiresAuth: true },
+			meta: { requiresAuth: false },
 		},
 		{
 			path: "/:catchAll(.*)",
