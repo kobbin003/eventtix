@@ -27,6 +27,11 @@ export const stripeWebhookController = (req: Request, res: Response) => {
 		console.log(`account update: ${account.id}`);
 		if (account.details_submitted) {
 			console.log("on boarding success");
+			// update the payment record's detailssubmitted to true
+			prisma.payment.update({
+				where: { orgId: account.metadata.orgId },
+				data: { detailsSubmitted: true },
+			});
 		}
 	}
 	// payment success

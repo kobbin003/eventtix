@@ -45,7 +45,7 @@ router.post(
 router.post("/product", createProduct);
 
 // create price (required before checkout)
-router.post("/price", createPrice);
+router.get("/price", createPrice);
 
 //create checkout session
 router.post("/checkout", createCheckoutSession);

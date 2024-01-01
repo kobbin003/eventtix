@@ -11,7 +11,7 @@ export const createConnectedAccount = async (
 		const account = await stripe.accounts.create({
 			type: "standard",
 			email,
-
+			metadata: { orgId },
 			business_profile: {
 				name: businessName,
 			},
@@ -20,7 +20,7 @@ export const createConnectedAccount = async (
 		if (!account) {
 			res.status(400);
 			next(new Error("Account could not be created"));
-		} // chek if the org already has a payment:
+		} // check if the org already has a payment record:
 		const orgHasPayment = await prisma.payment.findUnique({ where: { orgId } });
 		if (orgHasPayment) {
 			res.status(200).json(orgHasPayment);
