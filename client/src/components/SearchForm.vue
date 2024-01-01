@@ -12,7 +12,7 @@ let timeOutId: number;
 watch(searchValue, () => {
 	// emit("searchType", searchType.value);
 	clearTimeout(timeOutId);
-	timeOutId = setTimeout(() => {
+	timeOutId = window.setTimeout(() => {
 		emit("searchInputs", {
 			searchType: searchType.value,
 			searchValue: searchValue.value,
