@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { EventSchema } from "../../zodSchema/eventschema";
 import { prisma } from "../..";
+import { Org } from "../../types/Org";
 
 export const deleteEvent = async (
 	req: Request,
@@ -8,11 +9,13 @@ export const deleteEvent = async (
 	next: NextFunction
 ) => {
 	const eventId = req.params.eventId;
-
+	const currentOrg = req.user as Org;
+	const orgId = currentOrg.id;
 	try {
 		const deletedEvent = await prisma.event.delete({
 			where: {
 				id: eventId,
+				orgId: orgId,
 			},
 		});
 		/** if not found, 'RecordNotFound' exception is thrown */
