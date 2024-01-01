@@ -6,7 +6,8 @@ import { ref } from "vue";
 import { isAuthenticated } from "@/router";
 
 const darkenFromThemeToggler = ref();
-
+const reRender = ref(false);
+const updateRerender = () => (reRender.value = !reRender.value);
 const themeEventHandler = (arg: boolean) => {
 	darkenFromThemeToggler.value = arg;
 };
@@ -29,12 +30,16 @@ const themeEventHandler = (arg: boolean) => {
 			<CreateEventButton
 				v-if="!$route.path?.toString().includes('event/create')"
 			/>
-			<DropDownMenu />
+			<DropDownMenu :updateRerender="updateRerender" />
 		</div>
 
-		<RouterLink v-else to="/login" class="btn btn-sm btn-primary rounded-sm"
+		<RouterLink
+			v-else-if="!isAuthenticated()"
+			to="/login"
+			class="btn btn-sm btn-primary rounded-sm"
 			><span class="">Login</span></RouterLink
 		>
+		<!-- <div v-else></div> -->
 	</header>
 </template>
 

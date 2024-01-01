@@ -34,11 +34,17 @@
 					>
 				</li>
 				<li>
-					<RouterLink
+					<button
+						@click="removeAuth"
+						class="rounded-sm bg-transparent shadow-none border-none"
+					>
+						Logout
+					</button>
+					<!-- <RouterLink
 						to="/"
 						class="rounded-sm bg-transparent shadow-none border-none"
-						><span class="" @click="removeAuth">Logout</span></RouterLink
-					>
+						><span class="" @click="removeAuth"></span></RouterLink
+					> -->
 				</li>
 			</ul>
 		</div>
@@ -46,12 +52,21 @@
 </template>
 
 <script setup lang="ts">
+import { useRouter } from "vue-router";
+const router = useRouter();
+const props = defineProps({
+	updateRerender: { type: Function, required: true },
+});
 const removeAuth = () => {
-	// trial
 	localStorage.removeItem("accessToken");
 
 	// user store, gets stored on persist
 	localStorage.removeItem("user");
+
+	// this is required because sometimes the header does not change even after logout click
+	props.updateRerender;
+
+	router.push({ path: "/" });
 };
 </script>
 
