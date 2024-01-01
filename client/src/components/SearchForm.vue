@@ -1,3 +1,32 @@
+<script setup lang="ts">
+import { ref, watch } from "vue";
+// import blackSearchIcon from "@/assets/search_black.svg";
+const emit = defineEmits(["searchInputs"]);
+
+const searchType = ref("");
+const date = ref("");
+const searchValue = ref<string>();
+
+// debouncing
+let timeOutId: number;
+watch(searchValue, () => {
+	// emit("searchType", searchType.value);
+	clearTimeout(timeOutId);
+	timeOutId = setTimeout(() => {
+		emit("searchInputs", {
+			searchType: searchType.value,
+			searchValue: searchValue.value,
+		});
+	}, 500);
+});
+watch(date, () => {
+	// emit("searchType", searchType.value);
+	emit("searchInputs", {
+		searchType: "day",
+		searchValue: date.value,
+	});
+});
+</script>
 <template>
 	<div class="flex flex-col md:flex-row items-start md:items-center gap-2 py-3">
 		<select
@@ -6,7 +35,7 @@
 		>
 			<option disabled selected value="">select search type</option>
 			<option value="location">location</option>
-			<option value="schoolName">school name</option>
+			<option value="orgName">school name</option>
 			<option value="date">date</option>
 		</select>
 
@@ -65,6 +94,7 @@
 				class="relative left-2"
 			/>
 			<input
+				v-model="searchValue"
 				type="search"
 				name="search"
 				id="search"
@@ -80,13 +110,6 @@
 		</div>
 	</div>
 </template>
-
-<script setup lang="ts">
-import { ref } from "vue";
-// import blackSearchIcon from "@/assets/search_black.svg";
-const searchType = ref("");
-const date = ref("");
-</script>
 
 <style scoped>
 input[type="date"]::-webkit-calendar-picker-indicator {

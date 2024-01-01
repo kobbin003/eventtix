@@ -75,7 +75,7 @@ onMounted(async () => {
 		</div>
 		<div v-if="dataFetched" class="flex flex-col gap-2 w-screen md:w-1/2">
 			<div v-if="eventDone">
-				<div role="alert" class="alert rounded-sm">
+				<div role="alert" class="alert rounded-sm flex">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						fill="none"
@@ -89,7 +89,7 @@ onMounted(async () => {
 							d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
 						></path>
 					</svg>
-					<span class="text-sm font-normal"
+					<span class="text-xs sm:text-sm md:font-normal whitespace-nowrap"
 						>This event has ended. Tickets no longer available</span
 					>
 				</div>

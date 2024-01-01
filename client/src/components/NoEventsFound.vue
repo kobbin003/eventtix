@@ -4,9 +4,11 @@
 	>
 		<img :src="eventNotFoundUrl" alt="" />
 		<b class="text-xl">No events found!</b>
-		<RouterLink :to="isAuthenticated() ? '/user/event/create' : '/login'">
-			<button class="btn btn-sm btn-primary rounded-sm">create event</button>
-		</RouterLink>
+		<div v-if="$route.path.includes('/user/profile/events')">
+			<RouterLink :to="isAuthenticated() ? '/user/event/create' : '/login'">
+				<button class="btn btn-sm btn-primary rounded-sm">create event</button>
+			</RouterLink>
+		</div>
 	</div>
 </template>
 
