@@ -20,7 +20,7 @@ export type TFetchedEvent = {
 	};
 } & TEvent;
 
-const allEvents = ref<Array<TFetchedEvent>>();
+const allEvents = ref<Array<TFetchedEvent>>([]);
 const baseUrl = import.meta.env.VITE_BASE_URL;
 const accessToken = localStorage.getItem("accessToken");
 const opts = {
@@ -36,7 +36,8 @@ async function paginate() {
 	const { data, error } = await useFetch(url, opts);
 	// console.log("data-hook-page", data);
 	if (data) {
-		allEvents.value = data;
+		// allEvents.value = data;
+		allEvents.value = [...allEvents.value, ...data];
 	}
 }
 onBeforeMount(async () => {
