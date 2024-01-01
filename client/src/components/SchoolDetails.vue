@@ -57,6 +57,26 @@ onMounted(async () => {
 			schoolDetails.value.email = fetchedData.email;
 			schoolDetails.value.address = fetchedData.address;
 			schoolDetails.value.personnels = fetchedData.personnels;
+
+			// then update user-store's address and personnels
+
+			if (route.path.includes("user/profile")) {
+				if (fetchedData.address) {
+					updateAddress({
+						addressLine1: fetchedData.address?.addressLine1,
+						addressLine2: fetchedData.address?.addressLine2,
+						state: fetchedData.address?.state,
+						pin: fetchedData.address?.pin,
+					});
+				}
+				if (fetchedData.personnels) {
+					updatePersonnels({
+						principal: fetchedData.personnels.principal,
+						vicePrincipal: fetchedData.personnels.vicePrincipal,
+						staffs: fetchedData.personnels.staffs,
+					});
+				}
+			}
 		}
 	}
 });
