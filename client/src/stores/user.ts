@@ -20,14 +20,30 @@ export const useUserStore = defineStore(
 		// }
 
 		function updateAddress(arg: TAddress) {
-			user.value.address = arg;
+			if (user.value.address) {
+				user.value.address.addressLine1 = arg.addressLine1;
+				user.value.address.addressLine2 = arg.addressLine2;
+				user.value.address.state = arg.state;
+				user.value.address.pin = arg.pin;
+			}
 		}
 
-		function updatePersonnels(arg: TPersonnels) {
-			user.value.personnels = arg;
+		function updatePersonnels({
+			principal,
+			vicePrincipal,
+			staffs,
+		}: TPersonnels) {
+			if (user.value.personnels) {
+				user.value.personnels.principal = principal;
+				user.value.personnels.vicePrincipal = vicePrincipal;
+				user.value.personnels.staffs = staffs;
+			}
 		}
-		function updatePayment(arg: TPayment) {
-			user.value.payment = arg;
+		function updatePayment({ connectedAccId, detailsSubmitted }: TPayment) {
+			if (user.value.payment) {
+				user.value.payment.connectedAccId = connectedAccId;
+				user.value.payment.detailsSubmitted = detailsSubmitted;
+			}
 		}
 
 		return {

@@ -179,11 +179,15 @@ async function uploadImage(file: FileList) {
 const deleteEvent = async () => {
 	console.log(eventData.value.id);
 	const url = `${baseUrl}/event/delete/${eventData.value.id}`;
-	const opts = { method: "DELETE", authorization: `Bearer ${accessToken}` };
+	const opts = {
+		method: "DELETE",
+		headers: { authorization: `Bearer ${accessToken}` },
+	};
 
 	const { data } = await useFetch(url, opts);
 
 	if (data) {
+		console.log("deleted data", data);
 		setSuccessMsg("event deleted!");
 	}
 	//go to user events view
@@ -197,7 +201,7 @@ onMounted(async () => {
 	const url = `${baseUrl}/event/id/${route.params.eventId}`;
 	const opts = { method: "get" };
 	const { data, error } = await useFetch(url, opts);
-	console.log("data", data);
+	// console.log("data", data);
 	if (data) {
 		const fetchedData = data as TFetchedEvent;
 		eventData.value.title = fetchedData.title;

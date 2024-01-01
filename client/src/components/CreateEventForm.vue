@@ -79,16 +79,25 @@ async function submitEvent(e: Event) {
 			try {
 				const url = `${baseUrl}/event/create`;
 				const accessToken = localStorage.getItem("accessToken");
+				const { title, desc, imageUrl, location, time, ticketType } =
+					eventData.value;
 				const opts = {
 					method: "POST",
 					headers: {
 						"Content-Type": "application/json",
 						Authorization: `Bearer ${accessToken}`,
 					},
-					//convert string to number
+					//convert string to number, only if there is ticketPrice
 					body: JSON.stringify({
-						...eventData.value,
-						ticketPrice: Number(eventData.value.ticketPrice),
+						title,
+						desc,
+						imageUrl,
+						location,
+						time,
+						ticketType,
+						ticketPrice: eventData.value.ticketPrice
+							? Number(eventData.value.ticketPrice)
+							: 0,
 					}),
 				};
 				const res = await fetch(url, opts);

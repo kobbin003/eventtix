@@ -56,7 +56,8 @@ const submit = async () => {
 		}
 		const data = await res.json();
 		// console.log("login-data", data);
-		const { accessToken, id, name, email, payment } = data as User;
+		const { accessToken, id, name, email, payment, address, personnels } =
+			data as User;
 		// console.log("login", accessToken, payment);
 		if (accessToken) {
 			localStorage.setItem("accessToken", accessToken);
@@ -66,6 +67,8 @@ const submit = async () => {
 				id,
 				name,
 				email,
+				address,
+				personnels,
 			});
 		}
 		if (payment) {

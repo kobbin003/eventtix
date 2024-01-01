@@ -48,13 +48,16 @@ const schoolDetails = ref<TSchoolDetails>({
 onMounted(async () => {
 	// if own profile, set the ref-values from the user-store else fetch
 	if (route.path.includes("/user/profile")) {
+		console.log("in user profile");
 		schoolDetails.value.name = user.value.name;
 		schoolDetails.value.email = user.value.email;
 		// if address and personnels found, set the ref-values from the user-store else fetch
-		if (user.value.address && user.value.personnels) {
+		if (user.value.address?.addressLine1 && user.value.personnels?.principal) {
 			schoolDetails.value.address = user.value.address;
 			schoolDetails.value.personnels = user.value.personnels;
+			console.log("address and personnel in store");
 		} else {
+			console.log("address and personnel not in store");
 			if (props.orgId) {
 				const url = `${baseUrl}/profile/org/${props.orgId}/addNpers`;
 				const opts = { method: "get" };
@@ -116,7 +119,7 @@ onMounted(async () => {
 	</div>
 	<div v-else>
 		<div
-			v-if="schoolDetails.name"
+			v-if="schoolDetails.address"
 			class="w-full p-2 flex flex-col gap-2 border-2 border-primary-content/50 rounded-sm"
 		>
 			<p>

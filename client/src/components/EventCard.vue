@@ -111,7 +111,6 @@ const buyTicket = async () => {
 						<span class="text-base font-normal text-white">Free</span>
 					</p>
 					<button
-						@click="buyTicket"
 						v-else
 						class="btn btn-md btn-accent rounded-sm md:hidden font-normal"
 					>
@@ -133,13 +132,14 @@ const buyTicket = async () => {
 			>
 				<span class="text-base font-normal text-white">Free</span>
 			</p>
-			<button
-				v-else
-				class="btn btn-sm btn-accent rounded-sm hidden md:block font-normal"
-				@click="buyTicket"
-			>
-				Buy Ticket
-			</button>
+			<RouterLink v-else :to="`/event/${props.id}`">
+				<button
+					class="btn btn-sm btn-accent rounded-sm hidden md:block font-normal"
+					@click="buyTicket"
+				>
+					Buy Ticket
+				</button>
+			</RouterLink>
 		</div>
 	</div>
 </template>
