@@ -10,7 +10,6 @@ export const deleteEvent = async (
 	const eventId = req.params.eventId;
 
 	try {
-		const result = EventSchema.safeParse(req.body);
 		const deletedEvent = await prisma.event.delete({
 			where: {
 				id: eventId,

@@ -31,7 +31,12 @@ export const createAccountLink = async (
 				return_url: `${clientUrl}/user/profile/payment`,
 				type: "account_onboarding",
 			});
-			res.status(200).json(acccountLink);
+			if (acccountLink) {
+				res.status(200).json(acccountLink);
+			} else {
+				res.status(400);
+				next(new Error("could not create account link"));
+			}
 		} catch (error) {
 			res.json({ msg: `error: ${error.message}` });
 		}
