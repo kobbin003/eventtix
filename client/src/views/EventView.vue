@@ -61,7 +61,6 @@ onMounted(async () => {
 	<div class="flex flex-col md:flex-row gap-2">
 		<div class="w-screen md:w-1/2">
 			<EventDetails
-				v-if="eventData.id"
 				:id="eventData.id"
 				:title="eventData.title"
 				:desc="eventData.desc"
@@ -151,11 +150,7 @@ onMounted(async () => {
 
 			<div class="flex flex-col p-2 border border-primary-content/5 shadow-lg">
 				<h2 class="p-2 text-xl text-info">Organiser details</h2>
-				<SchoolDetails
-					v-if="eventData.orgId"
-					:orgId="eventData.orgId"
-					key="event-id"
-				/>
+				<SchoolDetails :orgId="eventData.orgId" key="event-id" />
 			</div>
 		</div>
 	</div>
