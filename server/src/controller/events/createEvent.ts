@@ -45,6 +45,10 @@ export const createEvent = async (
 			if (ticketType == "paid") {
 				//* create a product(requires connectedAccId and productName)
 				// keep productName as the event title
+				if (!currentOrgPayment.connectedAccId) {
+					res.status(400);
+					next(new Error("setup your stripe account first!"));
+				}
 				const product = await stripe.products.create(
 					{
 						name: title,
