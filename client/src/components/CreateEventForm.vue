@@ -81,6 +81,17 @@ async function submitEvent(e: Event) {
 				const accessToken = localStorage.getItem("accessToken");
 				const { title, desc, imageUrl, location, time, ticketType } =
 					eventData.value;
+				const createEventData = eventData.value.ticketPrice
+					? {
+							title,
+							desc,
+							imageUrl,
+							location,
+							time,
+							ticketType,
+							ticketPrice: Number(eventData.value.ticketPrice),
+					  }
+					: { title, desc, imageUrl, location, time, ticketType };
 				const opts = {
 					method: "POST",
 					headers: {
@@ -88,17 +99,7 @@ async function submitEvent(e: Event) {
 						Authorization: `Bearer ${accessToken}`,
 					},
 					//convert string to number, only if there is ticketPrice
-					body: JSON.stringify({
-						title,
-						desc,
-						imageUrl,
-						location,
-						time,
-						ticketType,
-						ticketPrice: eventData.value.ticketPrice
-							? Number(eventData.value.ticketPrice)
-							: 0,
-					}),
+					body: JSON.stringify(createEventData),
 				};
 				const res = await fetch(url, opts);
 				if (!res.ok) {
@@ -165,7 +166,17 @@ watch([dateString, timeString], () => {
 });
 </script>
 <template>
-	<h2 class="text-xl py-4 text-info">Create a new event</h2>
+	<div class="py-4">
+		<h2 class="text-xl text-info">Create a new event</h2>
+		<p>
+			* events can be created only after
+			<RouterLink
+				to="/user/profile/payment"
+				class="text-info underline underline-offset-2"
+				>setting up payment account</RouterLink
+			>
+		</p>
+	</div>
 	<div class="w-2/4">
 		<form action="" class="flex flex-col gap-2" @submit.prevent="submitEvent">
 			<table class="table-auto border-separate border-spacing-2">
@@ -268,7 +279,7 @@ watch([dateString, timeString], () => {
 							<label for="ticket" class="flex items-center gap-2">
 								free<input
 									type="radio"
-									name="free"
+									name="ticketType"
 									value="free"
 									id="free"
 									class="radio-xs checked:bg-blue-500"
@@ -278,7 +289,7 @@ watch([dateString, timeString], () => {
 							<label for="ticket" class="flex items-center gap-2">
 								paid<input
 									type="radio"
-									name="paid"
+									name="ticketType"
 									value="paid"
 									id="paid"
 									class="radio-xs checked:bg-blue-500"
