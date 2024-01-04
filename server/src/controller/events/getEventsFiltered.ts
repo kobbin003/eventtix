@@ -46,8 +46,6 @@ export const getEventsFiltered = async (
 			} else if (day) {
 				events = await getEventsByDate(day, Number(skip), Number(take));
 			} else {
-				// res.status(400);
-				// next(new Error("Bad request"));
 				events = await getEvents(Number(skip), Number(take));
 			}
 

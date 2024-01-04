@@ -38,10 +38,6 @@ export const getEventsByDate = async (
 			},
 		});
 
-		// if (events.length == 0) {
-		// 	return [];
-		// }
-
 		return events;
 	} catch (error) {
 		throw new Error(error);
