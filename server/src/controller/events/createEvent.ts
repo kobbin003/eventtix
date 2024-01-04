@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { EventSchema } from "../../zodSchema/eventschema";
 import { prisma, stripe } from "../..";
 import { Org } from "../../types/Org";
+import { createProductAndPriceInBackground } from "../../service/stripe/createProductAndPriceInBackground";
 
 export const createEvent = async (
 	req: Request,
@@ -33,49 +34,51 @@ export const createEvent = async (
 			let productId;
 			let priceId;
 			//* get current org's connectedAccId
-			const currentOrgPayment = await prisma.payment.findUnique({
+			const currentOrgPayment = await prisma.org.findUnique({
 				where: {
-					orgId,
+					id: orgId,
 				},
+				include: { payment: true },
 			});
-			if (!currentOrgPayment) {
+			const currentOrgConnectedAccId = currentOrgPayment.payment.connectedAccId;
+			if (!currentOrgConnectedAccId) {
 				res.status(400);
 				next(new Error("Could not create Event!"));
 			}
-			if (ticketType == "paid") {
-				//* create a product(requires connectedAccId and productName)
-				// keep productName as the event title
-				if (!currentOrgPayment.connectedAccId) {
-					res.status(400);
-					next(new Error("setup your stripe account first!"));
-				}
-				const product = await stripe.products.create(
-					{
-						name: title,
-					},
-					{ stripeAccount: currentOrgPayment.connectedAccId }
-				);
-				productId = product.id;
-				if (!productId) {
-					res.status(400);
-					next(new Error("Could not create Event!"));
-				}
-				// * create a price(requires connectedAccId, ticketPrice and connectedAccId)
-				// only if ticketType is "paid"
-				const price = await stripe.prices.create(
-					{
-						currency: "inr",
-						unit_amount: Number(ticketPrice) * 100,
-						product: productId,
-					},
-					{ stripeAccount: currentOrgPayment.connectedAccId }
-				);
-				priceId = price.id;
-				if (!priceId) {
-					res.status(400);
-					next(new Error("Could not create Event!"));
-				}
-			}
+			// if (ticketType == "paid") {
+			// 	//* create a product(requires connectedAccId and productName)
+			// 	// keep productName as the event title
+			// 	if (!currentOrgPayment.payment.connectedAccId) {
+			// 		res.status(400);
+			// 		next(new Error("setup your stripe account first!"));
+			// 	}
+			// 	const product = await stripe.products.create(
+			// 		{
+			// 			name: title,
+			// 		},
+			// 		{ stripeAccount: currentOrgPayment.payment.connectedAccId }
+			// 	);
+			// 	productId = product.id;
+			// 	if (!productId) {
+			// 		res.status(400);
+			// 		next(new Error("Could not create Event!"));
+			// 	}
+			// 	// * create a price(requires connectedAccId, ticketPrice and connectedAccId)
+			// 	// only if ticketType is "paid"
+			// 	const price = await stripe.prices.create(
+			// 		{
+			// 			currency: "inr",
+			// 			unit_amount: Number(ticketPrice) * 100,
+			// 			product: productId,
+			// 		},
+			// 		{ stripeAccount: currentOrgPayment.payment.connectedAccId }
+			// 	);
+			// 	priceId = price.id;
+			// 	if (!priceId) {
+			// 		res.status(400);
+			// 		next(new Error("Could not create Event!"));
+			// 	}
+			// }
 
 			//* create event at last
 			const event = await prisma.event.create({
@@ -91,20 +94,20 @@ export const createEvent = async (
 					priceId: priceId ?? null,
 					productId: productId ?? null,
 				},
-				// include: {
-				// 	Org: {
-				// 		include: {
-				// 			payment: {
-				// 				select: { connectedAccId: true, detailsSubmitted: true },
-				// 			},
-				// 		},
-				// 	},
-				// },
 			});
 
 			if (!event) {
 				res.status(400);
 				throw new Error("event could not be created!");
+			}
+			if (ticketType == "paid") {
+				// create product and price, and later update in the background
+				createProductAndPriceInBackground(
+					event.id,
+					currentOrgConnectedAccId,
+					title,
+					ticketPrice
+				);
 			}
 
 			res.status(200).json(event);

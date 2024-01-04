@@ -25,7 +25,7 @@ export const createConnectedAccount = async (
 		// create payment with the connected account that we receive
 		const payment = await prisma.payment.create({
 			data: {
-				orgId,
+				orgId: orgId,
 				connectedAccId: account.id,
 				// details_submitted
 				detailsSubmitted: account.details_submitted,

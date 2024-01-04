@@ -25,13 +25,52 @@ export const stripeWebhookController = (req: Request, res: Response) => {
 	if (event.type == "account.updated") {
 		const account = event.data.object;
 		console.log(`account update: ${account.id}`);
+		console.log("updated account detail", account);
 		if (account.details_submitted) {
 			console.log("on boarding success");
 			// update the payment record's detailssubmitted to true
-			prisma.payment.update({
-				where: { orgId: account.metadata.orgId },
-				data: { detailsSubmitted: true },
-			});
+			prisma.payment
+				.update({
+					where: { orgId: account.metadata.orgId },
+					data: { detailsSubmitted: true },
+				})
+				.then((payment) => console.log("details_submitted updated!", payment));
+		}
+	} else if (event.type == "product.created") {
+		const product = event.data.object;
+		console.log(`product create with id: ${product.id}`);
+		// update event with productId
+		if (product.id) {
+			prisma.event
+				.update({
+					where: { id: product.metadata.eventId },
+					data: {
+						productId: product.id,
+					},
+				})
+				.then(() =>
+					console.log(
+						`event with id ${product.metadata.eventId} got priceId(${product.id}) updated`
+					)
+				);
+		}
+	} else if (event.type == "price.created") {
+		const price = event.data.object;
+		console.log(`price create with id: ${price.id}`);
+		// update event with priceId
+		if (price.id) {
+			prisma.event
+				.update({
+					where: { id: price.metadata.eventId },
+					data: {
+						priceId: price.id,
+					},
+				})
+				.then(() =>
+					console.log(
+						`event with id ${price.metadata.eventId} got priceId(${price.id}) updated`
+					)
+				);
 		}
 	}
 	// payment success

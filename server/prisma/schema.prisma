@@ -27,7 +27,7 @@ model Org {
 
 model Payment {
   id               String  @id @default(uuid())
-  org              Org?    @relation(fields: [orgId], references: [id])
+  org              Org?    @relation(fields: [orgId], references: [id], onDelete: Cascade)
   orgId            String? @unique
   connectedAccId   String  @unique
   detailsSubmitted Boolean @default(false)

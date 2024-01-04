@@ -9,6 +9,7 @@ import { getCurrentOrgAddress } from "../controller/profile/getCurrentOrgAddress
 import { getCurrentOrgPersonnels } from "../controller/profile/getCurrentOrgPersonnels";
 import { getCurrentOrgProfile } from "../controller/profile/getCurrentOrgProfile";
 import { getPersonnelsAddressByOrgId } from "../controller/profile/getPersonnelsAddressByOrgId";
+import { getCurrentOrgPayment } from "../controller/profile/getCurrentOrgPayment";
 const router = express.Router();
 
 // PUBLIC
@@ -33,6 +34,14 @@ router.get(
 	"/address",
 	passport.authenticate("jwt", { session: false }),
 	getCurrentOrgAddress
+);
+
+// PRIVATE
+// get current user payment record
+router.get(
+	"/payment",
+	passport.authenticate("jwt", { session: false }),
+	getCurrentOrgPayment
 );
 
 // PRIVATE
