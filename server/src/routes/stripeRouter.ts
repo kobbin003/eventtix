@@ -11,7 +11,7 @@ import { getConnectedAccount } from "../controller/stripe/getConnectedAccount";
 import { agreement } from "../controller/stripe/agreement";
 import { getPaymentDetails } from "../controller/stripe/getPaymentDetails";
 import passport from "passport";
-import { redirectAccountLink } from "../controller/stripe/redirectAccountLink";
+// import { redirectAccountLink } from "../controller/stripe/redirectAccountLink";
 
 // create connected account
 router.post("/account/create", createConnectedAccount);

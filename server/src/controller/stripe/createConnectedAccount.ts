@@ -20,11 +20,8 @@ export const createConnectedAccount = async (
 		if (!account) {
 			res.status(400);
 			next(new Error("Account could not be created"));
-		} // check if the org already has a payment record:
-		const orgHasPayment = await prisma.payment.findUnique({ where: { orgId } });
-		if (orgHasPayment) {
-			res.status(200).json(orgHasPayment);
 		}
+
 		// create payment with the connected account that we receive
 		const payment = await prisma.payment.create({
 			data: {
