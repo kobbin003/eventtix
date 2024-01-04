@@ -37,7 +37,7 @@ onBeforeMount(async () => {
 	</div>
 	<div v-else>
 		<div
-			v-if="userEvents && userEvents.length == 0"
+			v-if="!userEvents || (userEvents && userEvents.length == 0)"
 			class="flex justify-center relative top-10"
 		>
 			<NoEventsFound />

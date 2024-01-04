@@ -168,14 +168,6 @@ watch([dateString, timeString], () => {
 <template>
 	<div class="py-4">
 		<h2 class="text-xl text-info">Create a new event</h2>
-		<p>
-			* events can be created only after
-			<RouterLink
-				to="/user/profile/payment"
-				class="text-info underline underline-offset-2"
-				>setting up payment account</RouterLink
-			>
-		</p>
 	</div>
 	<div class="w-2/4">
 		<form action="" class="flex flex-col gap-2" @submit.prevent="submitEvent">

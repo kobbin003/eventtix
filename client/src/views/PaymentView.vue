@@ -3,8 +3,9 @@ import { useFetch } from "@/hooks/useFetch";
 import { onMounted, ref } from "vue";
 import { useUserStore } from "@/stores/user";
 import { storeToRefs } from "pinia";
-import { baseUrl } from "@/utils/constants";
+import { accessToken, baseUrl } from "@/utils/constants";
 
+const { updatePayment } = useUserStore();
 const { user } = storeToRefs(useUserStore());
 
 const onBoardingIsLoading = ref(false);
@@ -30,8 +31,24 @@ const onBoardToStripe = async () => {
 	}
 };
 
-onMounted(() => {
+onMounted(async () => {
 	onBoardingIsLoading.value = false;
+	console.log("user", user.value);
+	const url = `${baseUrl}/profile/payment`;
+	const opts = {
+		method: "GET",
+		headers: {
+			authorization: `Bearer ${accessToken}`,
+		},
+	};
+	const { data } = await useFetch(url, opts);
+	console.log("payment-data", data);
+	if (data) {
+		updatePayment({
+			connectedAccId: data.payment.connectedAccId,
+			detailsSubmitted: data.payment.detailsSubmitted,
+		});
+	}
 });
 </script>
 <template>
@@ -39,25 +56,36 @@ onMounted(() => {
 		<p class="text-xl text-primary py-4">Payment Details</p>
 	</div>
 
-	<div v-if="!onBoarded" class="flex flex-col gap-4 w-max">
-		<div class="bg-base-content/5 px-4 py-2">
-			<p class="text-lg">You have not yet set up your payment account</p>
-			<p class="py-1">
-				It is required to set up a
-				<span class="text-primary/75">stripe account</span> to accept payments.
-			</p>
-			<p>( It won't take much time )</p>
+	<div
+		v-if="!onBoarded"
+		class="flex flex-col gap-4 md:w-max bg-base-content/5 p-4"
+	>
+		<div class="flex items-start gap-2">
+			<div class="relative top-1">
+				<IconInfo />
+			</div>
+			<div class="flex flex-col gap-2">
+				<p class="text-lg">You have not yet set up your payment account</p>
+				<div class="">
+					<p>
+						It is required to set up a&nbsp;<span class="text-primary/75"
+							>stripe account</span
+						>&nbsp;to accept payments.
+					</p>
+					<span> (It won't take much time) </span>
+				</div>
+				<button
+					@click="onBoardToStripe"
+					class="btn btn-sm btn-primary rounded-sm w-max font-normal mt-2"
+				>
+					<span
+						v-if="onBoardingIsLoading"
+						class="loading loading-spinner loading-sm"
+					></span>
+					<span v-else>Setup payment account</span>
+				</button>
+			</div>
 		</div>
-		<button
-			@click="onBoardToStripe"
-			class="btn btn-sm btn-primary rounded-sm w-max"
-		>
-			<span
-				v-if="onBoardingIsLoading"
-				class="loading loading-spinner loading-sm"
-			></span>
-			<span v-else>setup payment account</span>
-		</button>
 	</div>
 	<div v-else>
 		<PaymentAccountDetails :connectedAccId="user.payment?.connectedAccId" />

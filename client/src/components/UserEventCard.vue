@@ -64,10 +64,8 @@ if (isBefore(props.eventTime, new Date())) {
 
 				<div class="flex flex-col justify-between gap-2 md:pb-2">
 					<div class="flex flex-col gap-2">
-						<div>
-							<p class="text-xl">{{ props.title }}</p>
-						</div>
-						<p class="">{{ props.desc }}</p>
+						<p class="text-xl">{{ props.title }}</p>
+						<p class="line-clamp-2">{{ props.desc }}</p>
 					</div>
 					<div class="flex flex-col gap-2">
 						<div class="flex items-center gap-2">

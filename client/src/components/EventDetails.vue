@@ -26,11 +26,14 @@ const props = defineProps({
 		class="w-full h-max border border-primary-content/5 shadow-lg p-4 flex flex-col gap-1"
 	>
 		<div>
+			<!-- <div class="relative mb-4 min-h-[500px] max-h-[60vh]"> -->
 			<img
 				:src="props.imgUrl"
 				alt=""
-				class="w-full object-fill mb-4 min-h-[500px] max-h-[60vh]"
+				class="w-full mb-4 min-h-[500px] max-h-[60vh] object-contain object-center bg-neutral/5"
 			/>
+			<!-- </div> -->
+			<!-- class="w-full object-contain mb-4 min-h-[500px] max-h-[60vh]" -->
 			<div>
 				<h2 class="text-lg">{{ props.title }}</h2>
 			</div>

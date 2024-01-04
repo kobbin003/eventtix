@@ -58,7 +58,7 @@ const submit = async () => {
 		// console.log("login-data", data);
 		const { accessToken, id, name, email, payment, address, personnels } =
 			data as User;
-		// console.log("login", accessToken, payment);
+		console.log("login", data);
 		if (accessToken) {
 			localStorage.setItem("accessToken", accessToken);
 			setSuccessMsg("logged in!");
@@ -69,13 +69,14 @@ const submit = async () => {
 				email,
 				address,
 				personnels,
+				payment: { connectedAccId: "", detailsSubmitted: false },
 			});
-		}
-		if (payment) {
-			updatePayment({
-				connectedAccId: payment.connectedAccId,
-				detailsSubmitted: payment.detailsSubmitted,
-			});
+			if (payment) {
+				updatePayment({
+					connectedAccId: payment.connectedAccId,
+					detailsSubmitted: payment.detailsSubmitted,
+				});
+			}
 		}
 		setIsLoading(false);
 		if (isAuthenticated()) {
@@ -126,9 +127,9 @@ const submit = async () => {
 						<span v-else>Login</span>
 					</button>
 				</form>
-				<div class="flex">
+				<div class="flex text-sm">
 					<p>Dont' have an account?</p>
-					<RouterLink to="/signup" class="text-primary mx-1">signup</RouterLink>
+					<RouterLink to="/signup" class="text-primary mx-1">Signup</RouterLink>
 				</div>
 			</div>
 		</div>

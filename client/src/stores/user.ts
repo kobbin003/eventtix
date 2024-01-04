@@ -4,7 +4,9 @@ import { ref } from "vue";
 export const useUserStore = defineStore(
 	"user",
 	() => {
-		const initialUser = {} as User;
+		const initialUser = {
+			payment: { connectedAccId: "", detailsSubmitted: false },
+		} as User;
 		const user = ref<User>(initialUser);
 
 		// const getUser = user.value;
@@ -41,6 +43,7 @@ export const useUserStore = defineStore(
 		}
 		function updatePayment({ connectedAccId, detailsSubmitted }: TPayment) {
 			if (user.value.payment) {
+				console.log("payment updated", connectedAccId, detailsSubmitted);
 				user.value.payment.connectedAccId = connectedAccId;
 				user.value.payment.detailsSubmitted = detailsSubmitted;
 			}

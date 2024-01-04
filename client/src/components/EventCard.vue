@@ -65,10 +65,8 @@ const buyTicket = async () => {
 
 				<div class="flex flex-col justify-between gap-2 md:pb-2">
 					<div class="flex flex-col gap-2 pb-2 md:pb-0">
-						<div>
-							<p class="text-xl">{{ props.title }}</p>
-						</div>
-						<p class="text-sm">{{ props.desc }}</p>
+						<p class="text-xl">{{ props.title }}</p>
+						<p class="text-sm line-clamp-2">{{ props.desc }}</p>
 					</div>
 					<div class="flex flex-col gap-1 md:gap-2">
 						<div class="flex items-center gap-2">

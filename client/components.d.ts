@@ -27,6 +27,7 @@ declare module 'vue' {
     IconEcosystem: typeof import('./src/components/icons/IconEcosystem.vue')['default']
     IconFailure: typeof import('./src/components/icons/IconFailure.vue')['default']
     IconFee: typeof import('./src/components/icons/IconFee.vue')['default']
+    IconInfo: typeof import('./src/components/icons/IconInfo.vue')['default']
     IconLocation: typeof import('./src/components/icons/IconLocation.vue')['default']
     IconSchool: typeof import('./src/components/icons/IconSchool.vue')['default']
     IconSuccess: typeof import('./src/components/icons/IconSuccess.vue')['default']

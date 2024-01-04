@@ -7,11 +7,13 @@ import SignupFormPersonnel from "./SignupFormPersonnel.vue";
 import type { CredentialType } from "@/components/SignupFormCredential.vue";
 import SignupFormCredential from "@/components/SignupFormCredential.vue";
 import { useRouter } from "vue-router";
-import { type TAddress, type TPersonnels } from "@/stores/user";
+import { useUserStore, type TAddress, type TPersonnels } from "@/stores/user";
 import { useAlertStore } from "@/stores/alert";
+import { useFetch } from "@/hooks/useFetch";
 
 const { setSuccessMsg, setErrorMsgArray, setErrorMsg, setIsLoading } =
 	useAlertStore();
+// const {  updatePayment } = useUserStore();
 // const currentStep = ref("
 const currentStep = ref(1);
 const router = useRouter();
@@ -64,6 +66,7 @@ const handleStepDecrement = () => {
 const baseUrl = import.meta.env.VITE_BASE_URL;
 
 const formSubmit = async () => {
+	setIsLoading(true);
 	// console.log("formData", formData.value);
 	const url = `${baseUrl}/auth/register`;
 	const opts = {
@@ -89,6 +92,9 @@ const formSubmit = async () => {
 		}
 		const data = await res.json();
 		if (data.account.id) {
+			const orgId = data.account.id;
+			console.log("org id -register", orgId);
+			await createConnectedAccount(orgId);
 			setSuccessMsg("Successfully registered!");
 			setIsLoading(false);
 			router.push({ path: "/login" });
@@ -98,6 +104,24 @@ const formSubmit = async () => {
 		setIsLoading(false);
 	}
 };
+
+async function createConnectedAccount(orgId: string) {
+	const url = `${baseUrl}/stripe/account/create`;
+	const opts = {
+		method: "POST",
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify({
+			email: formData.value.org.email,
+			businessName: formData.value.org.name,
+			orgId,
+		}),
+	};
+	const { data } = await useFetch(url, opts);
+	if (data) {
+		console.log("connectedAccount", data);
+		return;
+	}
+}
 </script>
 
 <template>
@@ -134,7 +158,7 @@ const formSubmit = async () => {
 				</div>
 				<!-- </form> -->
 
-				<div class="flex">
+				<div class="flex text-sm">
 					<p>Already have an account?</p>
 					<RouterLink to="/login" class="text-primary mx-1">Login</RouterLink>
 				</div>

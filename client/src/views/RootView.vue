@@ -7,13 +7,13 @@ const child = ref<InstanceType<typeof ExposeChild>>();
 
 onMounted(() => {
 	const exposedValue = child?.value?.exposedValue;
-	console.log("exposedValue-mount", exposedValue);
+	// console.log("exposedValue-mount", exposedValue);
 });
 
 watch(child, (newValue) => {
 	if (newValue) {
 		const exposedValue = newValue.exposedValue;
-		console.log("exposedValue-watch", exposedValue);
+		// console.log("exposedValue-watch", exposedValue);
 	}
 });
 /** */

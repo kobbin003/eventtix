@@ -5,7 +5,7 @@
 		xmlns="http://www.w3.org/2000/svg"
 		xmlns:xlink="http://www.w3.org/1999/xlink"
 		xmlns:sketch="http://www.bohemiancoding.com/sketch/ns"
-		class="h-6 stroke-base-content fill-base-content"
+		class="h-5 stroke-base-content fill-base-content"
 	>
 		<g id="SVGRepo_bgCarrier" stroke-width="0"></g>
 		<g

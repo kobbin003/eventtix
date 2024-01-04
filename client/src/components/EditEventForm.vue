@@ -8,6 +8,7 @@ import { storeToRefs } from "pinia";
 import { useAlertStore } from "@/stores/alert";
 import type { TFetchedEvent } from "./EventsList.vue";
 import { accessToken } from "@/utils/constants";
+import { useFetchNoLoading } from "@/hooks/useFetchNoLoading";
 
 const { setSuccessMsg, setErrorMsg, setIsLoading, resetErrorMsg } =
 	useAlertStore();
@@ -18,7 +19,7 @@ const route = useRoute();
 const dateString = ref<string>();
 const timeString = ref<string>();
 const eventTitle = ref<string>();
-
+const deleteIsLoading = ref(false);
 const eventData = ref<TEvent & { id: string }>({
 	id: "",
 	title: "",
@@ -177,19 +178,21 @@ async function uploadImage(file: FileList) {
 
 // TODO
 const deleteEvent = async () => {
-	console.log(eventData.value.id);
+	// console.log(eventData.value.id);
+	deleteIsLoading.value = true;
 	const url = `${baseUrl}/event/delete/${eventData.value.id}`;
 	const opts = {
 		method: "DELETE",
 		headers: { authorization: `Bearer ${accessToken}` },
 	};
 
-	const { data } = await useFetch(url, opts);
+	const { data } = await useFetchNoLoading(url, opts);
 
 	if (data) {
 		console.log("deleted data", data);
 		setSuccessMsg("event deleted!");
 	}
+	deleteIsLoading.value = false;
 	//go to user events view
 	router.push({ path: "/user/profile/events" });
 };
@@ -381,7 +384,10 @@ watch(eventData, () => {
 			type="button"
 			class="btn btn-sm btn-error rounded-sm w-full"
 		>
-			<span v-if="isLoading" class="loading loading-spinner loading-xs"></span>
+			<span
+				v-if="deleteIsLoading"
+				class="loading loading-spinner loading-xs"
+			></span>
 			<span v-else>Delete This Event</span>
 		</button>
 	</div>
