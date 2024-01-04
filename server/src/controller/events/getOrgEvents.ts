@@ -19,10 +19,10 @@ export const getOrgEvents = async (
 			},
 		});
 
-		if (events.length == 0) {
-			res.status(404);
-			throw new Error("events not found");
-		}
+		// if (events.length == 0) {
+		// 	res.status(404);
+		// 	throw new Error("events not found");
+		// }
 
 		res.status(200).json(events);
 	} catch (error) {

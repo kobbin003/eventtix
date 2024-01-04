@@ -38,9 +38,9 @@ export const getEventsByDate = async (
 			},
 		});
 
-		if (events.length == 0) {
-			return [];
-		}
+		// if (events.length == 0) {
+		// 	return [];
+		// }
 
 		return events;
 	} catch (error) {
