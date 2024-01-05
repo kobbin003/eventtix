@@ -17,6 +17,17 @@ export const getOrgEvents = async (
 			orderBy: {
 				time: "desc",
 			},
+			/** cannot use id and name at the same time */
+			include: {
+				org: {
+					// select: { id: true, name: true },
+					include: {
+						payment: {
+							select: { connectedAccId: true, detailsSubmitted: true },
+						},
+					},
+				},
+			},
 		});
 
 		res.status(200).json(events);

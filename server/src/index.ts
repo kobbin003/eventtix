@@ -33,7 +33,22 @@ app.use(cors());
 
 const stripeSecret = process.env.STRIPE_SECRET_KEY;
 export const stripe = new Stripe(stripeSecret);
-
+async function stripeEndpoint() {
+	await stripe.webhookEndpoints.create({
+		url: "https://eventtixapi.onrender.com/stripe/webhook",
+		enabled_events: [
+			"account.updated",
+			"product.created",
+			"price.created",
+			"payment_intent.succeeded",
+			"payment_intent.payment_failed",
+			"setup_intent.succeeded",
+			"checkout.session.completed",
+		],
+		connect: true,
+	});
+}
+stripeEndpoint().then(() => console.log("stripe webhook listening"));
 /** place this before express.json() */
 app.post(
 	"/stripe/webhook",
@@ -47,6 +62,7 @@ app.use(express.urlencoded({ extended: true }));
 // timeAndDate();
 
 app.get("/", (req, res) => {
+	console.log("log testing - HOME");
 	res.json({ msg: "HOME" });
 });
 
