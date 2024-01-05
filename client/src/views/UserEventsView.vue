@@ -22,7 +22,7 @@ const opts = {
 
 onBeforeMount(async () => {
 	const { data, error } = await useFetch(url, opts);
-	// console.log("data-hook", data);
+	console.log("data-hook UsEr event", data);
 	if (data) {
 		const fetchedData = data as TFetchedEvent[];
 		userEvents.value = fetchedData;

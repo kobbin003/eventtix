@@ -52,7 +52,7 @@ async function paginate() {
 onMounted(async () => {
 	const url = `${baseUrl}/event/filter?offset=${offset.value}&limit=${limit.value}`;
 	const { data, error } = await useFetch(url, opts);
-	// console.log("data-hook-mount", data);
+	console.log("data-hook-mount Eventslist", data);
 	if (data) {
 		const fetchedData = data as TFetchedEvent[];
 		allEvents.value = fetchedData;
