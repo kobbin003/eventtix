@@ -34,9 +34,10 @@ app.use(cors());
 const stripeSecret = process.env.STRIPE_SECRET_KEY;
 export const stripe = new Stripe(stripeSecret);
 
-// progrmatically add webhook endpoints listener
+// progrmatically add webhook endpoint listener
 // async function stripeEndpoint() {
 // 	await stripe.webhookEndpoints.create({
+// 		// url: "http://localhost:3000/stripe/webhook",
 // 		url: "https://eventtixapi.onrender.com/stripe/webhook",
 // 		enabled_events: [
 // 			"account.updated",
@@ -48,7 +49,6 @@ export const stripe = new Stripe(stripeSecret);
 // 			"checkout.session.completed",
 // 		],
 // 		connect: true,
-
 // 	});
 // }
 // stripeEndpoint().then(() => console.log("stripe webhook listening"));

@@ -1,10 +1,11 @@
 import { NextFunction, Request, Response } from "express";
 import { prisma, stripe } from "../..";
 import { createPurchase } from "../../service/purchase/createPurchase";
-
+import "dotenv/config";
 export const stripeWebhookController = (req: Request, res: Response) => {
-	const endpointSecret =
-		"whsec_7b244ff558e4f85f64bf55b40ffe1af29a9be12c015cc04742154a80e635f49f";
+	const endpointSecret = process.env.STRIPE_WEBHOOK_ENDPOINT_SECRET;
+	// const endpointSecret =
+	// 	"whsec_7b244ff558e4f85f64bf55b40ffe1af29a9be12c015cc04742154a80e635f49f";
 
 	const sig = req.headers["stripe-signature"];
 
